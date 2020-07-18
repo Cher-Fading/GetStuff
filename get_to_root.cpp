@@ -6,6 +6,7 @@ void get_to_root(const char *dataType = "")
     std::ifstream file(Form("../GetStuff/%s.txt", dataType));
     std::string line;
     std::ofstream outfile(Form("../GetStuff/%s_root.txt", dataType));
+    int nl = 0;
     while (std::getline(file, line))
     {
         std::stringstream linestream(line);
@@ -44,7 +45,9 @@ void get_to_root(const char *dataType = "")
             }
             ++linePos;
         }
+	++nl;
     }
     file.close();
     outfile.close();
+    cout << "number of files: " << nl << endl;
 }
