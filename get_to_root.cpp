@@ -6,8 +6,8 @@
 
 void get_to_root(const char *dataType = "")
 {
-    ofstream out(Form("../GetStuff/%s_root.txt", dataType));
-    std::string input = "/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/";
+    ofstream out(Form("%s_root.txt", dataType));
+    std::string input = "/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning";
     DIR *dir1;
     dirent *pdir;
     dir1 = opendir(input.c_str());
@@ -38,4 +38,5 @@ void get_to_root(const char *dataType = "")
             //goto here;
         }
     }
+    out.close();
 }
