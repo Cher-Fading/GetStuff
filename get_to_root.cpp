@@ -1,6 +1,9 @@
 #include <istream>
 #include <ostream>
 
+#include <sstream>
+#include <dirent.h>
+
 void get_to_root(const char *dataType = "")
 {
     ofstream out(Form("../GetStuff/%s_root.txt", dataType));
