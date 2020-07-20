@@ -3,51 +3,36 @@
 
 void get_to_root(const char *dataType = "")
 {
-    std::ifstream file(Form("../GetStuff/%s.txt", dataType));
-    std::string line;
-    std::ofstream outfile(Form("../GetStuff/%s_root_pnfs.txt", dataType));
-    int nl = 0;
-    while (std::getline(file, line))
+    ofstream out(Form("../GetStuff/%s_root.txt", dataType));
+    std::string input = "/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/";
+    DIR *dir1;
+    dirent *pdir;
+    dir1 = opendir(input.c_str());
+    while ((pdir = readdir(dir1)))
     {
-        std::stringstream linestream(line);
-        std::string item;
-        int linePos = 0;
-        std::string fileName;
-        while (std::getline(linestream, item, '|'))
+        std::string foldName = pdir->d_name;
+        cout << pdir->d_name << endl;
+        if (foldName.find(dataType) == std::string::npos)
+            continue;
+        if (!(foldName.find(".root") == std::string::npos))
+            continue;
+        //if(foldName.find("JZ5")==std::string::npos) continue;
+        cout << "Success:" << pdir->d_name << endl;
+        DIR *dir2;
+        dirent *pdir2;
+        dir2 = opendir((input + "/" + foldName).c_str());
+        while ((pdir2 = readdir(dir2)))
         {
-
-            //	  std::cout <<  item << " linePos " << linePos << endl;
-            if (linePos == 5)
-            {
-                if (item.find("REPLICA") != std::string::npos)
-                    continue;
-                std::string::iterator end_pos = std::remove(item.begin(), item.end(), ' ');
-                item.erase(end_pos, item.end());
-                //cout << end_pos << endl;
-                //cout << item << endl;
-                int start_pos = item.find_last_of("=");
-                //cout << start_pos << endl;
-                fileName = item.substr(start_pos + 1, item.length() - start_pos - 1);
-                //cout << fileName << endl;
-
-                if (fileName.find(".root") == std::string::npos)
-                {
-                    cout << fileName << "file missing" << endl;
-                    return;
-                }
-                if (fileName.find("user.xiaoning") == std::string::npos)
-                {
-                    cout << fileName << "file missing" << endl;
-                    break;
-                }
-                //cout << fileName << endl;
-                outfile << fileName << endl;
+            std::string fName = pdir2->d_name;
+            if (fName.find(".root") == std::string::npos){
+                cout << "wrong file name" << input + "/" + foldName + "/" + fName << endl;
+                continue;
             }
-            ++linePos;
+
+            //if (fName.find("JZ5") == std::string::npos)
+            //	continue;
+            out << input + "/" + foldName + "/" + fName << endl;
+            //goto here;
         }
-	++nl;
     }
-    file.close();
-    outfile.close();
-    cout << "number of files: " << nl << endl;
 }
