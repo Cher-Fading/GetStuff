@@ -6,13 +6,9 @@
 
 void get_to_root(const char *dataType = "")
 {
-<<<<<<< HEAD
-    ofstream out(Form("%s_root.txt", dataType));
-    std::string input = "/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning";
-=======
+
     ofstream out(Form("../GetStuff/%s_root.txt", dataType), std::ofstream::trunc);
     std::string input = "/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/";
->>>>>>> ea467e342808a50d88c44205ed53350ef11b63c3
     DIR *dir1;
     dirent *pdir;
     dir1 = opendir(input.c_str());
