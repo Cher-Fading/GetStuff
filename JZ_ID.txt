@@ -49,4 +49,25 @@
   21879516     14713     running     0%  user.xiaoning.mc16_5TeV.420011.Pythia8EvtGen_A14NNPDF23LO_jetjet_JZ1R04.AOD.e6608_s3238_r11199..WorkingFC4pT1k5pp/
   21879515     14710     running     0%  user.xiaoning.mc16_5TeV.420011.Pythia8EvtGen_A14NNPDF23LO_jetjet_JZ1R04.AOD.e4108_s3238_r11199..WorkingFC4pT1k5pp/
   21879514     14709     running    12%  user.xiaoning.mc16_5TeV.420010.Pythia8EvtGen_A14NNPDF23LO_jetjet_JZ0R04.AOD.e4108_s3238_r11199..WorkingFC4pT1k5pp/
+  21879942     14821        done   100%  user.xiaoning.420015.Pythia8EvtGen_JZ5R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT2kPbPb/
+  21879941     14812        done   100%  user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT2kPbPb/
+  21879940     14801        done   100%  user.xiaoning.420013.Pythia8EvtGen_JZ3R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT2kPbPb/
+  21879939     14787        done   100%  user.xiaoning.420012.Pythia8EvtGen_JZ2R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT2kPbPb/
+  21879938     14782        done   100%  user.xiaoning.420011.Pythia8EvtGen_JZ1R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT2kPbPb/
+  21879937     14769        done   100%  user.xiaoning.420010.Pythia8EvtGen_JZ0R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT2kPbPb/
+  21879920     14753        done   100%  user.xiaoning.420015.Pythia8EvtGen_JZ5R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT1k5PbPb/
+  21879918     14751        done   100%  user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT1k5PbPb/
+  21879914     14749        done   100%  user.xiaoning.420013.Pythia8EvtGen_JZ3R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT1k5PbPb/
+  21879910     14748    finished    99%  user.xiaoning.420012.Pythia8EvtGen_JZ2R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT1k5PbPb/
+  21879907     14747        done   100%  user.xiaoning.420011.Pythia8EvtGen_JZ1R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT1k5PbPb/
+  21879904     14745        done   100%  user.xiaoning.420010.Pythia8EvtGen_JZ0R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT1k5PbPb/
+  21938947     16095    scouting     0%  user.xiaoning.420015.Pythia8EvtGen_JZ5R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT4kPbPb/
+  21938946     16093    scouting     0%  user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT4kPbPb/
+  21938945     16091    scouting     0%  user.xiaoning.420013.Pythia8EvtGen_JZ3R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT4kPbPb/
+  21938944     16089    scouting     0%  user.xiaoning.420012.Pythia8EvtGen_JZ2R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT4kPbPb/
+  21938943     16086    scouting     0%  user.xiaoning.420011.Pythia8EvtGen_JZ1R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT4kPbPb/
+  21938940     16085    scouting     0%  user.xiaoning.420010.Pythia8EvtGen_JZ0R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT4kPbPb/
+
+
+
 

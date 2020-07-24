@@ -12,6 +12,7 @@ void get_to_root(const char *dataType = "")
     DIR *dir1;
     dirent *pdir;
     dir1 = opendir(input.c_str());
+    int ln = 0;
     while ((pdir = readdir(dir1)))
     {
         std::string foldName = pdir->d_name;
@@ -36,8 +37,10 @@ void get_to_root(const char *dataType = "")
             //if (fName.find("JZ5") == std::string::npos)
             //	continue;
             out << input + "/" + foldName + "/" + fName << endl;
+	    ln++;
             //goto here;
         }
     }
+    cout << "number of files" << ln << endl;
     out.close();
 }
