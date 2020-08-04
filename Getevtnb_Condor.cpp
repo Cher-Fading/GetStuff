@@ -48,13 +48,13 @@ const int llrlim = 40;
 
 char suffix[2][10] = {"", "_pnfs"};
 
-void Getevtnb(const char *dataType = "", bool pnfs = true)
+void Getevtnb(const char *filename = "", bool pnfs = true)
 {
 	std::string chain_name = "bTag_AntiKt4HIJets";
 	//TTree *myChain = (TTree*)f->Get(chain_name.c_str());
 	TTree *myChain;
 	TFile *f;
-	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
+	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s_scratch.txt", dataType, suffix[pnfs]));
 	int JZ_ID[grid_size];
 	int JZ_wt[grid_size];
 
@@ -102,18 +102,13 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 	int JZ = -1;
 	if (pnfs)
 	{
-		std::ifstream fnames(Form("../GetStuff/%s_root_pnfs.txt", dataType));
-		std::string line;
-		int counter = 0;
-		while (std::getline(fnames, line))
-		{
-			int k = line.find("Akt4HIJets");
+		
+			int k = filename.find("Akt4HIJets");
 			if (k == std::string::npos)
 			{
-				cout << "Wrong name in reading: " << line << endl;
+				cout << "Wrong name in reading: " << filename << endl;
 				return;
 			}
-			counter++;
 
 			bool found = false;
 
@@ -131,7 +126,8 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				cout << "filename JZ info not found" << endl;
 				return;
 			}
-			if (JZ != 0) continue;
+            if ()
+
 			f = TFile::Open(line.c_str(), "READ");
 			myChain = (TTree *)f->Get(chain_name.c_str());
 			int newct = myChain->GetEntries();
