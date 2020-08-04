@@ -94,6 +94,7 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 					}
 					JZ_ID[itemj[k + 2] - 48] = std::stoi(id);
 					cout << itemj[k + 2] - 48 << ": " << id << endl;
+					JZ_wt[itemj[k+2]-48] = 0;
 				}
 				++linePosj;
 			}
@@ -140,7 +141,11 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				cout << "file: " << line << "; ct: " << newct << endl;
 				return;
 			}
+			cout << counter << ": " << line << ": " << newct << endl;
+			cout << JZ_wt[JZ] << endl;
 			JZ_wt[JZ] = JZ_wt[JZ] + newct;
+			cout << JZ_wt[JZ] << endl;
+			cout << endl;
 			f->Close();
 			f = 0;
 			myChain = 0;
