@@ -99,12 +99,12 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 			}
 		}
 	}
-		int JZ = -1;
+	int JZ = -1;
 	if (pnfs)
 	{
 		std::ifstream fnames(Form("../GetStuff/%s_root_pnfs.txt", dataType));
 		std::string line;
-
+		int counter = 0;
 		while (std::getline(fnames, line))
 		{
 			int k = line.find("Akt4HIJets");
@@ -113,6 +113,8 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				cout << "Wrong name in reading: " << line << endl;
 				return;
 			}
+			counter++;
+
 			bool found = false;
 
 			for (int j = 0; j < grid_size; j++)
@@ -133,7 +135,7 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 			f = TFile::Open(line.c_str(), "READ");
 			myChain = (TTree *)f->Get(chain_name.c_str());
 			int newct = myChain->GetEntries();
-			if (newct < 0 || newct > 3000)
+			if (newct < 0 || newct > 30000)
 			{
 				cout << "file: " << line << "; ct: " << newct << endl;
 				return;
@@ -142,11 +144,15 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 			f->Close();
 			f = 0;
 			myChain = 0;
+			if (counter % 100 == 0)
+			{
+				cout << "counted " << counter << " files" << endl;
+			}
 		}
 	}
 	else
 	{
-		ofstream outf(Form("../GetStuff/%s_root.txt", dataType),std::ofstream::trunc);
+		ofstream outf(Form("../GetStuff/%s_root.txt", dataType), std::ofstream::trunc);
 		std::string input = "/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning";
 		DIR *dir1;
 		dirent *pdir;
@@ -160,14 +166,14 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 			if (!(foldName.find(".root") == std::string::npos))
 				continue;
 			int k = foldName.find("JZ");
-				//cout << itemj << endl;
-				if (k == std::string::npos)
-				{
-					cout << "Wrong folder name format: " << foldName << endl;
-					return;
-				}
-				JZ = std::stoi(foldName.substr(k+2,1));
-				JZ_wt[JZ] = 0;
+			//cout << itemj << endl;
+			if (k == std::string::npos)
+			{
+				cout << "Wrong folder name format: " << foldName << endl;
+				return;
+			}
+			JZ = std::stoi(foldName.substr(k + 2, 1));
+			JZ_wt[JZ] = 0;
 			cout << "Success:" << pdir->d_name << endl;
 			DIR *dir2;
 			dirent *pdir2;
@@ -180,9 +186,9 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				f = TFile::Open((input + "/" + foldName + "/" + fName).c_str(), "READ");
 				outf << input << "/" << foldName << "/" << fName << endl;
 				myChain = (TTree *)f->Get(chain_name.c_str());
-				
+
 				int newct = myChain->GetEntries();
-				if (newct < 0 || newct > 3000)
+				if (newct < 0 || newct > 30000)
 				{
 					cout << "file: " << input << "/" << foldName << "/" << fName << "; ct: " << newct << endl;
 					return;
