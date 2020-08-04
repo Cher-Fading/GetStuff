@@ -132,7 +132,7 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				cout << "filename JZ info not found" << endl;
 				return;
 			}
-			if (JZ != 0) continue;
+			//if (JZ != 0) continue;
 			f = TFile::Open(line.c_str(), "READ");
 			myChain = (TTree *)f->Get(chain_name.c_str());
 			int newct = myChain->GetEntries();
@@ -141,11 +141,11 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				cout << "file: " << line << "; ct: " << newct << endl;
 				return;
 			}
-			cout << counter << ": " << line << ": " << newct << endl;
-			cout << JZ_wt[JZ] << endl;
+			//cout << counter << ": " << line << ": " << newct << endl;
+			//cout << JZ_wt[JZ] << endl;
 			JZ_wt[JZ] = JZ_wt[JZ] + newct;
-			cout << JZ_wt[JZ] << endl;
-			cout << endl;
+			//cout << JZ_wt[JZ] << endl;
+			//cout << endl;
 			f->Close();
 			f = 0;
 			myChain = 0;
