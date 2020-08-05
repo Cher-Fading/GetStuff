@@ -211,4 +211,5 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 		cout << "JZ" << jz << ": " << JZ_wt[jz] << endl;
 		fileo << jz << ": " << JZ_wt[jz] << endl;
 	}
+	fileo->Close();
 }
