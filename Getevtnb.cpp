@@ -57,8 +57,9 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
 	int JZ_ID[grid_size];
 	int JZ_wt[grid_size];
-	for (int i = 0; i < grid_size; i++){
-	  JZ_wt[i]=0;
+	for (int i = 0; i < grid_size; i++)
+	{
+		JZ_wt[i] = 0;
 	}
 
 	if (pnfs)
@@ -181,7 +182,7 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				return;
 			}
 			JZ = std::stoi(foldName.substr(k + 2, 1));
-			
+
 			cout << "Success:" << pdir->d_name << endl;
 			DIR *dir2;
 			dirent *pdir2;
@@ -215,10 +216,5 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 		cout << "JZ" << jz << ": " << JZ_wt[jz] << endl;
 		fileo << jz << ": " << JZ_wt[jz] << endl;
 	}
-<<<<<<< HEAD
-	fileo->Close();
+	fileo.close();
 }
-=======
-fileo.close();
-}
->>>>>>> ae8362518abd73d81034395c068ab1e11b47afae
