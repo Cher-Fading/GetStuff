@@ -1,0 +1,11 @@
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420015.Pythia8EvtGen_JZ5R04.AOD.e6608_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437020.Akt4HIJets._000273.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420015.Pythia8EvtGen_JZ5R04.AOD.e6608_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437020.Akt4HIJets._001340.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420015.Pythia8EvtGen_JZ5R04.AOD.e6608_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437020.Akt4HIJets._000086.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420011.Pythia8EvtGen_JZ1R04.AOD.e6608_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437009.Akt4HIJets._001986.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420011.Pythia8EvtGen_JZ1R04.AOD.e4108_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437008.Akt4HIJets._001628.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420011.Pythia8EvtGen_JZ1R04.AOD.e4108_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437008.Akt4HIJets._001395.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420011.Pythia8EvtGen_JZ1R04.AOD.e4108_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437008.Akt4HIJets._001477.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e6608_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437018.Akt4HIJets._001660.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e6608_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437018.Akt4HIJets._000565.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e6608_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437018.Akt4HIJets._000980.root
+/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning/user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e6608_s3238_r11199..v5.27_WorkingDefaultpp_Akt4HIJets/user.xiaoning.21437018.Akt4HIJets._001846.root
