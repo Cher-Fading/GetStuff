@@ -111,7 +111,7 @@ void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim)
     std::ifstream filein(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));              //list of input files
     std::ifstream filesdone(Form("../GetStuff/%s_%.2f_%.1f_done%s.txt", dataType, ptLim, trkLim, suffix[pnfs])); //list of finished files
     //cout << Form("../GetStuff/%s_50.00_0.5_done%s.txt", dataType, suffix[pnfs]) << endl;
-    std::ofstream outF(Form("../GetStuff/%s_root%s_%.2f_%.1f_rerun.txt", dataType, ptLim, trkLim, suffix[pnfs])); //list of unfinished files
+    std::ofstream outF(Form("../GetStuff/%s_root%s_%.2f_%.1f_rerun.txt", dataType, suffix[pnfs], ptLim, trkLim)); //list of unfinished files
     int totf = 0;
     int donef = 0;
     int outf = 0;
