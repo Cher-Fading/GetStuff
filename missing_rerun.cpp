@@ -52,9 +52,9 @@ const int llr_bins = (int)4 * llrlim;
 
 char suffix[2][10] = {"", "_pnfs"};
 
-void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim, const char* opt, bool PbPb = true)
+void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim, const char *opt, bool PbPb = true)
 {
-int cent_N = PbPb? cet_N:1;
+    int cent_N = PbPb ? cet_N : 1;
     int JZ_ID[grid_size][2];
     int JZ_ct[grid_size][2];
     int JZ = -1;
@@ -63,7 +63,7 @@ int cent_N = PbPb? cet_N:1;
         for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
         {
             JZ_ID[j][jj] = 0;
-	    JZ_ct[j][jj] = 0;
+            JZ_ct[j][jj] = 0;
         }
     }
 
@@ -111,34 +111,40 @@ int cent_N = PbPb? cet_N:1;
         }
     }
 
-    std::ifstream filein(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));              //list of input files
+    std::ifstream filein(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));           //list of input files
     std::ifstream filesdone(Form("../GetStuff/%s_done%s%s.txt", dataType, opt, suffix[pnfs])); //list of finished files
     //cout << Form("../GetStuff/%s_50.00_0.5_done%s.txt", dataType, suffix[pnfs]) << endl;
     std::ofstream outF(Form("../GetStuff/%s_root%s_%srerun.txt", dataType, suffix[pnfs], opt)); //list of unfinished files
     int totf = 0;
-    int donef[cent_N];int outf[cent_N];
-for (int c = 0; c < cent_N; c++){ donef[c] = 0; outf[c] = 0;}
-    
+    int donef[cent_N];
+    int outf[cent_N];
+    for (int c = 0; c < cent_N; c++)
+    {
+        donef[c] = 0;
+        outf[c] = 0;
+    }
 
     int done[6][3000][2][cent_N];
-	int full[6][3000][2];
+    int full[6][3000][2];
     for (int i = 0; i < 6; i++)
     {
         for (int j = 0; j < 3000; j++)
         {
             for (int k = 0; k < 2; k++)
-            {full[i][j][k] = 0;
-for (int c = 0; c < cent_N; c++){
-                done[i][j][k][c] = 0;
-}
+            {
+                full[i][j][k] = 0;
+                for (int c = 0; c < cent_N; c++)
+                {
+                    done[i][j][k][c] = 0;
+                }
             }
         }
     }
-    
+
     std::string filename;
     int NUM = -1;
     int tag = -1;
-	int central = -1;
+    int central = -1;
 
     //cout << 138 << endl;
     std::string filedone;
@@ -162,12 +168,13 @@ for (int c = 0; c < cent_N; c++){
         NUM = std::stoi(filedone.substr(k + 4, k2 - k - 6));
         //cout << JZ << endl;
         //cout << "NUM: " << NUM << endl;
-int k3 = filedone.find("cent");
-central = std::stoi(filedone.substr(k3 + 5,1));
-if (done[JZ][NUM][tag][central] == 1) {
-cout << "name repeated for done at JZ: " << JZ << "; NUM: " << NUM << "; tag: " << tag << "; centrality: " << central << endl;
-return;
-}
+        int k3 = filedone.find("cent");
+        central = std::stoi(filedone.substr(k3 + 5, 1));
+        if (done[JZ][NUM][tag][central] == 1)
+        {
+            cout << "name repeated for done at JZ: " << JZ << "; NUM: " << NUM << "; tag: " << tag << "; centrality: " << central << endl;
+            return;
+        }
         done[JZ][NUM][tag][central] = 1;
         donef[central]++;
     }
@@ -211,22 +218,23 @@ return;
         }
 
         NUM = std::stoi(filename.substr(filename.length() - 11, 6));
-	if (full[JZ][NUM][tag] == 1) {
-cout << "name repeated for full at JZ: " << JZ << "; NUM: " << NUM << "; tag: " << tag << endl;
-return;
-}
+        if (full[JZ][NUM][tag] == 1)
+        {
+            cout << "name repeated for full at JZ: " << JZ << "; NUM: " << NUM << "; tag: " << tag << endl;
+            return;
+        }
         full[JZ][NUM][tag] = 1;
         totf++;
-for (int c = 0; c < cent_N; c++){
-        if (done[JZ][NUM][tag] != 1) {
-        
-            outF << filename << " for centrality: " << c << endl;
-	    cout << filename << " for centrality: " << c << endl;
-            outf[c]++;
-}
+        for (int c = 0; c < cent_N; c++)
+        {
+            if (done[JZ][NUM][tag] != 1)
+            {
 
-}
-        
+                outF << filename << " for centrality: " << c << endl;
+                cout << filename << " for centrality: " << c << endl;
+                outf[c]++;
+            }
+        }
     }
 
     for (int i = 0; i < 6; i++)
@@ -235,20 +243,24 @@ for (int c = 0; c < cent_N; c++){
         {
             for (int k = 0; k < 2; k++)
             {
-		for (int c = 0; c < cent_N; c++){
-                if (done[i][j][k][c]==1 && full[i][j][k]!=1){
-		cout << "JZ: " << i << endl;
-		cout << "ID: " << j << endl;
-		cout << "tag: " << k << endl;
-cout << "centrality: " << c << endl;
-}
-}
+                for (int c = 0; c < cent_N; c++)
+                {
+                    if (done[i][j][k][c] == 1 && full[i][j][k] != 1)
+                    {
+                        cout << "JZ: " << i << endl;
+                        cout << "ID: " << j << endl;
+                        cout << "tag: " << k << endl;
+                        cout << "centrality: " << c << endl;
+                    }
+                }
             }
         }
     }
 
     cout << totf << endl;
-for (int c = 0; c< cent_N; c++){
-    cout << "done: centrality: " << c << ": " << donef << endl;
-    cout << "rerun: centrality: " << c << ": " << outf << endl;}
+    for (int c = 0; c < cent_N; c++)
+    {
+        cout << "done: centrality: " << c << ": " << donef << endl;
+        cout << "rerun: centrality: " << c << ": " << outf << endl;
+    }
 }
