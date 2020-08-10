@@ -225,16 +225,17 @@ void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim, c
         }
         full[JZ][NUM][tag] = 1;
         totf++;
+bool missing = false;
         for (int c = 0; c < cent_N; c++)
         {
-            if (done[JZ][NUM][tag] != 1)
+            if (done[JZ][NUM][tag][c] != 1)
             {
-
-                outF << filename << " for centrality: " << c << endl;
+		missing = true;
                 cout << filename << " for centrality: " << c << endl;
                 outf[c]++;
             }
         }
+if (missing) outF << filename << endl;
     }
 
     for (int i = 0; i < 6; i++)
@@ -260,7 +261,7 @@ void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim, c
     cout << totf << endl;
     for (int c = 0; c < cent_N; c++)
     {
-        cout << "done: centrality: " << c << ": " << donef << endl;
-        cout << "rerun: centrality: " << c << ": " << outf << endl;
+        cout << "done: centrality: " << c << ": " << donef[c] << endl;
+        cout << "rerun: centrality: " << c << ": " << outf[c] << endl;
     }
 }
