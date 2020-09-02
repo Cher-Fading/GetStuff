@@ -1,0 +1,50 @@
+
+
+-- Schedd: spar0103.usatlas.bnl.gov : <130.199.48.19:9618?... @ 08/10/20 11:05:44
+ ID         OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD
+79915.548   cher97          8/10 03:49   0+07:11:22 R  0    1.0 IPEval_Condor.sh 548 WorkingDefaultpp false false
+79915.1019  cher97          8/10 03:49   0+07:07:33 R  0    1.0 IPEval_Condor.sh 1019 WorkingDefaultpp false false
+79915.1289  cher97          8/10 03:49   0+07:05:21 R  0    1.0 IPEval_Condor.sh 1289 WorkingDefaultpp false false
+79915.1473  cher97          8/10 03:49   0+07:03:35 R  0    1.0 IPEval_Condor.sh 1473 WorkingDefaultpp false false
+79915.1741  cher97          8/10 03:49   0+07:01:17 R  0    1.0 IPEval_Condor.sh 1741 WorkingDefaultpp false false
+79915.1801  cher97          8/10 03:49   0+07:01:16 R  0    1.0 IPEval_Condor.sh 1801 WorkingDefaultpp false false
+79915.2136  cher97          8/10 03:49   0+06:57:29 R  0    1.0 IPEval_Condor.sh 2136 WorkingDefaultpp false false
+79915.2276  cher97          8/10 03:49   0+06:55:17 R  0    1.0 IPEval_Condor.sh 2276 WorkingDefaultpp false false
+79915.6217  cher97          8/10 03:49   0+05:10:15 R  0    1.0 IPEval_Condor.sh 6217 WorkingDefaultpp false false
+79915.6259  cher97          8/10 03:49   0+05:09:26 R  0    1.0 IPEval_Condor.sh 6259 WorkingDefaultpp false false
+79915.6263  cher97          8/10 03:49   0+05:09:25 R  0    1.0 IPEval_Condor.sh 6263 WorkingDefaultpp false false
+79915.6265  cher97          8/10 03:49   0+05:09:24 R  0    1.0 IPEval_Condor.sh 6265 WorkingDefaultpp false false
+79915.6266  cher97          8/10 03:49   0+05:09:24 R  0    1.0 IPEval_Condor.sh 6266 WorkingDefaultpp false false
+79915.6294  cher97          8/10 03:49   0+05:08:19 R  0    1.0 IPEval_Condor.sh 6294 WorkingDefaultpp false false
+79915.6297  cher97          8/10 03:49   0+05:08:19 R  0    1.0 IPEval_Condor.sh 6297 WorkingDefaultpp false false
+79915.6299  cher97          8/10 03:49   0+05:08:18 R  0    1.0 IPEval_Condor.sh 6299 WorkingDefaultpp false false
+79915.6486  cher97          8/10 03:49   0+04:59:59 R  0    1.0 IPEval_Condor.sh 6486 WorkingDefaultpp false false
+79915.6490  cher97          8/10 03:49   0+04:59:58 R  0    1.0 IPEval_Condor.sh 6490 WorkingDefaultpp false false
+79915.6901  cher97          8/10 03:49   0+04:52:11 R  0    1.0 IPEval_Condor.sh 6901 WorkingDefaultpp false false
+79915.7009  cher97          8/10 03:49   0+04:48:22 R  0    1.0 IPEval_Condor.sh 7009 WorkingDefaultpp false false
+79915.7019  cher97          8/10 03:49   0+04:48:22 R  0    1.0 IPEval_Condor.sh 7019 WorkingDefaultpp false false
+79915.7050  cher97          8/10 03:49   0+04:47:44 R  0    1.0 IPEval_Condor.sh 7050 WorkingDefaultpp false false
+79915.7229  cher97          8/10 03:49   0+04:42:40 R  0    1.0 IPEval_Condor.sh 7229 WorkingDefaultpp false false
+79915.7569  cher97          8/10 03:49   0+04:38:58 R  0    1.0 IPEval_Condor.sh 7569 WorkingDefaultpp false false
+79915.7588  cher97          8/10 03:49   0+04:38:57 R  0    1.0 IPEval_Condor.sh 7588 WorkingDefaultpp false false
+79915.8070  cher97          8/10 03:49   0+04:32:12 R  0    1.0 IPEval_Condor.sh 8070 WorkingDefaultpp false false
+79915.8811  cher97          8/10 03:49   0+04:20:17 R  0    1.0 IPEval_Condor.sh 8811 WorkingDefaultpp false false
+79915.13985 cher97          8/10 03:49   0+02:54:25 R  0    1.0 IPEval_Condor.sh 13985 WorkingDefaultpp false false
+79915.15482 cher97          8/10 03:49   0+02:33:45 R  0    1.0 IPEval_Condor.sh 15482 WorkingDefaultpp false false
+
+Total for query: 29 jobs; 0 completed, 0 removed, 0 idle, 29 running, 0 held, 0 suspended 
+Total for cher97: 29 jobs; 0 completed, 0 removed, 0 idle, 29 running, 0 held, 0 suspended 
+Total for all users: 33 jobs; 0 completed, 0 removed, 0 idle, 29 running, 4 held, 0 suspended
+
+[spar0103] /usatlas/u/cher97/IPtagTuning_condor > condor_rm 79915
+All jobs in cluster 79915 have been marked for removal
+[spar0103] /usatlas/u/cher97/IPtagTuning_condor > condor_q
+
+
+-- Schedd: spar0103.usatlas.bnl.gov : <130.199.48.19:9618?... @ 08/10/20 11:06:23
+ ID      OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD
+
+Total for query: 0 jobs; 0 completed, 0 removed, 0 idle, 0 running, 0 held, 0 suspended 
+Total for cher97: 0 jobs; 0 completed, 0 removed, 0 idle, 0 running, 0 held, 0 suspended 
+Total for all users: 4 jobs; 0 completed, 0 removed, 0 idle, 0 running, 4 held, 0 suspended
+

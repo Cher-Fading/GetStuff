@@ -52,7 +52,7 @@ const int llr_bins = (int)4 * llrlim;
 
 char suffix[2][10] = {"", "_pnfs"};
 
-void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim, const char *opt, bool PbPb = true)
+void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim, std::string opt, bool PbPb = true)
 {
     int cent_N = PbPb ? cet_N : 1;
     int JZ_ID[grid_size][2];
@@ -112,9 +112,9 @@ void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim, c
     }
 
     std::ifstream filein(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));           //list of input files
-    std::ifstream filesdone(Form("../GetStuff/%s_done%s%s.txt", dataType, opt, suffix[pnfs])); //list of finished files
+    std::ifstream filesdone(Form("../GetStuff/%s_done%s%s.txt", dataType, opt.c_str(), suffix[pnfs])); //list of finished files
     //cout << Form("../GetStuff/%s_50.00_0.5_done%s.txt", dataType, suffix[pnfs]) << endl;
-    std::ofstream outF(Form("../GetStuff/%s_root%s_%srerun.txt", dataType, suffix[pnfs], opt)); //list of unfinished files
+    std::ofstream outF(Form("../GetStuff/%s_root%s_%srerun.txt", dataType, suffix[pnfs], opt.c_str())); //list of unfinished files
     int totf = 0;
     int donef[cent_N];
     int outf[cent_N];
@@ -168,8 +168,8 @@ void missing_rerun(const char *dataType, bool pnfs, float ptLim, float trkLim, c
         NUM = std::stoi(filedone.substr(k + 4, k2 - k - 6));
         //cout << JZ << endl;
         //cout << "NUM: " << NUM << endl;
-        int k3 = filedone.find("cent");
-        central = std::stoi(filedone.substr(k3 + 5, 1));
+        if (opt.find("Tuning")!=std::string::npos){ int k3 = filedone.find("cent");
+        central = std::stoi(filedone.substr(k3 + 5, 1));} else {central = 0;}
         if (done[JZ][NUM][tag][central] == 1)
         {
             cout << "name repeated for done at JZ: " << JZ << "; NUM: " << NUM << "; tag: " << tag << "; centrality: " << central << endl;
@@ -231,7 +231,7 @@ bool missing = false;
             if (done[JZ][NUM][tag][c] != 1)
             {
 		missing = true;
-                cout << filename << " for centrality: " << c << endl;
+                //cout << filename << " for centrality: " << c << endl;
                 outf[c]++;
             }
         }
