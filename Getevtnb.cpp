@@ -219,7 +219,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true)
 				int k2 = fName.rfind("Akt4HIJets");
 				if (k2 == std::string::npos)
 				{
-					cout << "Wrong name in reading: " << filename << endl;
+					cout << "Wrong name in reading: " << input << "/" << foldName << "/" << fName << endl;
 					return;
 				}
 				f = TFile::Open((input + "/" + foldName + "/" + fName).c_str(), "READ");
@@ -245,7 +245,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true)
 
 				if (!found)
 				{
-					cout << line << endl;
+					cout << fName << endl;
 					cout << "filename JZ info not found" << endl;
 					return;
 				}
