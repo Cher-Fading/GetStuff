@@ -48,7 +48,7 @@ const int llrlim = 40;
 
 char suffix[2][10] = {"", "_pnfs"};
 
-void Getevtnb(const char *dataType = "", bool pnfs = true)
+void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true)
 {
 	std::string chain_name = "bTag_AntiKt4HIJets";
 	//TTree *myChain = (TTree*)f->Get(chain_name.c_str());
@@ -56,10 +56,12 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 	TTree *myChain;
 	TFile *f;
 	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
-	std::ofstream fileo2(Form("../GetStuff/%s_filenum%s.txt"),dataType,suffix[pnfs]));
+	std::ofstream fileo2(Form("../GetStuff/%s_filenum%s.txt", dataType, suffix[pnfs]));
 	int JZ_ID[grid_size][2];
 	int JZ_wt[grid_size];
 	int JZ = -1;
+	int tag = -1;
+	int NUM = -1;
 	for (int j = 0; j < grid_size; j++)
 	{
 		JZ_wt[j] = 0;
@@ -109,7 +111,7 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				}
 
 				JZ_ID[itemj[k + 2] - 48][j] = std::stoi(id);
-				cout << itemj[k + 2] - 48 << ": " << tag << ": " << id << endl;
+				cout << itemj[k + 2] - 48 << ": " << j << ": " << id << endl;
 				//JZ_wt[itemj[k+2]-48] = 0;
 			}
 			++linePosj;
@@ -147,7 +149,7 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 
 			if (!found)
 			{
-				cout << line << endl;
+				cout << filename << endl;
 				cout << "filename JZ info not found" << endl;
 				return;
 			}
@@ -157,14 +159,18 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 			int newct = myChain->GetEntries();
 			if (newct < 0 || newct > 30000)
 			{
-				cout << "file: " << line << "; ct: " << newct << endl;
+				cout << "file: " << filename << "; ct: " << newct << endl;
 				return;
 			}
 			//cout << counter << ": " << line << ": " << newct << endl;
 			//cout << JZ_wt[JZ] << endl;
 			JZ_wt[JZ] = JZ_wt[JZ] + newct;
-			int NUM = std::stoi(fnames.substr(fnames.length() - 11, 6));
-
+			NUM = std::stoi(filename.substr(filename.length() - 11, 6));
+			if (NUM < 0)
+			{
+				cout << "wrong num for " << filename << endl;
+				return;
+			}
 			//cout << JZ_wt[JZ] << endl;
 			//cout << endl;
 			fileo2 << JZ << "_" << tag << "_" << NUM << ": " << newct << endl;
@@ -219,7 +225,7 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				f = TFile::Open((input + "/" + foldName + "/" + fName).c_str(), "READ");
 				outf << input << "/" << foldName << "/" << fName << endl;
 				myChain = (TTree *)f->Get(chain_name.c_str());
-
+				bool found = false;
 				for (int j = 0; j < grid_size; j++)
 				{
 					for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
