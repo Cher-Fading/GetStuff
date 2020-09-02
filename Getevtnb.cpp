@@ -52,70 +52,80 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 {
 	std::string chain_name = "bTag_AntiKt4HIJets";
 	//TTree *myChain = (TTree*)f->Get(chain_name.c_str());
+	int cent_N = PbPb ? cet_N : 1;
 	TTree *myChain;
 	TFile *f;
 	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
-	int JZ_ID[grid_size];
+	std::ofstream fileo2(Form("../GetStuff/%s_filenum%s.txt"),dataType,suffix[pnfs]));
+	int JZ_ID[grid_size][2];
 	int JZ_wt[grid_size];
-	for (int i = 0; i < grid_size; i++)
+	int JZ = -1;
+	for (int j = 0; j < grid_size; j++)
 	{
-		JZ_wt[i] = 0;
-	}
-
-	if (pnfs)
-	{
-		std::ifstream filej("../GetStuff/JZ_ID.txt");
-		std::string linej;
-		while (std::getline(filej, linej))
+		JZ_wt[j] = 0;
+		for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
 		{
-			std::stringstream linestreamj(linej);
-			std::string itemj;
-			int linePosj = 0;
-			std::string id;
-			//cout << linej << endl;
-			while (std::getline(linestreamj, itemj, ' '))
-			{
-				if (itemj == "")
-					continue;
-				if (linePosj == 0)
-				{
-					id = itemj;
-					//cout << "id: " << id << endl;
-				}
-				if (linePosj == 4)
-				{
-					if (itemj.find(dataType) == std::string::npos)
-					{
-						cout << "Wrong tag: " << itemj << endl;
-						continue;
-					}
-					int k = itemj.find("JZ");
-					//cout << itemj << endl;
-					if (k == std::string::npos)
-					{
-						cout << "Wrong name format in JZ_ID: " << itemj << endl;
-						return;
-					}
-					JZ_ID[itemj[k + 2] - 48] = std::stoi(id);
-					cout << itemj[k + 2] - 48 << ": " << id << endl;
-					//JZ_wt[itemj[k+2]-48] = 0;
-				}
-				++linePosj;
-			}
+			JZ_ID[j][jj] = 0;
 		}
 	}
-	int JZ = -1;
+
+	std::ifstream filej("../GetStuff/JZ_ID.txt");
+	std::string linej;
+	while (std::getline(filej, linej))
+	{
+		std::stringstream linestreamj(linej);
+		std::string itemj;
+		int linePosj = 0;
+		std::string id;
+		//cout << linej << endl;
+		while (std::getline(linestreamj, itemj, ' '))
+		{
+			if (itemj == "")
+				continue;
+			if (linePosj == 0)
+			{
+				id = itemj;
+				//cout << "id: " << id << endl;
+			}
+			if (linePosj == 4)
+			{
+				if (itemj.find(dataType) == std::string::npos)
+				{
+					cout << "Wrong tag: " << itemj << endl;
+					continue;
+				}
+				int k = itemj.find("JZ");
+				//cout << itemj << endl;
+				if (k == std::string::npos)
+				{
+					cout << "Wrong name format in JZ_ID: " << itemj << endl;
+					return;
+				}
+				//cout << itemj << endl;
+				int j = 0;
+				while (JZ_ID[itemj[k + 2] - 48][j] > 1000000)
+				{
+					j++;
+				}
+
+				JZ_ID[itemj[k + 2] - 48][j] = std::stoi(id);
+				cout << itemj[k + 2] - 48 << ": " << tag << ": " << id << endl;
+				//JZ_wt[itemj[k+2]-48] = 0;
+			}
+			++linePosj;
+		}
+	}
 	if (pnfs)
 	{
-		std::ifstream fnames(Form("../GetStuff/%s_root_pnfs.txt", dataType));
-		std::string line;
+		std::ifstream fnames(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));
+		std::string filename;
 		int counter = 0;
-		while (std::getline(fnames, line))
+		while (std::getline(fnames, filename))
 		{
-			int k = line.find("Akt4HIJets");
+			int k = filename.rfind("Akt4HIJets");
 			if (k == std::string::npos)
 			{
-				cout << "Wrong name in reading: " << line << endl;
+				cout << "Wrong name in reading: " << filename << endl;
 				return;
 			}
 			counter++;
@@ -124,12 +134,17 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 
 			for (int j = 0; j < grid_size; j++)
 			{
-				if (std::stoi(line.substr(k - 9, 8)) == JZ_ID[j])
+				for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
 				{
-					found = true;
-					JZ = j;
+					if (std::stoi(filename.substr(k - 9, 8)) == JZ_ID[j][jj])
+					{
+						found = true;
+						JZ = j;
+						tag = jj;
+					}
 				}
 			}
+
 			if (!found)
 			{
 				cout << line << endl;
@@ -137,7 +152,7 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				return;
 			}
 			//if (JZ != 0) continue;
-			f = TFile::Open(line.c_str(), "READ");
+			f = TFile::Open(filename.c_str(), "READ");
 			myChain = (TTree *)f->Get(chain_name.c_str());
 			int newct = myChain->GetEntries();
 			if (newct < 0 || newct > 30000)
@@ -148,8 +163,11 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 			//cout << counter << ": " << line << ": " << newct << endl;
 			//cout << JZ_wt[JZ] << endl;
 			JZ_wt[JZ] = JZ_wt[JZ] + newct;
+			int NUM = std::stoi(fnames.substr(fnames.length() - 11, 6));
+
 			//cout << JZ_wt[JZ] << endl;
 			//cout << endl;
+			fileo2 << JZ << "_" << tag << "_" << NUM << ": " << newct << endl;
 			f->Close();
 			f = 0;
 			myChain = 0;
@@ -192,9 +210,39 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 				std::string fName = pdir2->d_name;
 				if (fName.find(".root") == std::string::npos)
 					continue;
+				int k2 = fName.rfind("Akt4HIJets");
+				if (k2 == std::string::npos)
+				{
+					cout << "Wrong name in reading: " << filename << endl;
+					return;
+				}
 				f = TFile::Open((input + "/" + foldName + "/" + fName).c_str(), "READ");
 				outf << input << "/" << foldName << "/" << fName << endl;
 				myChain = (TTree *)f->Get(chain_name.c_str());
+
+				for (int j = 0; j < grid_size; j++)
+				{
+					for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
+					{
+						if (std::stoi(fName.substr(k2 - 9, 8)) == JZ_ID[j][jj])
+						{
+							found = true;
+							if (JZ != j)
+							{
+								cout << "JZ doesn't match up: " << std::stoi(fName.substr(k2 - 9, 8)) << fName << endl;
+								return;
+							}
+							tag = jj;
+						}
+					}
+				}
+
+				if (!found)
+				{
+					cout << line << endl;
+					cout << "filename JZ info not found" << endl;
+					return;
+				}
 
 				int newct = myChain->GetEntries();
 				if (newct < 0 || newct > 30000)
@@ -203,6 +251,8 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 					return;
 				}
 				JZ_wt[JZ] = JZ_wt[JZ] + newct;
+				int NUM = std::stoi(fName.substr(fName.length() - 11, 6));
+				fileo2 << JZ << "_" << tag << "_" << NUM << ": " << newct << endl;
 				f->Close();
 				f = 0;
 				myChain = 0;
@@ -217,4 +267,5 @@ void Getevtnb(const char *dataType = "", bool pnfs = true)
 		fileo << jz << ": " << JZ_wt[jz] << endl;
 	}
 	fileo.close();
+	fileo2.close();
 }

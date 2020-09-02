@@ -51,12 +51,22 @@ char suffix[2][10] = {"", "_pnfs"};
 void Getevtnb(const char *filename = "", bool pnfs = true)
 {
 	std::string chain_name = "bTag_AntiKt4HIJets";
-	//TTree *myChain = (TTree*)f->Get(chain_name.c_str());
+	int cent_N = PbPb ? cet_N : 1;
 	TTree *myChain;
 	TFile *f;
-	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s_scratch.txt", dataType, suffix[pnfs]));
-	int JZ_ID[grid_size];
-	int JZ_wt[grid_size];
+	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
+	std::ofstream fileo2(Form("../GetStuff/%s_filenum%s.txt"),dataType,suffix[pnfs]));
+	int JZ_ID[grid_size][2];
+	int JZ_wt[grid_size][2];
+	int JZ = -1;
+    for (int j = 0; j < grid_size; j++)
+    {
+        for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
+        {
+            JZ_ID[j][jj] = 0;
+            JZ_ct[j][jj] = 0;
+        }
+    }
 
 	if (pnfs)
 	{
