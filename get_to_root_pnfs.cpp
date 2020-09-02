@@ -3,7 +3,7 @@
 
 void get_to_root_pnfs(const char *dataType = "")
 {
-    std::ifstream file(Form("../GetStuff/%s.txt", dataType));
+    std::ifstream file(Form("../GetStuff/%s_pnfs.txt", dataType));
     std::string line;
     std::ofstream outfile(Form("../GetStuff/%s_root_pnfs.txt", dataType));
     int nl = 0;
