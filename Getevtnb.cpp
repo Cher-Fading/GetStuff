@@ -150,7 +150,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true)
 			if (!found)
 			{
 				cout << filename << endl;
-				cout << "filename JZ info not found" << endl;
+				cout << "filename JZ info not found for pnfs" << endl;
 				return;
 			}
 			//if (JZ != 0) continue;
@@ -246,7 +246,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true)
 				if (!found)
 				{
 					cout << fName << endl;
-					cout << "filename JZ info not found" << endl;
+					cout << "filename JZ info not found for non pnfs" << endl;
 					return;
 				}
 

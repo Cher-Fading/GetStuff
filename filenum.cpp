@@ -147,3 +147,7 @@ void filenum(const char *dataType, bool pnfs, float ptLim, float trkLim, const c
         NUM = std::stoi(filename.substr(filename.length() - 11, 6));
     }
 }
+
+float get_weight(const char* dataType, const char* filename, bool pnfs = true, float mcwg = 1.0){
+    std::ifstream filein(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
+}
