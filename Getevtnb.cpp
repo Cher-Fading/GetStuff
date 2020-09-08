@@ -275,7 +275,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	}
 	else
 	{
-		Double_t mcwg;
+		Float_t mcwg;
 		TBranch *b_mcwg; //!
 		for (int i = 0; i < gridsize; i++)
 		{

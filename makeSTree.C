@@ -10,7 +10,7 @@
 void makeSTree(const char* filename, bool PbPb = true, bool pnfs = true){
    Int_t           runnb;
    //Int_t           eventnb;
-   Double_t        mcwg;
+   Float_t        mcwg;
    Float_t         Fcal;
    Int_t           njets;
    vector<float>   *jet_pt;
