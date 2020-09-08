@@ -295,10 +295,11 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 		}
 	}
 
+int JZ_shift = inclusive?0:1;
 	for (int jz = 0; jz < gridsize; jz++)
 	{
-		cout << "JZ" << jz << ": " << JZ_wt[jz] << endl;
-		fileo << jz << ": " << JZ_wt[jz] << endl;
+		cout << "JZ" << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
+		fileo << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
 	}
 	fileo.close();
 }
