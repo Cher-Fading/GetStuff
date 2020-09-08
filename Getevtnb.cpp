@@ -53,7 +53,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	std::string chain_name = "bTag_AntiKt4HIJets";
 	//TTree *myChain = (TTree*)f->Get(chain_name.c_str());
 	int cent_N = PbPb ? cet_N : 1;
-	int gridsize = inclusive ? grid_size:s50k_size;
+	int gridsize = inclusive ? grid_size : s50k_size;
 	TTree *myChain;
 	TFile *f;
 	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
@@ -271,18 +271,20 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 			}
 			outf.close();
 		}
+		fileo2.close();
 	}
 	else
 	{
-		Double_t        mcwg;
-		TBranch        *b_mcwg;   //!
+		Double_t mcwg;
+		TBranch *b_mcwg; //!
 		for (int i = 0; i < gridsize; i++)
 		{
-			TFile* f = TFile::Open(Form("/atlasgpfs01/usatlas/data/cher97/flav_%s_Akt4HIJets/%smc16/%smc16JZ%d.root",dataType,Type[PbPb],Type[PbPb],i),"READ");
-			TTree* tree = (TTree*)f->Get(chain_name.c_str());
+			TFile *f = TFile::Open(Form("/atlasgpfs01/usatlas/data/cher97/flav_%s_Akt4HIJets/%smc16/%smc16JZ%d.root", dataType, Type[PbPb], Type[PbPb], i), "READ");
+			TTree *tree = (TTree *)f->Get(chain_name.c_str());
 			//JZ_wt[i] = tree->GetEntries();
 			tree->SetBranchAddress("mcwg", &mcwg, &b_mcwg);
-			for (int jentry = 0; jentry < JZ_wt[i]; jentry++){
+			for (int jentry = 0; jentry < JZ_wt[i]; jentry++)
+			{
 				b_mcwg->GetEntry(jentry);
 				JZ_wt[i] = JZ_wt[i] + mcwg;
 			}
@@ -298,7 +300,6 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 		fileo << jz << ": " << JZ_wt[jz] << endl;
 	}
 	fileo.close();
-	fileo2.close();
 }
 
 float get_weight(const char *dataType, std::string filename, bool pnfs, bool inclusive)
@@ -311,7 +312,7 @@ float get_weight(const char *dataType, std::string filename, bool pnfs, bool inc
 	int JZ_evtnb[gridsize];
 	while (std::getline(fevtnb, eline))
 	{
-		JZ_evtnb[std::stoi(eline.substr(0,1))]=std::stoi(eline.substr(3,eline.length()-3));
+		JZ_evtnb[std::stoi(eline.substr(0, 1))] = std::stoi(eline.substr(3, eline.length() - 3));
 	}
 	std::ifstream fJZ_ID("../GetStuff/JZ_ID.txt");
 
