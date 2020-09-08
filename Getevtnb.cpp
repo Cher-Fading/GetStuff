@@ -289,8 +289,8 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 				JZ_wt[i] = JZ_wt[i] + mcwg;
 			}
 			f->Close();
-			delete f;
-			delete tree;
+			//delete f;
+			//delete tree;
 		}
 	}
 
