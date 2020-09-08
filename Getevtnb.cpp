@@ -59,7 +59,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
 
 	int JZ_ID[gridsize][2];
-	int JZ_wt[gridsize];
+	float JZ_wt[gridsize];
 	int JZ = -1;
 	int tag = -1;
 	int NUM = -1;
