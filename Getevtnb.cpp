@@ -281,8 +281,9 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 		{
 			TFile *f = TFile::Open(Form("/atlasgpfs01/usatlas/data/cher97/flav_%s_Akt4HIJets/%smc16/%smc16JZ%d.root", dataType, Type[PbPb], Type[PbPb], i + 1), "READ");
 			TTree *tree = (TTree *)f->Get(chain_name.c_str());
-			//JZ_wt[i] = tree->GetEntries();
+			cout << tree->GetEntries() << endl;
 			tree->SetBranchAddress("mcwg", &mcwg, &b_mcwg);
+
 			for (int jentry = 0; jentry < JZ_wt[i]; jentry++)
 			{
 				b_mcwg->GetEntry(jentry);
