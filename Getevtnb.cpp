@@ -53,7 +53,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	std::string chain_name = "bTag_AntiKt4HIJets";
 	//TTree *myChain = (TTree*)f->Get(chain_name.c_str());
 	int cent_N = PbPb ? cet_N : 1;
-	int gridsize = inclusive ? grid_size;
+	int gridsize = inclusive ? grid_size:s50k_size;
 	s50k_size;
 	TTree *myChain;
 	TFile *f;
@@ -302,7 +302,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	fileo2.close();
 }
 
-float get_weight(const char *dataType, const char *filename, bool pnfs, bool inclusive)
+float get_weight(const char *dataType, std::string filename, bool pnfs, bool inclusive)
 {
 	//int cent_N = PbPb ? cet_N : 1;
 	std::ifstream fevtnb(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
@@ -320,7 +320,6 @@ float get_weight(const char *dataType, const char *filename, bool pnfs, bool inc
 	int tag = -1;
 	int JZ_ID[gridsize][2];
 	int JZ_ct[gridsize][2];
-	int JZ = -1;
 	for (int j = 0; j < gridsize; j++)
 	{
 		for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
@@ -361,7 +360,7 @@ float get_weight(const char *dataType, const char *filename, bool pnfs, bool inc
 				if (k == std::string::npos)
 				{
 					cout << "Wrong name" << itemj << endl;
-					return;
+					return -1;
 				}
 				while (JZ_ID[itemj[k + 2] - 48][j] > 1000000)
 				{
@@ -377,7 +376,7 @@ float get_weight(const char *dataType, const char *filename, bool pnfs, bool inc
 	if (k == std::string::npos)
 	{
 		cout << "Wrong name: " << filename << endl;
-		return;
+		return -1;
 	}
 	bool found = false;
 
@@ -398,12 +397,13 @@ float get_weight(const char *dataType, const char *filename, bool pnfs, bool inc
 	{
 		cout << filename << endl;
 		cout << "not found" << endl;
-		return;
+		return -1;
 	}
 
 	float weight = -1;
 	if (inclusive)
 	{
-		weight =
+		weight = 1;
 	}
+	return -1;
 }
