@@ -49,15 +49,17 @@ const int cet_N = (sizeof(cet) / sizeof(int)) / 2;
 const int llrlim = 100;
 const int limshift = 20;
 const int llr_bins = (int)4 * llrlim;
-
 char suffix[2][10] = {"", "_pnfs"};
-
-void filenum(const char *dataType, bool pnfs, float ptLim, float trkLim, const char *opt, bool PbPb = true){
+const bool inclusive = true;
+void filenum(const char *dataType, bool pnfs, float ptLim, float trkLim, const char *opt, bool PbPb = true)
+{
     int cent_N = PbPb ? cet_N : 1;
-    int JZ_ID[grid_size][2];
-    int JZ_ct[grid_size][2];
+    int gridsize = inclusive ? grid_size : s50k_size;
+    int tags = inclusive ? 2 : 1;
+    int JZ_ID[gridsize][1];
+    int JZ_ct[gridsize][1];
     int JZ = -1;
-    for (int j = 0; j < grid_size; j++)
+    for (int j = 0; j < gridsize; j++)
     {
         for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
         {
@@ -124,7 +126,7 @@ void filenum(const char *dataType, bool pnfs, float ptLim, float trkLim, const c
         }
         bool found = false;
 
-        for (int j = 0; j < grid_size; j++)
+        for (int j = 0; j < gridsize; j++)
         {
             for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
             {
@@ -146,8 +148,6 @@ void filenum(const char *dataType, bool pnfs, float ptLim, float trkLim, const c
 
         NUM = std::stoi(filename.substr(filename.length() - 11, 6));
     }
+
 }
 
-float get_weight(const char* dataType, const char* filename, bool pnfs = true, float mcwg = 1.0){
-    std::ifstream filein(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
-}
