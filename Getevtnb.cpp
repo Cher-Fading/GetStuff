@@ -54,7 +54,6 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	//TTree *myChain = (TTree*)f->Get(chain_name.c_str());
 	int cent_N = PbPb ? cet_N : 1;
 	int gridsize = inclusive ? grid_size:s50k_size;
-	s50k_size;
 	TTree *myChain;
 	TFile *f;
 	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
@@ -312,7 +311,7 @@ float get_weight(const char *dataType, std::string filename, bool pnfs, bool inc
 	int JZ_evtnb[gridsize];
 	while (std::getline(fevtnb, eline))
 	{
-		JZ_evtnb[std::stoi(eline.substr(0,1))]=std::stoi(eline.substr(3,eline.length()-3]));
+		JZ_evtnb[std::stoi(eline.substr(0,1))]=std::stoi(eline.substr(3,eline.length()-3));
 	}
 	std::ifstream fJZ_ID("../GetStuff/JZ_ID.txt");
 
