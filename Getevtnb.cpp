@@ -56,7 +56,8 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	int gridsize = inclusive ? grid_size : s50k_size;
 	TTree *myChain;
 	TFile *f;
-	std::ofstream fileo(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
+	std::string type_ = inclusive ? "" : Type[PbPb];
+	std::ofstream fileo(Form("../GetStuff/%s%s_evtnb%s.txt", dataType, type_.c_str(), suffix[pnfs]));
 
 	int JZ_ID[gridsize][2];
 	float JZ_wt[gridsize];
@@ -295,7 +296,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 		}
 	}
 
-int JZ_shift = inclusive?0:1;
+	int JZ_shift = inclusive ? 0 : 1;
 	for (int jz = 0; jz < gridsize; jz++)
 	{
 		cout << "JZ" << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
@@ -304,108 +305,120 @@ int JZ_shift = inclusive?0:1;
 	fileo.close();
 }
 
-float get_weight(const char *dataType, std::string filename, bool pnfs, bool inclusive)
+float get_weight(const char *dataType, std::string filename, bool PbPb, bool pnfs, bool inclusive)
 {
 	//int cent_N = PbPb ? cet_N : 1;
-	std::ifstream fevtnb(Form("../GetStuff/%s_evtnb%s.txt", dataType, suffix[pnfs]));
-	int gridsize = inclusive ? grid_size : s50k_size;
+	std::string type_ = inclusive ? "" : Type[PbPb];
 
+	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType, type_, suffix[pnfs]));
 	std::string eline;
-	int JZ_evtnb[gridsize];
+	int JZ_wt[gridsize];
+	int JZ_shift = inclusive ? 0 : 1;
 	while (std::getline(fevtnb, eline))
 	{
-		JZ_evtnb[std::stoi(eline.substr(0, 1))] = std::stoi(eline.substr(3, eline.length() - 3));
+		JZ_wt[std::stoi(eline.substr(0, 1)) - JZ_shift] = std::stoi(eline.substr(3, eline.length() - 3));
 	}
-	std::ifstream fJZ_ID("../GetStuff/JZ_ID.txt");
+	int gridsize = inclusive ? grid_size : s50k_size;
 
 	int JZ = -1;
-	int tag = -1;
 	int JZ_ID[gridsize][2];
-	int JZ_ct[gridsize][2];
+	float JZ_wt[gridsize];
 	for (int j = 0; j < gridsize; j++)
 	{
+		JZ_ID[j] = 0;
 		for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
 		{
 
-			JZ_ct[j][jj] = 0;
-			JZ_ID[j][jj] = 0;
+			JZ_wt[j][jj] = 0;
 		}
 	}
-
-	std::string linej;
-	while (std::getline(fJZ_ID, linej))
-	{
-		std::stringstream linestreamj(linej);
-		std::string itemj;
-		int linePosj = 0;
-		std::string id;
-		//cout << linej << endl;
-		while (std::getline(linestreamj, itemj, ' '))
-		{
-			if (itemj == "")
-				continue;
-
-			if (linePosj == 0)
-			{
-				id = itemj;
-			}
-			if (linePosj == 4)
-			{
-				if (itemj.find(dataType) == std::string::npos)
-				{
-					//cout << "Wrong file name" << itemj << endl;
-					continue;
-				}
-				int k = itemj.find("JZ");
-				//cout << itemj << endl;
-				int j = 0;
-				if (k == std::string::npos)
-				{
-					cout << "Wrong name" << itemj << endl;
-					return -1;
-				}
-				while (JZ_ID[itemj[k + 2] - 48][j] > 1000000)
-				{
-					j++;
-				}
-				JZ_ID[itemj[k + 2] - 48][j] = std::stoi(id);
-				//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
-			}
-			++linePosj;
-		}
-	}
-	int k = filename.rfind("Akt4HIJets");
-	if (k == std::string::npos)
-	{
-		cout << "Wrong name: " << filename << endl;
-		return -1;
-	}
-	bool found = false;
-
-	for (int j = 0; j < gridsize; j++)
-	{
-		for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
-		{
-			if (std::stoi(filename.substr(k - 9, 8)) == JZ_ID[j][jj])
-			{
-				found = true;
-				JZ = j;
-				tag = jj;
-			}
-		}
-	}
-
-	if (!found)
-	{
-		cout << filename << endl;
-		cout << "not found" << endl;
-		return -1;
-	}
-
-	float weight = -1;
 	if (inclusive)
 	{
-		weight = 1;
+
+		std::ifstream fJZ_ID("../GetStuff/JZ_ID.txt");
+		std::string linej;
+		while (std::getline(fJZ_ID, linej))
+		{
+			std::stringstream linestreamj(linej);
+			std::string itemj;
+			int linePosj = 0;
+			std::string id;
+			//cout << linej << endl;
+			while (std::getline(linestreamj, itemj, ' '))
+			{
+				if (itemj == "")
+					continue;
+
+				if (linePosj == 0)
+				{
+					id = itemj;
+				}
+				if (linePosj == 4)
+				{
+					if (itemj.find(dataType) == std::string::npos)
+					{
+						//cout << "Wrong file name" << itemj << endl;
+						continue;
+					}
+					int k = itemj.find("JZ");
+					//cout << itemj << endl;
+					int j = 0;
+					if (k == std::string::npos)
+					{
+						cout << "Wrong name" << itemj << endl;
+						return -1;
+					}
+					while (JZ_ID[itemj[k + 2] - 48][j] > 1000000)
+					{
+						j++;
+					}
+					JZ_ID[itemj[k + 2] - 48][j] = std::stoi(id);
+					//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
+				}
+				++linePosj;
+			}
+		}
+
+		int k = filename.rfind("Akt4HIJets");
+		if (k == std::string::npos)
+		{
+			cout << "Wrong name: " << filename << endl;
+			return -1;
+		}
+		bool found = false;
+
+		for (int j = 0; j < gridsize; j++)
+		{
+			for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
+			{
+				if (std::stoi(filename.substr(k - 9, 8)) == JZ_ID[j][jj])
+				{
+					found = true;
+					JZ = j;
+				}
+			}
+		}
+
+		if (!found)
+		{
+			cout << filename << endl;
+			cout << "not found" << endl;
+			return -1;
+		}
 	}
-	return -1;
+	else
+	{
+		JZ = std::stoi(filename.substr(filename.find("JZ") + 2, 1))
+	}
+	if (JZ < 0)
+	{
+		cout << "JZ < 0" << endl;
+		return -1;
+	}
+	if (JZ_wt[JZ] <= 0)
+	{
+		cout << "JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
+		return -1;
+	}
+	return JZ_wt[JZ];
 }
