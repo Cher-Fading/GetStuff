@@ -70,12 +70,12 @@ void CountJets(const char *trainname, const char *filename)
         }
     }
 
-    JZ = -1;
-	tag = -1;
-	NUM = -1;
-	inclusive = false;
-	PbPb = false;
-	pnfs = false;
+    int JZ = -1;
+	int tag = -1;
+	int NUM = -1;
+	bool inclusive = false;
+	bool PbPb = false;
+	bool pnfs = false;
 	dataType = "";
 
     bool parsed = parse_filename(filename,JZ,tag,NUM,inclusive,PbPb,pnfs,dataType);
