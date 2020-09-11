@@ -3,162 +3,392 @@
 #include <TFile.h>
 
 // Header file for the classes stored in the TTree if any.
-#include "vector"
-#include "vector"
-#include "vector"
+#include <vector>
+const char *chain_name = "bTag_AntiKt4HIJets";
 
-void makeSTree(const char* filename, bool PbPb = true, bool pnfs = true){
-   Int_t           runnb;
-   //Int_t           eventnb;
-   Float_t        mcwg;
-   Float_t         Fcal;
-   Int_t           njets;
-   vector<float>   *jet_pt;
-   vector<float>   *jet_eta;
-   vector<int>     *jet_LabDr_HadF; //label
-   vector<float>   *jet_nConst; //cuts not used (nConst > 1)
-   vector<int>     *jet_truthMatch; //cuts (truthMatch == 1)
-   vector<int>     *jet_aliveAfterOR; //cuts (aliveAfterOR == 1) (no overlap with electron)
-   vector<float>   *jet_ip2d_pu; //cuts & c_weight
-   vector<float>   *jet_jf_m;
-   vector<float>   *jet_jf_efc;
-   vector<float>   *jet_jf_deta;// for jet_jf_dR
-   vector<float>   *jet_jf_dphi;// for jet_jf_dR
-   vector<float>   *jet_jf_nvtx;
-   vector<float>   *jet_jf_sig3d;
-   vector<float>   *jet_jf_nvtx1t;
-   vector<float>   *jet_jf_n2t;
-   vector<float>   *jet_jf_ntrkAtVx;
+void initBranches(TChain *fChain)
+{
+    fChain->SetBranchStatus("*", 1);
+    fChain->SetBranchStatus("eventnb", 1);
+    //fChain->SetBranchStatus("mcwg", 1);
+    fChain->SetBranchStatus("njets", 1);
+    fChain->SetBranchStatus("Fcal", 1);
 
-   vector<float>   *jet_sv1_ntrkv;
-   vector<float>   *jet_sv1_n2t;
-   vector<float>   *jet_sv1_m;
-   vector<float>   *jet_sv1_efc;
-   vector<float>   *jet_sv1_sig3d;
-   vector<float>   *jet_sv1_Lxy;
-   vector<float>   *jet_sv1_deltaR;
-   vector<float>   *jet_sv1_L3d;
-      
+    fChain->SetBranchStatus("jet_pt", 1);
+    fChain->SetBranchStatus("jet_eta", 1);
+    fChain->SetBranchStatus("jet_LabDr_HadF", 1);
+    fChain->SetBranchStatus("jet_aliveAfterOR", 1);
+    fChain->SetBranchStatus("jet_nConst", 1);
+    fChain->SetBranchStatus("jet_truthMatch", 1);
 
+    //fChain->SetBranchStatus("jet_ip2d_llr", &jet_ip2d_llr, &b_jet_ip2d_llr);
+    fChain->SetBranchStatus("jet_sv1_ntrkv", 1);
+    fChain->SetBranchStatus("jet_sv1_n2t", 1);
+    fChain->SetBranchStatus("jet_sv1_m", 1);
+    fChain->SetBranchStatus("jet_sv1_efc", 1);
+    //fChain->SetBranchStatus("jet_sv1_normdist", &jet_sv1_normdist, &b_jet_sv1_normdist);
+    fChain->SetBranchStatus("jet_sv1_Lxy", 1);
+    fChain->SetBranchStatus("jet_sv1_L3d", 1);
+    fChain->SetBranchStatus("jet_sv1_deltaR", 1);
+    fChain->SetBranchStatus("jet_sv1_sig3d", 1);
 
-   // List of branches
-   TBranch        *b_classID;   //!
-   TBranch        *b_className;   //!
-   TBranch        *b_pt;   //!
-   TBranch        *b_abs_eta_;   //!
-   TBranch        *b_ip2;   //!
-   TBranch        *b_ip2_c;   //!
-   TBranch        *b_ip2_cu;   //!
-   TBranch        *b_ip3;   //!
-   TBranch        *b_ip3_c;   //!
-   TBranch        *b_ip3_cu;   //!
-   TBranch        *b_sv1_ntkv;   //!
-   TBranch        *b_sv1_mass;   //!
-   TBranch        *b_sv1_efrc;   //!
-   TBranch        *b_sv1_n2t;   //!
-   TBranch        *b_sv1_Lxy;   //!
-   TBranch        *b_sv1_L3d;   //!
-   TBranch        *b_sv1_sig3;   //!
-   TBranch        *b_sv1_dR;   //!
-   TBranch        *b_jf_n2tv;   //!
-   TBranch        *b_jf_ntrkv;   //!
-   TBranch        *b_jf_nvtx;   //!
-   TBranch        *b_jf_nvtx1t;   //!
-   TBranch        *b_jf_mass;   //!
-   TBranch        *b_jf_efrc;   //!
-   TBranch        *b_jf_dR;   //!
-   TBranch        *b_jf_sig3;   //!
-   TBranch        *b_label;   //!
-   TBranch        *b_weight;   //!
-   TBranch        *b_BDTG;   //!
+    fChain->SetBranchStatus("jet_jf_m", 1);
+    fChain->SetBranchStatus("jet_jf_efc", 1);
+    fChain->SetBranchStatus("jet_jf_deta", 1);
+    fChain->SetBranchStatus("jet_jf_dphi", 1);
+    fChain->SetBranchStatus("jet_jf_ntrkAtVx", 1);
+    fChain->SetBranchStatus("jet_jf_nvtx", 1);
+    fChain->SetBranchStatus("jet_jf_sig3d", 1);
+    fChain->SetBranchStatus("jet_jf_nvtx1t", 1);
+    fChain->SetBranchStatus("jet_jf_n2t", 1);
 
-   fChain->SetBranchAddress("runnb", &runnb, &b_runnb);
-   fChain->SetBranchAddress("eventnb", &eventnb, &b_eventnb);
-   fChain->SetBranchAddress("mcchan", &mcchan, &b_mcchan);
-   fChain->SetBranchAddress("mcwg", &mcwg, &b_mcwg);
-   //fChain->SetBranchAddress("nPV", &nPV, &b_nPV);
-   fChain->SetBranchAddress("avgmu", &avgmu, &b_avgmu);
-   fChain->SetBranchAddress("PVx", &PVx, &b_PVx);
-   fChain->SetBranchAddress("PVy", &PVy, &b_PVy);
-   fChain->SetBranchAddress("PVz", &PVz, &b_PVz);
-   fChain->SetBranchAddress("njets", &njets, &b_njets);
-   //fChain->SetBranchAddress("nbjets", &nbjets, &b_nbjets);
-   //fChain->SetBranchAddress("nbjets_q", &nbjets_q, &b_nbjets_q);
-   //fChain->SetBranchAddress("nbjets_HadI", &nbjets_HadI, &b_nbjets_HadI);
-   //fChain->SetBranchAddress("nbjets_HadF", &nbjets_HadF, &b_nbjets_HadF);
-   fChain->SetBranchAddress("jet_pt", &jet_pt, &b_jet_pt);
-   fChain->SetBranchAddress("jet_eta", &jet_eta, &b_jet_eta);
-   fChain->SetBranchAddress("jet_pt_orig", &jet_pt_orig, &b_jet_pt_orig);   
-   fChain->SetBranchAddress("jet_eta_orig", &jet_eta_orig, &b_jet_eta_orig);
-   fChain->SetBranchAddress("jet_phi", &jet_phi, &b_jet_phi);
-   fChain->SetBranchAddress("jet_E", &jet_E, &b_jet_E);
-   fChain->SetBranchAddress("jet_m", &jet_m, &b_jet_m);
-   fChain->SetBranchAddress("jet_LabDr_HadF", &jet_LabDr_HadF, &b_jet_LabDr_HadF);
-   //fChain->SetBranchAddress("jet_truthflav", &jet_truthflav, &b_jet_truthflav);
-   //fChain->SetBranchAddress("jet_GhostL_q", &jet_GhostL_q, &b_jet_GhostL_q);
-   //fChain->SetBranchAddress("jet_GhostL_HadI", &jet_GhostL_HadI, &b_jet_GhostL_HadI);
-   //fChain->SetBranchAddress("jet_GhostL_HadF", &jet_GhostL_HadF, &b_jet_GhostL_HadF);
-   fChain->SetBranchAddress("jet_aliveAfterOR", &jet_aliveAfterOR, &b_jet_aliveAfterOR);
-   fChain->SetBranchAddress("jet_aliveAfterORmu", &jet_aliveAfterORmu, &b_jet_aliveAfterORmu);
-   fChain->SetBranchAddress("jet_nConst", &jet_nConst, &b_jet_nConst);
-   fChain->SetBranchAddress("jet_truthMatch", &jet_truthMatch, &b_jet_truthMatch);
-   fChain->SetBranchAddress("jet_truthPt", &jet_truthPt, &b_jet_truthPt);
-   /* fChain->SetBranchAddress("jet_dRiso", &jet_dRiso, &b_jet_dRiso); */
-   //fChain->SetBranchAddress("jet_JVF", &jet_JVF, &b_jet_JVF);
-   fChain->SetBranchAddress("jet_JVT", &jet_JVT, &b_jet_JVT);
-   fChain->SetBranchAddress("jet_ip2d_pb", &jet_ip2d_pb, &b_jet_ip2d_pb);
-   fChain->SetBranchAddress("jet_ip2d_pc", &jet_ip2d_pc, &b_jet_ip2d_pc);
-   fChain->SetBranchAddress("jet_ip2d_pu", &jet_ip2d_pu, &b_jet_ip2d_pu);
-   fChain->SetBranchAddress("jet_ip2d_llr", &jet_ip2d_llr, &b_jet_ip2d_llr);
-   fChain->SetBranchAddress("jet_ip3d_pb", &jet_ip3d_pb, &b_jet_ip3d_pb);
-   fChain->SetBranchAddress("jet_ip3d_pc", &jet_ip3d_pc, &b_jet_ip3d_pc);
-   fChain->SetBranchAddress("jet_ip3d_pu", &jet_ip3d_pu, &b_jet_ip3d_pu);
-   fChain->SetBranchAddress("jet_ip3d_llr", &jet_ip3d_llr, &b_jet_ip3d_llr);
-   fChain->SetBranchAddress("jet_rnnip_pb", &jet_rnnip_pb, &b_jet_rnnip_pb);
-   fChain->SetBranchAddress("jet_rnnip_pc", &jet_rnnip_pc, &b_jet_rnnip_pc);
-   fChain->SetBranchAddress("jet_rnnip_pu", &jet_rnnip_pu, &b_jet_rnnip_pu);
-   fChain->SetBranchAddress("jet_rnnip_ptau", &jet_rnnip_ptau, &b_jet_rnnip_ptau);
-   fChain->SetBranchAddress("jet_sv1_ntrkv", &jet_sv1_ntrkv, &b_jet_sv1_ntrkv);
-   fChain->SetBranchAddress("jet_sv1_n2t", &jet_sv1_n2t, &b_jet_sv1_n2t);
-   fChain->SetBranchAddress("jet_sv1_m", &jet_sv1_m, &b_jet_sv1_m);
-   fChain->SetBranchAddress("jet_sv1_efc", &jet_sv1_efc, &b_jet_sv1_efc);
-   fChain->SetBranchAddress("jet_sv1_normdist", &jet_sv1_normdist, &b_jet_sv1_normdist);
-   //fChain->SetBranchAddress("jet_sv1_pb", &jet_sv1_pb, &b_jet_sv1_pb);
-   //fChain->SetBranchAddress("jet_sv1_pc", &jet_sv1_pc, &b_jet_sv1_pc);
-   //fChain->SetBranchAddress("jet_sv1_pu", &jet_sv1_pu, &b_jet_sv1_pu);
-   //fChain->SetBranchAddress("jet_sv1_llr", &jet_sv1_llr, &b_jet_sv1_llr);
-   fChain->SetBranchAddress("jet_sv1_Lxy",&jet_sv1_Lxy,&b_jet_sv1_Lxy);
-   fChain->SetBranchAddress("jet_sv1_L3d",&jet_sv1_L3d,&b_jet_sv1_L3d);
-   fChain->SetBranchAddress("jet_sv1_deltaR",&jet_sv1_deltaR,&b_jet_sv1_deltaR);
+    fChain->SetBranchStatus("jet_ip2d_pb", 1);
+    fChain->SetBranchStatus("jet_ip2d_pc", 1);
+    fChain->SetBranchStatus("jet_ip2d_pu", 1);
+    fChain->SetBranchStatus("jet_ip3d_pb", 1);
+    fChain->SetBranchStatus("jet_ip3d_pc", 1);
+    fChain->SetBranchStatus("jet_ip3d_pu", 1);
+}
 
-   fChain->SetBranchAddress("jet_sv1_sig3d", &jet_sv1_sig3d, &b_jet_sv1_sig3d);
-   fChain->SetBranchAddress("jet_sv1_vtx_x", &jet_sv1_vtxx, &b_jet_sv1_vtxx);
-   fChain->SetBranchAddress("jet_sv1_vtx_y", &jet_sv1_vtxy, &b_jet_sv1_vtxy);
-   fChain->SetBranchAddress("jet_sv1_vtx_z", &jet_sv1_vtxz, &b_jet_sv1_vtxz);
-   /* fChain->SetBranchAddress("jet_jf_pb", &jet_jf_pb, &b_jet_jf_pb); */
-   /* fChain->SetBranchAddress("jet_jf_pc", &jet_jf_pc, &b_jet_jf_pc); */
-   /* fChain->SetBranchAddress("jet_jf_pu", &jet_jf_pu, &b_jet_jf_pu); */
-   /* fChain->SetBranchAddress("jet_jf_llr", &jet_jf_llr, &b_jet_jf_llr); */
-   fChain->SetBranchAddress("jet_jf_m", &jet_jf_m, &b_jet_jf_m);
-   fChain->SetBranchAddress("jet_jf_efc", &jet_jf_efc, &b_jet_jf_efc);
-   fChain->SetBranchAddress("jet_jf_deta", &jet_jf_deta, &b_jet_jf_deta);
-   fChain->SetBranchAddress("jet_jf_dphi", &jet_jf_dphi, &b_jet_jf_dphi);
-   fChain->SetBranchAddress("jet_jf_ntrkAtVx", &jet_jf_ntrkAtVx, &b_jet_jf_ntrkAtVx);
-   fChain->SetBranchAddress("jet_jf_nvtx", &jet_jf_nvtx, &b_jet_jf_nvtx);
-   fChain->SetBranchAddress("jet_jf_sig3d", &jet_jf_sig3d, &b_jet_jf_sig3d);
-   fChain->SetBranchAddress("jet_jf_nvtx1t", &jet_jf_nvtx1t, &b_jet_jf_nvtx1t);
-   fChain->SetBranchAddress("jet_jf_n2t", &jet_jf_n2t, &b_jet_jf_n2t);
-   /* fChain->SetBranchAddress("jet_jf_chi2", &jet_jf_chi2, &b_jet_jf_chi2); */
-   /* fChain->SetBranchAddress("jet_jf_ndf", &jet_jf_ndf, &b_jet_jf_ndf); */
-   /* fChain->SetBranchAddress("jet_jfcombnn_pb", &jet_jfcombnn_pb, &b_jet_jfcombnn_pb); */
-   /* fChain->SetBranchAddress("jet_jfcombnn_pc", &jet_jfcombnn_pc, &b_jet_jfcombnn_pc); */
-   /* fChain->SetBranchAddress("jet_jfcombnn_pu", &jet_jfcombnn_pu, &b_jet_jfcombnn_pu); */
-   /* fChain->SetBranchAddress("jet_jfcombnn_llr", &jet_jfcombnn_llr, &b_jet_jfcombnn_llr); */
-   /* fChain->SetBranchAddress("jet_sv1ip3d", &jet_sv1ip3d, &b_jet_sv1ip3d); */
-   /* fChain->SetBranchAddress("jet_mv1", &jet_mv1, &b_jet_mv1); */
-   /* fChain->SetBranchAddress("jet_mv1c", &jet_mv1c, &b_jet_mv1c); */
-   fChain->SetBranchAddress("jet_mv2c00", &jet_mv2c00, &b_jet_mv2c00);
-   fChain->SetBranchAddress("jet_mv2c10", &jet_mv2c10, &b_jet_mv2c10);
-   fChain->SetBranchAddress("jet_mv2c20", &jet_mv2c20, &b_jet_mv2c20);
-   fChain->SetBranchAddress("jet_mv2c100", &jet_mv2c100, &b_jet_mv2c100);
+void makeSTree(const char *filename, const char *outputFolder, const char *outputName, bool PbPb = true, bool pnfs = true, bool inclusive = true, int num = 100, float ratioB = 0.33, float ratioC = 0.33, float ptLim = 50., float aeta_cut = 2.1)
+{
+
+    TFile *fout = new TFile(Form("%s/%s_small.root", outputFolder, outputName), "RECREATE");
+    TTree *f_new = new TTree(chain_name, chain_name);
+
+    Int_t m_eventnb;
+    Float_t m_mcwg;
+    Float_t m_Fcal;
+    Int_t m_njets;
+    std::vector<float> *m_jet_pt = 0;     //MV2
+    std::vector<float> *m_jet_eta;        //MV2
+    std::vector<int> *m_jet_LabDr_HadF;   //label
+    std::vector<float> *m_jet_nConst;     //cuts not used (nConst > 1)
+    std::vector<int> *m_jet_truthMatch;   //cuts (truthMatch == 1)
+    std::vector<int> *m_jet_aliveAfterOR; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
+
+    // ** JetFitter Variables (8) ** //
+    std::vector<float> *m_jet_jf_m;
+    std::vector<float> *m_jet_jf_efc;
+    std::vector<float> *m_jet_jf_deta; // for jet_jf_dR
+    std::vector<float> *m_jet_jf_dphi; // for jet_jf_dR
+    std::vector<float> *m_jet_jf_nvtx;
+    std::vector<float> *m_jet_jf_sig3d;
+    std::vector<float> *m_jet_jf_nvtx1t;
+    std::vector<float> *m_jet_jf_n2t;
+    std::vector<float> *m_jet_jf_ntrkAtVx;
+
+    // ** SV1 Variable (8) ** //
+    std::vector<float> *m_jet_sv1_ntrkv;
+    std::vector<float> *m_jet_sv1_n2t;
+    std::vector<float> *m_jet_sv1_m;
+    std::vector<float> *m_jet_sv1_efc;
+    std::vector<float> *m_jet_sv1_sig3d;
+    std::vector<float> *m_jet_sv1_Lxy;
+    std::vector<float> *m_jet_sv1_deltaR;
+    std::vector<float> *m_jet_sv1_L3d;
+
+    //other MV2 variables ip_x,ip_x_c,ip_x_cu
+    std::vector<float> *m_jet_ip2d_pb;
+    std::vector<float> *m_jet_ip2d_pc;
+    std::vector<float> *m_jet_ip2d_pu; //cuts & c_weight
+    std::vector<float> *m_jet_ip3d_pb;
+    std::vector<float> *m_jet_ip3d_pc;
+    std::vector<float> *m_jet_ip3d_pu;
+
+    f_new->Branch("eventnb", &m_eventnb);
+    f_new->Branch("mcwg", &m_mcwg);
+    f_new->Branch("njets", &m_njets);
+    f_new->Branch("Fcal", &m_Fcal);
+
+    f_new->Branch("jet_pt", &m_jet_pt);
+    //cout << m_jet_pt << endl;
+    f_new->Branch("jet_eta", &m_jet_eta);
+    f_new->Branch("jet_LabDr_HadF", &m_jet_LabDr_HadF);
+    f_new->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR);
+    f_new->Branch("jet_nConst", &m_jet_nConst);
+    f_new->Branch("jet_truthMatch", &m_jet_truthMatch);
+    //f_new->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
+    f_new->Branch("jet_sv1_ntrkv", &m_jet_sv1_ntrkv);
+    f_new->Branch("jet_sv1_n2t", &m_jet_sv1_n2t);
+    f_new->Branch("jet_sv1_m", &m_jet_sv1_m);
+    f_new->Branch("jet_sv1_efc", &m_jet_sv1_efc);
+    //f_new->Branch("jet_sv1_normdist", &m_jet_sv1_normdist);
+    f_new->Branch("jet_sv1_Lxy", &m_jet_sv1_Lxy);
+    f_new->Branch("jet_sv1_L3d", &m_jet_sv1_L3d);
+    f_new->Branch("jet_sv1_deltaR", &m_jet_sv1_deltaR);
+    f_new->Branch("jet_sv1_sig3d", &m_jet_sv1_sig3d);
+
+    f_new->Branch("jet_jf_m", &m_jet_jf_m);
+    f_new->Branch("jet_jf_efc", &m_jet_jf_efc);
+    f_new->Branch("jet_jf_deta", &m_jet_jf_deta);
+    f_new->Branch("jet_jf_dphi", &m_jet_jf_dphi);
+    f_new->Branch("jet_jf_ntrkAtVx", &m_jet_jf_ntrkAtVx);
+    f_new->Branch("jet_jf_nvtx", &m_jet_jf_nvtx);
+    f_new->Branch("jet_jf_sig3d", &m_jet_jf_sig3d);
+    f_new->Branch("jet_jf_nvtx1t", &m_jet_jf_nvtx1t);
+    f_new->Branch("jet_jf_n2t", &m_jet_jf_n2t);
+
+    f_new->Branch("jet_ip2d_pb", &m_jet_ip2d_pb);
+    f_new->Branch("jet_ip2d_pc", &m_jet_ip2d_pc);
+    f_new->Branch("jet_ip2d_pu", &m_jet_ip2d_pu);
+    f_new->Branch("jet_ip3d_pb", &m_jet_ip3d_pb);
+    f_new->Branch("jet_ip3d_pc", &m_jet_ip3d_pc);
+    f_new->Branch("jet_ip3d_pu", &m_jet_ip3d_pu);
+
+    //Int_t           runnb;
+    Int_t eventnb;
+    Float_t mcwg;
+    Float_t Fcal;
+    Int_t njets;
+    std::vector<float> *jet_pt = 0;     //MV2
+    std::vector<float> *jet_eta;        //MV2
+    std::vector<int> *jet_LabDr_HadF;   //label
+    std::vector<float> *jet_nConst;     //cuts not used (nConst > 1)
+    std::vector<int> *jet_truthMatch;   //cuts (truthMatch == 1)
+    std::vector<int> *jet_aliveAfterOR; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
+
+    // ** JetFitter Variables (8) ** //
+    std::vector<float> *jet_jf_m;
+    std::vector<float> *jet_jf_efc;
+    std::vector<float> *jet_jf_deta; // for jet_jf_dR
+    std::vector<float> *jet_jf_dphi; // for jet_jf_dR
+    std::vector<float> *jet_jf_nvtx;
+    std::vector<float> *jet_jf_sig3d;
+    std::vector<float> *jet_jf_nvtx1t;
+    std::vector<float> *jet_jf_n2t;
+    std::vector<float> *jet_jf_ntrkAtVx;
+
+    // ** SV1 Variable (8) ** //
+    std::vector<float> *jet_sv1_ntrkv;
+    std::vector<float> *jet_sv1_n2t;
+    std::vector<float> *jet_sv1_m;
+    std::vector<float> *jet_sv1_efc;
+    std::vector<float> *jet_sv1_sig3d;
+    std::vector<float> *jet_sv1_Lxy;
+    std::vector<float> *jet_sv1_deltaR;
+    std::vector<float> *jet_sv1_L3d;
+
+    //other MV2 variables ip_x,ip_x_c,ip_x_cu
+    std::vector<float> *jet_ip2d_pb;
+    std::vector<float> *jet_ip2d_pc;
+    std::vector<float> *jet_ip2d_pu; //cuts & c_weight
+    std::vector<float> *jet_ip3d_pb;
+    std::vector<float> *jet_ip3d_pc;
+    std::vector<float> *jet_ip3d_pu;
+
+    TBranch *b_eventnb;
+    TBranch *b_mcwg;
+    TBranch *b_Fcal;
+    TBranch *b_njets;
+    TBranch *b_jet_pt;
+    TBranch *b_jet_eta;
+    TBranch *b_jet_LabDr_HadF;   //label
+    TBranch *b_jet_nConst;       //cuts not used (nConst > 1)
+    TBranch *b_jet_truthMatch;   //cuts (truthMatch == 1)
+    TBranch *b_jet_aliveAfterOR; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    TBranch *b_jet_jf_m;
+    TBranch *b_jet_jf_efc;
+    TBranch *b_jet_jf_deta; // for jet_jf_dR
+    TBranch *b_jet_jf_dphi; // for jet_jf_dR
+    TBranch *b_jet_jf_nvtx;
+    TBranch *b_jet_jf_sig3d;
+    TBranch *b_jet_jf_nvtx1t;
+    TBranch *b_jet_jf_n2t;
+    TBranch *b_jet_jf_ntrkAtVx;
+
+    TBranch *b_jet_sv1_ntrkv;
+    TBranch *b_jet_sv1_n2t;
+    TBranch *b_jet_sv1_m;
+    TBranch *b_jet_sv1_efc;
+    TBranch *b_jet_sv1_sig3d;
+    TBranch *b_jet_sv1_Lxy;
+    TBranch *b_jet_sv1_deltaR;
+    TBranch *b_jet_sv1_L3d;
+
+    TBranch *b_jet_ip2d_pu; //cuts & c_weight
+    TBranch *b_jet_ip2d_pb;
+    TBranch *b_jet_ip2d_pc;
+    TBranch *b_jet_ip3d_pu;
+    TBranch *b_jet_ip3d_pb;
+    TBranch *b_jet_ip3d_pc;
+
+    TChain *fChain = new TChain(chain_name);
+    fChain->Add(filename);
+    initBranches(fChain);
+
+    fChain->SetBranchAddress("eventnb", &eventnb, &b_eventnb);
+    if (!inclusive)
+    {
+        fChain->SetBranchAddress("mcwg", &mcwg, &b_mcwg);
+        fChain->SetBranchStatus("mcwg", 1);
+    }
+    fChain->SetBranchAddress("njets", &njets, &b_njets);
+    fChain->SetBranchAddress("Fcal", &Fcal, &b_Fcal);
+
+    fChain->SetBranchAddress("jet_pt", &jet_pt, &b_jet_pt);
+    fChain->SetBranchAddress("jet_eta", &jet_eta, &b_jet_eta);
+    fChain->SetBranchAddress("jet_LabDr_HadF", &jet_LabDr_HadF, &b_jet_LabDr_HadF);
+    fChain->SetBranchAddress("jet_aliveAfterOR", &jet_aliveAfterOR, &b_jet_aliveAfterOR);
+    fChain->SetBranchAddress("jet_nConst", &jet_nConst, &b_jet_nConst);
+    fChain->SetBranchAddress("jet_truthMatch", &jet_truthMatch, &b_jet_truthMatch);
+
+    //fChain->SetBranchAddress("jet_ip2d_llr", &jet_ip2d_llr, &b_jet_ip2d_llr);
+    fChain->SetBranchAddress("jet_sv1_ntrkv", &jet_sv1_ntrkv, &b_jet_sv1_ntrkv);
+    fChain->SetBranchAddress("jet_sv1_n2t", &jet_sv1_n2t, &b_jet_sv1_n2t);
+    fChain->SetBranchAddress("jet_sv1_m", &jet_sv1_m, &b_jet_sv1_m);
+    fChain->SetBranchAddress("jet_sv1_efc", &jet_sv1_efc, &b_jet_sv1_efc);
+    //fChain->SetBranchAddress("jet_sv1_normdist", &jet_sv1_normdist, &b_jet_sv1_normdist);
+    fChain->SetBranchAddress("jet_sv1_Lxy", &jet_sv1_Lxy, &b_jet_sv1_Lxy);
+    fChain->SetBranchAddress("jet_sv1_L3d", &jet_sv1_L3d, &b_jet_sv1_L3d);
+    fChain->SetBranchAddress("jet_sv1_deltaR", &jet_sv1_deltaR, &b_jet_sv1_deltaR);
+    fChain->SetBranchAddress("jet_sv1_sig3d", &jet_sv1_sig3d, &b_jet_sv1_sig3d);
+
+    fChain->SetBranchAddress("jet_jf_m", &jet_jf_m, &b_jet_jf_m);
+    fChain->SetBranchAddress("jet_jf_efc", &jet_jf_efc, &b_jet_jf_efc);
+    fChain->SetBranchAddress("jet_jf_deta", &jet_jf_deta, &b_jet_jf_deta);
+    fChain->SetBranchAddress("jet_jf_dphi", &jet_jf_dphi, &b_jet_jf_dphi);
+    fChain->SetBranchAddress("jet_jf_ntrkAtVx", &jet_jf_ntrkAtVx, &b_jet_jf_ntrkAtVx);
+    fChain->SetBranchAddress("jet_jf_nvtx", &jet_jf_nvtx, &b_jet_jf_nvtx);
+    fChain->SetBranchAddress("jet_jf_sig3d", &jet_jf_sig3d, &b_jet_jf_sig3d);
+    fChain->SetBranchAddress("jet_jf_nvtx1t", &jet_jf_nvtx1t, &b_jet_jf_nvtx1t);
+    fChain->SetBranchAddress("jet_jf_n2t", &jet_jf_n2t, &b_jet_jf_n2t);
+
+    fChain->SetBranchAddress("jet_ip2d_pb", &jet_ip2d_pb, &b_jet_ip2d_pb);
+    fChain->SetBranchAddress("jet_ip2d_pc", &jet_ip2d_pc, &b_jet_ip2d_pc);
+    fChain->SetBranchAddress("jet_ip2d_pu", &jet_ip2d_pu, &b_jet_ip2d_pu);
+    fChain->SetBranchAddress("jet_ip3d_pb", &jet_ip3d_pb, &b_jet_ip3d_pb);
+    fChain->SetBranchAddress("jet_ip3d_pc", &jet_ip3d_pc, &b_jet_ip3d_pc);
+    fChain->SetBranchAddress("jet_ip3d_pu", &jet_ip3d_pu, &b_jet_ip3d_pu);
+
+    Long64_t nentries = fChain->GetEntries();
+
+    for (Long64_t jentry = 0; jentry < nentries; jentry++)
+    {
+        //myChain->GetEntry(jentry);
+        b_eventnb->GetEntry(jentry);
+
+        b_Fcal->GetEntry(jentry);
+        b_njets->GetEntry(jentry);
+        //cout << eventnb << endl;
+        m_eventnb = eventnb;
+        //cout << Fcal << endl;
+        m_Fcal = Fcal;
+        m_mcwg = 1;
+        if (!inclusive)
+        {
+            b_mcwg->GetEntry(jentry);
+            //cout << mcwg << endl;
+            m_mcwg = mcwg;
+        }
+
+        b_jet_pt->GetEntry(jentry);
+        b_jet_eta->GetEntry(jentry);
+        b_jet_LabDr_HadF->GetEntry(jentry);   //label
+        b_jet_nConst->GetEntry(jentry);       //cuts not used (nConst > 1)
+        b_jet_truthMatch->GetEntry(jentry);   //cuts (truthMatch == 1)
+        b_jet_aliveAfterOR->GetEntry(jentry); //cuts (aliveAfterOR == 1) (no overlap with electron)
+        b_jet_jf_m->GetEntry(jentry);
+        b_jet_jf_efc->GetEntry(jentry);
+        b_jet_jf_deta->GetEntry(jentry); // for jet_jf_dR
+        b_jet_jf_dphi->GetEntry(jentry); // for jet_jf_dR
+        b_jet_jf_nvtx->GetEntry(jentry);
+        b_jet_jf_sig3d->GetEntry(jentry);
+        b_jet_jf_nvtx1t->GetEntry(jentry);
+        b_jet_jf_n2t->GetEntry(jentry);
+        b_jet_jf_ntrkAtVx->GetEntry(jentry);
+
+        b_jet_sv1_ntrkv->GetEntry(jentry);
+        b_jet_sv1_n2t->GetEntry(jentry);
+        b_jet_sv1_m->GetEntry(jentry);
+        b_jet_sv1_efc->GetEntry(jentry);
+        b_jet_sv1_sig3d->GetEntry(jentry);
+        b_jet_sv1_Lxy->GetEntry(jentry);
+        b_jet_sv1_deltaR->GetEntry(jentry);
+        b_jet_sv1_L3d->GetEntry(jentry);
+
+        b_jet_ip2d_pu->GetEntry(jentry); //cuts & c_weight
+        b_jet_ip2d_pb->GetEntry(jentry);
+        b_jet_ip2d_pc->GetEntry(jentry);
+        b_jet_ip3d_pu->GetEntry(jentry);
+        b_jet_ip3d_pb->GetEntry(jentry);
+        b_jet_ip3d_pc->GetEntry(jentry);
+
+        m_jet_pt = jet_pt;
+        m_jet_eta = jet_eta;
+        m_jet_LabDr_HadF = jet_LabDr_HadF;
+        m_jet_nConst = jet_nConst;
+        m_jet_truthMatch = jet_truthMatch;
+        m_jet_aliveAfterOR = jet_aliveAfterOR;
+
+        // ** JetFitter Variables (8) ** //
+        m_jet_jf_m = jet_jf_m;
+        m_jet_jf_efc = jet_jf_efc;
+        m_jet_jf_deta = jet_jf_deta;
+        m_jet_jf_dphi = jet_jf_dphi;
+        m_jet_jf_nvtx = jet_jf_nvtx;
+        m_jet_jf_sig3d = jet_jf_sig3d;
+        m_jet_jf_nvtx1t = jet_jf_nvtx1t;
+        m_jet_jf_n2t = jet_jf_n2t;
+        m_jet_jf_ntrkAtVx = jet_jf_ntrkAtVx;
+
+        // ** SV1 Variable (8) ** //
+        m_jet_sv1_ntrkv = jet_sv1_ntrkv;
+        m_jet_sv1_n2t = jet_sv1_n2t;
+        m_jet_sv1_m = jet_sv1_m;
+        m_jet_sv1_efc = jet_sv1_efc;
+        m_jet_sv1_sig3d = jet_sv1_sig3d;
+        m_jet_sv1_Lxy = jet_sv1_Lxy;
+        m_jet_sv1_deltaR = jet_sv1_deltaR;
+        m_jet_sv1_L3d = jet_sv1_L3d;
+
+        //other MV2 variables ip_x,ip_x_c,ip_x_cu
+        m_jet_ip2d_pb = jet_ip2d_pb;
+        m_jet_ip2d_pc = jet_ip2d_pc;
+        m_jet_ip2d_pu = jet_ip2d_pu;
+        m_jet_ip3d_pb = jet_ip3d_pb;
+        m_jet_ip3d_pc = jet_ip3d_pc;
+        m_jet_ip3d_pu = jet_ip3d_pu;
+
+        f_new->Fill();
+        m_jet_pt->clear();
+        m_jet_eta->clear();
+        m_jet_LabDr_HadF->clear();
+        m_jet_nConst->clear();
+        m_jet_truthMatch->clear();
+        m_jet_aliveAfterOR->clear();
+
+        // ** JetFitter Variables (8) ** //
+        m_jet_jf_m->clear();
+        m_jet_jf_efc->clear();
+        m_jet_jf_deta->clear();
+        m_jet_jf_dphi->clear();
+        m_jet_jf_nvtx->clear();
+        m_jet_jf_sig3d->clear();
+        m_jet_jf_nvtx1t->clear();
+        m_jet_jf_n2t->clear();
+        m_jet_jf_ntrkAtVx->clear();
+
+        // ** SV1 Variable (8) ** //
+        m_jet_sv1_ntrkv->clear();
+        m_jet_sv1_n2t->clear();
+        m_jet_sv1_m->clear();
+        m_jet_sv1_efc->clear();
+        m_jet_sv1_sig3d->clear();
+        m_jet_sv1_Lxy->clear();
+        m_jet_sv1_deltaR->clear();
+        m_jet_sv1_L3d->clear();
+
+        //other MV2 variables ip_x,ip_x_c,ip_x_cu
+        m_jet_ip2d_pb->clear();
+        m_jet_ip2d_pc->clear();
+        m_jet_ip2d_pu->clear();
+        m_jet_ip3d_pb->clear();
+        m_jet_ip3d_pc->clear();
+        m_jet_ip3d_pu->clear();
+    }
+    f_new->Write();
+    fout->Close();
 }

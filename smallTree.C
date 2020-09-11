@@ -33,7 +33,7 @@ void smallTree::Loop()
 
    Long64_t nentries = fChain->GetEntries();
 
-   TFile::Open
+   std::ofstream ()
 
    Long64_t nbytes = 0, nb = 0;
    for (Long64_t jentry=0; jentry<nentries;jentry++) {

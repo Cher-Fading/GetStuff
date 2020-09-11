@@ -325,11 +325,11 @@ float get_weight(const char *dataType, std::string filename, bool PbPb, bool pnf
 	float JZ_wt[gridsize];
 	for (int j = 0; j < gridsize; j++)
 	{
-		JZ_ID[j] = 0;
+		JZ_wt[j] = 0;
 		for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
 		{
 
-			JZ_wt[j][jj] = 0;
+			JZ_ID[j][jj] = 0;
 		}
 	}
 	if (inclusive)

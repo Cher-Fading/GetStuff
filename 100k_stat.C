@@ -1,0 +1,14 @@
+puCut1
+tm1
+stat1200k
+cStat600k
+BdtGrad
+bin
+cuts200
+depth30
+nTrees1000
+MNS005
+corig
+badMargin5
+pt50
+aeta21
