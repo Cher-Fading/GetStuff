@@ -1,12 +1,12 @@
 #include "InfoHeaders.h"
 
-#ifdef __CLING__
+/*#ifdef __CLING__
 // these are not headers - do not treat them as such - needed for ROOT6
-#include "IPxDStandaloneTool.cxx"
-#endif
+#include "Getevtnb.cpp"
+#endif*/
 
 #ifdef __CINT__
-gROOT->LoadMacro("Getevtnb.cxx");
+gROOT->LoadMacro("Getevtnb.cpp");
 #endif
 
 const int nFlav = 3;
