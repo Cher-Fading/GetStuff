@@ -206,7 +206,7 @@ void CountJets(const char *trainname, const char *filename, const char *outputFo
         NUM = 0;
     }
 
-    std::ofstream fstatout(Form("../GetStuff/%s%s%s_%d_%d_%d_counts.txt",trainname,dataType,Type[PbPb],JZ,tag,NUM));
+    std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt",dataType,Type[PbPb],trainname,JZ,tag,NUM));
 
     TChain* fChain = new TChain(chain_name.c_str());
     initBranches(fChain);
