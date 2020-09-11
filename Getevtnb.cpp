@@ -320,7 +320,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			return false;
 		}
 		int jobID = std::stoi(filename.substr(k - 9, 8));
-		std::ifstream fJZ_ID("../GetStuff/JZ_ID.txt");
+		std::ifstream fJZ_ID(Form("../GetStuff/JZ_ID%s.txt",suffix2[pnfs]));
 		if (!fJZ_ID) {
 		  cout << "JZ_ID file not found" << endl;
 		  return false;

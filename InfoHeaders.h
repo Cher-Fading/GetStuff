@@ -47,6 +47,7 @@ const int llr_bins = 200;
 const int llrlim = 40;
 
 char suffix[2][10] = {"", "_pnfs"};
+char suffix2[2][10] = {"_nPNFS",""};
 char Type[2][10] = {"pp", "PbPb"};
 
 const int nString = 2;
