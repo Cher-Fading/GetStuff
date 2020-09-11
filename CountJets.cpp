@@ -1,9 +1,9 @@
 #include "InfoHeaders.h"
 
-/*#ifdef __CLING__
+#ifdef __CLING__
 // these are not headers - do not treat them as such - needed for ROOT6
 #include "Getevtnb.cpp"
-#endif*/
+#endif
 
 #ifdef __CINT__
 gROOT->LoadMacro("Getevtnb.cpp");
