@@ -275,7 +275,8 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 
 	for (int s = 0; s < nString; s++)
 	{
-		if (fileName.Contains(inclusive_str[s]){
+		if (fileName.Contains(inclusive_str[s]))
+		{
 			inclusive = true;
 			valid++; //1
 			break;
@@ -353,7 +354,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 						cout << "Wrong name" << itemj << endl;
 						return -1;
 					}
-					JZ = std::stoi(itemj[k + 2]);
+					JZ = std::stoi(itemj.substr(k+2,1));
 					if (JZ >= 0 && JZ < gridsize)
 						valid++;
 					else
@@ -421,7 +422,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 		}
 		pnfs = false;
 		valid++; //2
-		JZ = std::stoi(filename[filename.find("JZ") + 2]);
+		JZ = std::stoi(filename.substr(filename.find("JZ") + 2,1));
 		if (JZ >= 1 && JZ <= gridsize)
 			valid++; //3
 		else
@@ -434,9 +435,9 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			PbPb = true;
 			valid++; //4
 		}
-		if (filename.Contains("pp"))
+		if (fileName.Contains("pp"))
 		{
-			pp = true;
+			PbPb = false;
 			valid++; //4
 		}
 		if (valid != 4)
@@ -458,12 +459,12 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 float get_weight(std::string filename)
 {
 	//int cent_N = PbPb ? cet_N : 1;
-	JZ = -1;
-	tag = -1;
-	NUM = -1;
-	inclusive = false;
-	PbPb = false;
-	pnfs = false;
+	int JZ = -1;
+	int tag = -1;
+	int NUM = -1;
+	bool inclusive = false;
+	bool PbPb = false;
+	bool pnfs = false;
 	std::string dataType = "";
 
 	bool parsed = parse_filename(filename,JZ,tag,NUM,inclusive,PbPb,pnfs,dataType);
