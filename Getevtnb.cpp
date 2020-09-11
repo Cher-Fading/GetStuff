@@ -122,6 +122,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 				++linePosj;
 			}
 		}
+		
 		if (pnfs)
 		{
 			std::ifstream fnames(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));
@@ -274,6 +275,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 		}
 		fileo2.close();
 	}
+	
 	else
 	{
 		Float_t mcwg;
@@ -310,19 +312,21 @@ float get_weight(const char *dataType, std::string filename, bool PbPb, bool pnf
 	//int cent_N = PbPb ? cet_N : 1;
 	std::string type_ = inclusive ? "" : Type[PbPb];
 
-	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType, type_, suffix[pnfs]));
+	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType, type_.c_str(), suffix[pnfs]));
 	std::string eline;
-	int JZ_wt[gridsize];
+	//int JZ_wt[gridsize];
+	int gridsize = inclusive ? grid_size : s50k_size;
+	float JZ_wt[gridsize];
 	int JZ_shift = inclusive ? 0 : 1;
 	while (std::getline(fevtnb, eline))
 	{
 		JZ_wt[std::stoi(eline.substr(0, 1)) - JZ_shift] = std::stoi(eline.substr(3, eline.length() - 3));
 	}
-	int gridsize = inclusive ? grid_size : s50k_size;
+	
 
 	int JZ = -1;
 	int JZ_ID[gridsize][2];
-	float JZ_wt[gridsize];
+	
 	for (int j = 0; j < gridsize; j++)
 	{
 		JZ_wt[j] = 0;
@@ -408,7 +412,7 @@ float get_weight(const char *dataType, std::string filename, bool PbPb, bool pnf
 	}
 	else
 	{
-		JZ = std::stoi(filename.substr(filename.find("JZ") + 2, 1))
+		JZ = std::stoi(filename.substr(filename.find("JZ") + 2, 1));
 	}
 	if (JZ < 0)
 	{
