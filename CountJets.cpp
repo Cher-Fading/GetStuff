@@ -86,8 +86,9 @@ void CountJets(const char *trainname, const char *filename)
 	std::string dataType = "";
 
 
-    std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType, Type[PbPb], trainname, JZ, tag, NUM));
+    std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname, JZ, tag, NUM));
 
+    std::string chain_name = "bTag_AntiKt4HIJets";
     TChain *fChain = new TChain(chain_name.c_str());
     initBranches(fChain);
 
@@ -129,7 +130,7 @@ void CountJets(const char *trainname, const char *filename)
 
     Long64_t nentries = fChain->GetEntries();
     int n[nFlav][nType];
-    for (int f = 0; n < nFlav; n++)
+    for (int f = 0; f < nFlav; f++)
     {
         for (int t = 0; t < nType; t++)
         {
