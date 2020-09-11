@@ -48,11 +48,16 @@ const int llrlim = 40;
 
 char suffix[2][10] = {"", "_pnfs"};
 char Type[2][10] = {"pp", "PbPb"};
-const int indexF[nFlav] = {0, 5, 4};
 const int nFlav = 3;
+const int indexF[nFlav] = {0, 5, 4};
 char indexF_str[nFlav][10] = {"Light", "B", "C"};
 const int nType = 2;
 char type_str[nType][10] = {"Original","Passed"};
+const int nString = 2;
+char inclusive_str[nString][30] = {"/usatlas/scratch","/pnfs"};
+const int nPNFS = 1;
+char pnfs_str[nPNFS][30] = {"/usatlas/scratch"};
+
 
 //stat for b and light are the same, ratio accounts for additional bad jets expected based on previous small samples.
 //stat for c are some ratio to b/light.
@@ -72,9 +77,9 @@ void initBranches(TChain *fChain)
     fChain->SetBranchStatus("jet_truthMatch", 1);
 }
 
-void CountJets(const char *trainname, const char *filename, const char *outputFolder, const char *outputName, bool PbPb = true, bool pnfs = true, bool inclusive = true)
+void CountJets(const char *trainname, const char *filename)
 {
-    std::ifstream fstat(Form("../GetStuff/%s_stat.txt",trainname);
+    std::ifstream fstat(Form("../GetStuff/%s_stat.txt",trainname));
     std::string line;
     int stat = 0;
     int cStat = 0;
@@ -100,7 +105,7 @@ void CountJets(const char *trainname, const char *filename, const char *outputFo
         }
         if (Line.Contains("badMargin"))
         {
-            float ratio = 1 + (line.substr(9, line.length()) / 100.);
+            float ratio = 1 + std::stof(line.substr(9, line.length()) )/ 100.;
             outStat = ratio * stat;
             outcStat = ratio * cStat;
         }
@@ -114,26 +119,34 @@ void CountJets(const char *trainname, const char *filename, const char *outputFo
         }
     }
 
+    std::string dataType;
+    bool PbPb = 0;
+    bool pnfs = 0;
+    bool inclusive = 0;
+    TString fileName = filename.data();
+
+    for (int s = 0; s < nString; s++){
+        if (fileName.Contains(inclusive_str[s])
+            inclusive = true;
+    }
+
+    for (int p = 0; p < nPNFS; p++){
+        if (fileName.Contains(pnfs_str[p])) pnfs = true;
+    }
+
+    int jobID = std::stoi(filename.substr(k - 9, 8));
+
+
     if (inclusive){
-        int gridsize = inclusive ? grid_size : s50k_size;
-
-        int JZ_ID[gridsize][2];
-        for (int j = 0; j < gridsize; j++)
-        {
-            for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
-            {
-
-                JZ_ID[j][jj] = 0;
-            }
-        }
         std::ifstream fJZ_ID("../GetStuff/JZ_ID.txt");
         std::string linej;
+        bool found = false;
         while (std::getline(fJZ_ID, linej))
         {
             std::stringstream linestreamj(linej);
             std::string itemj;
             int linePosj = 0;
-            std::string id;
+            //std::string id;
             //cout << linej << endl;
             while (std::getline(linestreamj, itemj, ' '))
             {
@@ -142,11 +155,11 @@ void CountJets(const char *trainname, const char *filename, const char *outputFo
 
                 if (linePosj == 0)
                 {
-                    id = itemj;
+                    if (std::stoi(itemj) == jobID) found = true;
                 }
                 if (linePosj == 4)
-                {
-                    if (itemj.find(dataType) == std::string::npos)
+                { 
+                    if (!found)
                     {
                         //cout << "Wrong file name" << itemj << endl;
                         continue;
@@ -159,11 +172,8 @@ void CountJets(const char *trainname, const char *filename, const char *outputFo
                         cout << "Wrong name" << itemj << endl;
                         return -1;
                     }
-                    while (JZ_ID[itemj[k + 2] - 48][j] > 1000000)
-                    {
-                        j++;
-                    }
-                    JZ_ID[itemj[k + 2] - 48][j] = std::stoi(id);
+                    JZ = std::stoi(itemj[k+2]);
+                
                     //cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
                 }
                 ++linePosj;
