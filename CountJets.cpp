@@ -2,12 +2,19 @@
 
 /*#ifdef __CLING__
 // these are not headers - do not treat them as such - needed for ROOT6
-#include "Getevtnb.cpp"
+#include "IPxDStandaloneTool.cxx"
 #endif*/
 
 #ifdef __CINT__
-gROOT->LoadMacro("Getevtnb.cpp");
+gROOT->LoadMacro("Getevtnb.cxx");
 #endif
+
+const int nFlav = 3;
+const int indexF[nFlav] = {0, 5, 4};
+char indexF_str[nFlav][10] = {"Light", "B", "C"};
+const int nType = 2;
+char type_str[nType][10] = {"Original", "Passed"};
+
 
 //stat for b and light are the same, ratio accounts for additional bad jets expected based on previous small samples.
 //stat for c are some ratio to b/light.
@@ -77,12 +84,6 @@ void CountJets(const char *trainname, const char *filename)
 	bool PbPb = false;
 	bool pnfs = false;
 	dataType = "";
-
-    bool parsed = parse_filename(filename,JZ,tag,NUM,inclusive,PbPb,pnfs,dataType);
-	if (!parsed){
-		cout << "parsing failed" << endl;
-		return;
-	}
 
 
     std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType, Type[PbPb], trainname, JZ, tag, NUM));
