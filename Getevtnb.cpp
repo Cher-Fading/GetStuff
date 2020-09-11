@@ -291,15 +291,15 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			if (fileName.Contains(pnfs_str[p]))
 			{
 				pnfs = true;
-				valid++; //2
+
 				break;
 			}
-		}
+		}				
 		if (!pnfs)
 		{
-			for (int np = 0; np < nSmall; np++)
+			for (int np = 0; np < nNpnfs; np++)
 			{
-				if (fileName.Contains(small_str[np]))
+				if (fileName.Contains(nnpnfs_str[np]))
 				{
 					pnfs = false;
 					valid++; //2
@@ -307,9 +307,10 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 				}
 			}
 		}
-		if (valid < 2)
+		if (valid != 2)
 		{
 			cout << "pnfs info wrong" << endl;
+			cout << pnfs << valid << endl;
 			return false;
 		}
 		int k = filename.rfind("Akt4HIJets");
@@ -320,6 +321,10 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 		}
 		int jobID = std::stoi(filename.substr(k - 9, 8));
 		std::ifstream fJZ_ID("../GetStuff/JZ_ID.txt");
+		if (!fJZ_ID) {
+		  cout << "JZ_ID file not found" << endl;
+		  return false;
+		}
 		std::string linej;
 		bool found = false;
 		while (std::getline(fJZ_ID, linej))
@@ -343,7 +348,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 				{
 					if (!found)
 					{
-						//cout << "Wrong file name" << itemj << endl;
+						cout << "Wrong file name" << itemj << endl;
 						continue;
 					}
 					int k = itemj.find("JZ");
@@ -393,6 +398,10 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 				}
 				++linePosj;
 			}
+		}
+		if (valid!=5){
+		  cout << "jobID wrong" << endl;
+		  return false;
 		}
 
 		NUM = std::stoi(filename.substr(filename.length() - 11, 6));
@@ -451,7 +460,10 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 		valid++; //6
 		dataType = filename.substr(filename.find("flav_")+5,filename.find("_Akt4HIJets")-filename.find("flav_")-5);
 	}
-	if (valid !=6) return false;
+	if (valid !=6) {
+	  cout << valid << endl;
+	  return false;
+	}
 	return true;
 }
 
