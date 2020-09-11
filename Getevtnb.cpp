@@ -259,49 +259,6 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	fileo.close();
 }
 
-float get_weight(std::string filename)
-{
-	//int cent_N = PbPb ? cet_N : 1;
-	JZ = -1;
-	tag = -1;
-	NUM = -1;
-	inclusive = false;
-	PbPb = false;
-	pnfs = false;
-	std::string dataType = "";
-
-	bool parsed = parse_filename(filename,JZ,tag,NUM,inclusive,PbPb,pnfs,dataType);
-	if (!parsed){
-		cout << "parsing failed" << endl;
-		return -1;
-	}
-
-	std::string type_ = inclusive ? "" : Type[PbPb];
-
-	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType.c_str(), type_.c_str(), suffix[pnfs]));
-	if (!fevtnb){
-		cout << "wrong parsing or filename" << filename << " " << dataType << endl;
-		return -1;
-	}
-	std::string eline;
-	//int JZ_wt[gridsize];
-	int gridsize = inclusive ? grid_size : s50k_size;
-	float JZ_wt[gridsize];
-	int JZ_shift = inclusive ? 0 : 1;
-	while (std::getline(fevtnb, eline))
-	{
-		JZ_wt[std::stoi(eline.substr(0, 1)) - JZ_shift] = std::stoi(eline.substr(3, eline.length() - 3));
-	}
-
-	
-	if (JZ_wt[JZ] <= 0)
-	{
-		cout << "JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
-		return -1;
-	}
-	return JZ_wt[JZ];
-}
-
 bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inclusive, bool &PbPb, bool &pnfs, std::string &dataType)
 {
 	//initialize the values
@@ -495,4 +452,48 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 	}
 	if (valid !=6) return false;
 	return true;
+}
+
+
+float get_weight(std::string filename)
+{
+	//int cent_N = PbPb ? cet_N : 1;
+	JZ = -1;
+	tag = -1;
+	NUM = -1;
+	inclusive = false;
+	PbPb = false;
+	pnfs = false;
+	std::string dataType = "";
+
+	bool parsed = parse_filename(filename,JZ,tag,NUM,inclusive,PbPb,pnfs,dataType);
+	if (!parsed){
+		cout << "parsing failed" << endl;
+		return -1;
+	}
+
+	std::string type_ = inclusive ? "" : Type[PbPb];
+
+	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType.c_str(), type_.c_str(), suffix[pnfs]));
+	if (!fevtnb){
+		cout << "wrong parsing or filename" << filename << " " << dataType << endl;
+		return -1;
+	}
+	std::string eline;
+	//int JZ_wt[gridsize];
+	int gridsize = inclusive ? grid_size : s50k_size;
+	float JZ_wt[gridsize];
+	int JZ_shift = inclusive ? 0 : 1;
+	while (std::getline(fevtnb, eline))
+	{
+		JZ_wt[std::stoi(eline.substr(0, 1)) - JZ_shift] = std::stoi(eline.substr(3, eline.length() - 3));
+	}
+
+	
+	if (JZ_wt[JZ] <= 0)
+	{
+		cout << "JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
+		return -1;
+	}
+	return JZ_wt[JZ];
 }
