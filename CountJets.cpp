@@ -83,7 +83,7 @@ void CountJets(const char *trainname, const char *filename)
 	bool inclusive = false;
 	bool PbPb = false;
 	bool pnfs = false;
-	dataType = "";
+	std::string dataType = "";
 
 
     std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType, Type[PbPb], trainname, JZ, tag, NUM));
@@ -180,5 +180,5 @@ void CountJets(const char *trainname, const char *filename)
         }
     }
 
-    fstatout->close();
+    fstatout.close();
 }

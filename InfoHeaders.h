@@ -49,8 +49,6 @@ const int llrlim = 40;
 char suffix[2][10] = {"", "_pnfs"};
 char Type[2][10] = {"pp", "PbPb"};
 
-const int nType = 2;
-char type_str[nType][10] = {"Original", "Passed"};
 const int nString = 2;
 char inclusive_str[nString][30] = {"/usatlas/scratch", "/pnfs"};
 const int nNonInc = 1;
