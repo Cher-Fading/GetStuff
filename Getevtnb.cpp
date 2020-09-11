@@ -1,53 +1,5 @@
-#include <fstream>
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <dirent.h>
-#include "TFile.h"
-#include "TChain.h"
-#include "TCanvas.h"
-#include "TLegend.h"
-#include "TApplication.h"
-#include "TH2D.h"
-#include "TProfile.h"
-#include "TSystem.h"
-#include <algorithm>
-#include "TStyle.h"
-#include "TColor.h"
-#include "TProfile.h"
-#include "TMath.h"
-#include "TLorentzVector.h"
-#include "TString.h"
-#include "TGraph.h"
-#include "TGraphAsymmErrors.h"
-#include <math.h>
+#include "InfoHeaders.h"
 
-#include <TH2.h>
-#include <TStyle.h>
-
-const int myColor[] = {kBlue, kViolet, kMagenta, kPink, kOrange, kYellow, kSpring, kTeal, kCyan, kAzure, kGray, kGray + 1, kGray + 3};
-const float eta_cut = 2.1;
-const float eta_cut2 = 2.4;
-const float JZs = 5;
-const float s50kWeight[] = {6.7890E+07 * 6.1692E-06, 6.3996E+05 * 5.8420E-05, 4.7192E+03 * 1.1270E-04, 9.2038E-05 * 2.6602E+01};
-const int s50k_size = sizeof(s50kWeight) / sizeof(float);
-const float pt_max = 2000.;
-const float Weight[] = {6.7890E+07, 6.789E+07, 6.3996E+05, 4.7195E+03, 2.6602E+01, 2.2476E-01};
-const float Filter[] = {9.9713E-01, 2.8748E-03, 4.2952E-03, 5.2994E-03, 4.5901E-03, 2.1846E-03};
-const int grid_size = sizeof(Weight) / sizeof(float);
-char legend1[3][50] = {"b-Jets", "c-jet", "light jet"};
-char leg[3][10] = {"B", "C", "U"};
-const float FCal_range[] = {0, 0.063719, 0.14414, 0.289595, 0.525092, 0.87541, 1.36875, 2.04651, 2.98931, 5}; // fcal_cuts options
-
-const int cet[] = {0, 2, 2, 5, 5, 8}; //selected centrality sections
-const int cet_N = (sizeof(cet) / sizeof(int)) / 2;
-
-const int llr_bins = 200;
-const int llrlim = 40;
-
-char suffix[2][10] = {"", "_pnfs"};
-char Type[2][10] = {"pp", "PbPb"};
 void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, bool inclusive = true)
 {
 	std::string chain_name = "bTag_AntiKt4HIJets";
@@ -122,7 +74,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 				++linePosj;
 			}
 		}
-		
+
 		if (pnfs)
 		{
 			std::ifstream fnames(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));
@@ -275,7 +227,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 		}
 		fileo2.close();
 	}
-	
+
 	else
 	{
 		Float_t mcwg;
@@ -307,12 +259,30 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	fileo.close();
 }
 
-float get_weight(const char *dataType, std::string filename, bool PbPb, bool pnfs, bool inclusive)
+float get_weight(std::string filename)
 {
 	//int cent_N = PbPb ? cet_N : 1;
+	JZ = -1;
+	tag = -1;
+	NUM = -1;
+	inclusive = false;
+	PbPb = false;
+	pnfs = false;
+	std::string dataType = "";
+
+	bool parsed = parse_filename(filename,JZ,tag,NUM,inclusive,PbPb,pnfs,dataType);
+	if (!parsed){
+		cout << "parsing failed" << endl;
+		return -1;
+	}
+
 	std::string type_ = inclusive ? "" : Type[PbPb];
 
-	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType, type_.c_str(), suffix[pnfs]));
+	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType.c_str(), type_.c_str(), suffix[pnfs]));
+	if (!fevtnb){
+		cout << "wrong parsing or filename" << filename << " " << dataType << endl;
+		return -1;
+	}
 	std::string eline;
 	//int JZ_wt[gridsize];
 	int gridsize = inclusive ? grid_size : s50k_size;
@@ -322,31 +292,84 @@ float get_weight(const char *dataType, std::string filename, bool PbPb, bool pnf
 	{
 		JZ_wt[std::stoi(eline.substr(0, 1)) - JZ_shift] = std::stoi(eline.substr(3, eline.length() - 3));
 	}
-	
 
-	int JZ = -1;
-	int JZ_ID[gridsize][2];
 	
-	for (int j = 0; j < gridsize; j++)
+	if (JZ_wt[JZ] <= 0)
 	{
-		JZ_wt[j] = 0;
-		for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
-		{
+		cout << "JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
+		return -1;
+	}
+	return JZ_wt[JZ];
+}
 
-			JZ_ID[j][jj] = 0;
+bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inclusive, bool &PbPb, bool &pnfs, std::string &dataType)
+{
+	//initialize the values
+	JZ = -1;
+	tag = -1;
+	NUM = -1;
+	inclusive = false;
+	PbPb = false;
+	pnfs = false;
+	dataType = "";
+	int valid = 0;
+
+	TString fileName = filename.data();
+
+	for (int s = 0; s < nString; s++)
+	{
+		if (fileName.Contains(inclusive_str[s]){
+			inclusive = true;
+			valid++; //1
+			break;
 		}
 	}
-	if (inclusive)
-	{
+	int gridsize = inclusive ? grid_size : s50k_size;
 
+	if (inclusive) //use jobID to determine JZ tag and PbPb
+	{
+		for (int p = 0; p < nPNFS; p++)
+		{
+			if (fileName.Contains(pnfs_str[p]))
+			{
+				pnfs = true;
+				valid++; //2
+				break;
+			}
+		}
+		if (!pnfs)
+		{
+			for (int np = 0; np < nSmall; np++)
+			{
+				if (fileName.Contains(small_str[np]))
+				{
+					pnfs = false;
+					valid++; //2
+					break;
+				}
+			}
+		}
+		if (valid < 2)
+		{
+			cout << "pnfs info wrong" << endl;
+			return false;
+		}
+		int k = filename.rfind("Akt4HIJets");
+		if (k == std::string::npos)
+		{
+			cout << "Wrong name: " << filename << endl;
+			return false;
+		}
+		int jobID = std::stoi(filename.substr(k - 9, 8));
 		std::ifstream fJZ_ID("../GetStuff/JZ_ID.txt");
 		std::string linej;
+		bool found = false;
 		while (std::getline(fJZ_ID, linej))
 		{
 			std::stringstream linestreamj(linej);
 			std::string itemj;
 			int linePosj = 0;
-			std::string id;
+			//std::string id;
 			//cout << linej << endl;
 			while (std::getline(linestreamj, itemj, ' '))
 			{
@@ -355,11 +378,12 @@ float get_weight(const char *dataType, std::string filename, bool PbPb, bool pnf
 
 				if (linePosj == 0)
 				{
-					id = itemj;
+					if (std::stoi(itemj) == jobID)
+						found = true;
 				}
 				if (linePosj == 4)
 				{
-					if (itemj.find(dataType) == std::string::npos)
+					if (!found)
 					{
 						//cout << "Wrong file name" << itemj << endl;
 						continue;
@@ -372,57 +396,103 @@ float get_weight(const char *dataType, std::string filename, bool PbPb, bool pnf
 						cout << "Wrong name" << itemj << endl;
 						return -1;
 					}
-					while (JZ_ID[itemj[k + 2] - 48][j] > 1000000)
+					JZ = std::stoi(itemj[k + 2]);
+					if (JZ >= 0 && JZ < gridsize)
+						valid++;
+					else
 					{
-						j++;
+						cout << "JZ wrong" << endl;
+						return false;
 					}
-					JZ_ID[itemj[k + 2] - 48][j] = std::stoi(id);
+					valid++; //3
+					TString itemJ = itemj.data();
+					if (itemJ.Contains("r11199"))
+					{
+						PbPb = false;
+						valid++; //4
+					}
+					if (itemJ.Contains("r11217"))
+					{
+						PbPb = true;
+						valid++; //4
+					}
+					if (valid != 4)
+					{
+						cout << "PbPb wrong" << endl;
+						return false;
+					}
+					tag = itemJ.Contains("e6608") ? 0 : itemJ.Contains("e4108") ? 1 : -1;
+					if (tag >= 0)
+						valid++; //5
+					else
+					{
+						cout << "tag wrong" << endl;
+						return false;
+					}
+
+					dataType = itemj.substr(itemj.rfind(".")+1,itemj.length()-2-itemj.rfind("."));
 					//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
 				}
 				++linePosj;
 			}
 		}
 
-		int k = filename.rfind("Akt4HIJets");
-		if (k == std::string::npos)
+		NUM = std::stoi(filename.substr(filename.length() - 11, 6));
+		if (NUM >= 0)
+			valid++; //6
+		else
 		{
-			cout << "Wrong name: " << filename << endl;
-			return -1;
-		}
-		bool found = false;
-
-		for (int j = 0; j < gridsize; j++)
-		{
-			for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
-			{
-				if (std::stoi(filename.substr(k - 9, 8)) == JZ_ID[j][jj])
-				{
-					found = true;
-					JZ = j;
-				}
-			}
-		}
-
-		if (!found)
-		{
-			cout << filename << endl;
-			cout << "not found" << endl;
-			return -1;
+			cout << "NUM wrong" << endl;
+			return false;
 		}
 	}
 	else
 	{
-		JZ = std::stoi(filename.substr(filename.find("JZ") + 2, 1));
+		bool nonInc = 0;
+		for (int n = 0; n < nNonInc; n++)
+		{
+			if (fileName.Contains(ninclusive_str[n]))
+			{
+				nonInc = true;
+				valid++; //1
+			}
+		}
+		if (!nonInc)
+		{
+			cout << "wrong file name, neither inclusive nor non-inclusive" << endl;
+			return false;
+		}
+		pnfs = false;
+		valid++; //2
+		JZ = std::stoi(filename[filename.find("JZ") + 2]);
+		if (JZ >= 1 && JZ <= gridsize)
+			valid++; //3
+		else
+		{
+			cout << "JZ wrong" << endl;
+			return false;
+		}
+		if (fileName.Contains("PbPb"))
+		{
+			PbPb = true;
+			valid++; //4
+		}
+		if (filename.Contains("pp"))
+		{
+			pp = true;
+			valid++; //4
+		}
+		if (valid != 4)
+		{
+			cout << "PbPb wrong" << endl;
+			return false;
+		}
+		tag = 0;
+		valid++; //5
+		NUM = 0;
+		valid++; //6
+		dataType = filename.substr(filename.find("flav_")+5,filename.find("_Akt4HIJets")-filename.find("flav_")-5);
 	}
-	if (JZ < 0)
-	{
-		cout << "JZ < 0" << endl;
-		return -1;
-	}
-	if (JZ_wt[JZ] <= 0)
-	{
-		cout << "JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
-		return -1;
-	}
-	return JZ_wt[JZ];
+	if (valid !=6) return false;
+	return true;
 }
