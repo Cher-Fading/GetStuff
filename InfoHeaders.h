@@ -57,3 +57,5 @@ const int nPNFS = 1;
 char pnfs_str[nPNFS][30] = {"/usatlas/scratch"};
 const int nSmall = 1;
 char small_str[nSmall][30] = {"flav_"};
+const int nNpnfs = 1;
+char nnpnfs_str[nNpnfs][30] = {"user.xiaoning"};
