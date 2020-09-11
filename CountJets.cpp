@@ -85,6 +85,12 @@ void CountJets(const char *trainname, const char *filename)
 	bool pnfs = false;
 	std::string dataType = "";
 
+    bool parsed = parse_filename(filename,JZ,tag,NUM,inclusive,PbPb,pnfs,dataType);
+	if (!parsed){
+		cout << "parsing failed" << endl;
+		return -1;
+	}
+
 
     std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname, JZ, tag, NUM));
 
