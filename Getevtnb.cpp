@@ -290,16 +290,17 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 		int k = filename.rfind("Akt4HIJets");
 		if (k == std::string::npos)
 		{
-			cout << "Wrong name: " << filename << endl;
+			cout << "[ERROR] Wrong name: " << filename << endl;
 			return false;
 		}
 		int jobID = std::stoi(filename.substr(k - 9, 8));
+		cout << "[INFO] job ID: " << jobID << endl;
 		for (int PNFS = 0; PNFS < 2; PNFS++)
 		{
 			std::ifstream fJZ_ID(Form("../GetStuff/JZ_ID%s.txt", suffix2[PNFS]));
 			if (!fJZ_ID)
 			{
-				cout << "JZ_ID file not found" << endl;
+				cout << "[ERROR] JZ_ID file not found" << endl;
 				return false;
 			}
 			std::string linej;
@@ -325,15 +326,15 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 					{
 						if (!found)
 						{
-							cout << "Wrong file name: " << itemj << endl;
+							//cout << "Wrong file name: " << itemj << endl;
 							continue;
 						}
 						else
-							cout << "found: " << itemj << endl;
+							cout << "[INFO] found: " << itemj << endl;
 						pnfs = PNFS;
 						if (valid != 2)
 						{
-							cout << "pnfs info wrong" << endl;
+							cout << "[ERROR] pnfs info wrong" << endl;
 							cout << pnfs << valid << endl;
 							return false;
 						}
@@ -342,7 +343,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 						int j = 0;
 						if (k == std::string::npos)
 						{
-							cout << "Wrong name" << itemj << endl;
+							cout << "[ERROR] Wrong name" << itemj << endl;
 							return -1;
 						}
 						JZ = std::stoi(itemj.substr(k + 2, 1));
@@ -350,7 +351,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 							valid++;
 						if (valid != 3)
 						{
-							cout << "JZ wrong: " << valid << endl;
+							cout << "[ERROR] JZ wrong: " << valid << endl;
 							return false;
 						}
 						TString itemJ = itemj.data();
@@ -366,7 +367,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 						}
 						if (valid != 4)
 						{
-							cout << "PbPb wrong: " << valid << endl;
+							cout << "[ERROR] PbPb wrong: " << valid << endl;
 							return false;
 						}
 						tag = itemJ.Contains("e6608") ? 0 : itemJ.Contains("e4108") ? 1 : -1;
@@ -374,7 +375,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 							valid++; //5
 						else
 						{
-							cout << "tag wrong" << endl;
+							cout << "[ERROR] tag wrong" << endl;
 							return false;
 						}
 
@@ -389,7 +390,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 	here:
 		if (valid != 5)
 		{
-			cout << "jobID wrong" << endl;
+			cout << "[ERROR] jobID wrong" << endl;
 			return false;
 		}
 
@@ -398,7 +399,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			valid++; //6
 		else
 		{
-			cout << "NUM wrong" << endl;
+			cout << "[ERROR] NUM wrong" << endl;
 			return false;
 		}
 	}
@@ -415,7 +416,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 		}
 		if (!nonInc)
 		{
-			cout << "wrong file name, neither inclusive nor non-inclusive" << endl;
+			cout << "[ERROR] wrong file name, neither inclusive nor non-inclusive" << endl;
 			return false;
 		}
 		pnfs = false;
@@ -425,7 +426,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			valid++; //3
 		else
 		{
-			cout << "JZ wrong: " << valid << endl;
+			cout << "[ERROR] JZ wrong: " << valid << endl;
 			return false;
 		}
 		if (fileName.Contains("PbPb"))
@@ -440,7 +441,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 		}
 		if (valid != 4)
 		{
-			cout << "PbPb wrong" << endl;
+			cout << "[ERROR] PbPb wrong" << endl;
 			return false;
 		}
 		tag = 0;
@@ -471,7 +472,7 @@ float get_weight(std::string filename)
 	bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
 	if (!parsed)
 	{
-		cout << "parsing failed" << endl;
+		cout << "[ERROR] parsing failed" << endl;
 		return -1;
 	}
 
@@ -480,7 +481,7 @@ float get_weight(std::string filename)
 	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType.c_str(), type_.c_str(), suffix[pnfs]));
 	if (!fevtnb)
 	{
-		cout << "wrong parsing or filename" << filename << " " << dataType << endl;
+		cout << "[ERROR] wrong parsing or filename" << filename << " " << dataType << endl;
 		return -1;
 	}
 	std::string eline;
@@ -495,7 +496,7 @@ float get_weight(std::string filename)
 
 	if (JZ_wt[JZ] <= 0)
 	{
-		cout << "JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
+		cout << "[ERROR] JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
 		return -1;
 	}
 	return JZ_wt[JZ];
