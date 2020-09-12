@@ -380,7 +380,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 							return false;
 						}
 
-						dataType = itemj.substr(itemj.rfind(".") + 1, itemj.length() - 2 - itemj.rfind("."));
+						dataType = itemj.substr(itemj.rfind("Working") , itemj.length() - 1 - itemj.rfind("Working"));
 						goto here;
 						//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
 					}
