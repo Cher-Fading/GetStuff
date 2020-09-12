@@ -33,48 +33,16 @@ void initBranches(TChain *fChain)
     fChain->SetBranchStatus("jet_truthMatch", 1);
 }
 
-void CountJets(const char *trainname, const char *filename)
+void CountJets(std::string trainname, std::string filename)
 {
-    std::ifstream fstat(Form("../GetStuff/%s_stat.txt", trainname));
-    std::string line;
     int stat = 0;
     int cStat = 0;
     int outStat = 0;
     int outcStat = 0;
     float ptLim = 50.;
     float aeta = 2.1;
-    while (getline(fstat, line))
-    {
-        TString Line = line.data();
-        if (Line.Contains("stat"))
-        {
-            TString stat_str = line.substr(4, line.length());
-            stat = stat_str.ReplaceAll("k", "000").Atoi();
-            outStat = stat;
-            cStat = stat * 0.5;
-            outcStat = cStat;
-        }
-        if (Line.Contains("cstat"))
-        {
-            TString cstat_str = line.substr(5, line.length());
-            cStat = cstat_str.ReplaceAll("k", "000").Atoi();
-            outcStat = cStat;
-        }
-        if (Line.Contains("badMargin"))
-        {
-            float ratio = 1 + std::stof(line.substr(9, line.length())) / 100.;
-            outStat = ratio * stat;
-            outcStat = ratio * cStat;
-        }
-        if (Line.Contains("pt"))
-        {
-            float ptLim = std::stof(line.substr(2, line.length()));
-        }
-        if (Line.Contains("aeta"))
-        {
-            float aeta = std::stof(line.substr(4, line.length())) / 10.;
-        }
-    }
+
+    bool train_parsed = parse_trainname(trainname, stat, cStat, outStat, outcStat, ptLim, aeta);
 
     int JZ = -1;
     int tag = -1;
@@ -83,7 +51,7 @@ void CountJets(const char *trainname, const char *filename)
     bool PbPb = false;
     bool pnfs = false;
     std::string dataType = "";
-//cout << filename << endl;
+    //cout << filename << endl;
 
     bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
     if (!parsed)
@@ -93,9 +61,11 @@ void CountJets(const char *trainname, const char *filename)
     }
 
     std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname, JZ, tag, NUM));
-if (!fstatout){
-cout << "[ERROR] out file name wrong: " << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname, JZ, tag, NUM) << endl;
-return;}
+    if (!fstatout)
+    {
+        cout << "[ERROR] out file name wrong: " << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname, JZ, tag, NUM) << endl;
+        return;
+    }
 
     std::string chain_name = "bTag_AntiKt4HIJets";
     TChain *fChain = new TChain(chain_name.c_str());

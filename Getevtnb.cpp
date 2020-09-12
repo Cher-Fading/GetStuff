@@ -380,7 +380,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 							return false;
 						}
 
-						dataType = itemj.substr(itemj.rfind("Working") , itemj.length() - 1 - itemj.rfind("Working"));
+						dataType = itemj.substr(itemj.rfind("Working"), itemj.length() - 1 - itemj.rfind("Working"));
 						goto here;
 						//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
 					}
@@ -501,4 +501,56 @@ float get_weight(std::string filename)
 		return -1;
 	}
 	return JZ_wt[JZ];
+}
+
+bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat, int &outcStat, float &ptLim, float &aeta)
+{
+	std::ifstream fstat(Form("../GetStuff/%s_stat.txt", trainname));
+	std::string line;
+
+	stat = 0;
+    cStat = 0;
+    outStat = 0;
+    outcStat = 0;
+    ptLim = 50.;
+    aeta = 2.1;
+
+	while (getline(fstat, line))
+	{
+		TString Line = line.data();
+		if (Line.Contains("stat"))
+		{
+			TString stat_str = line.substr(4, line.length());
+			stat = stat_str.ReplaceAll("k", "000").Atoi();
+			outStat = stat;
+			cStat = stat * 0.5;
+			outcStat = cStat;
+		}
+		else {
+			cout << "[ERROR]: no stat limit given" << endl;
+			return false;
+		}
+		if (Line.Contains("cstat"))
+		{
+			TString cstat_str = line.substr(5, line.length());
+			cStat = cstat_str.ReplaceAll("k", "000").Atoi();
+			outcStat = cStat;
+		}
+		if (Line.Contains("badMargin"))
+		{
+			float ratio = 1 + std::stof(line.substr(9, line.length())) / 100.;
+			outStat = ratio * stat;
+			outcStat = ratio * cStat;
+		}
+		if (Line.Contains("pt"))
+		{
+			ptLim = std::stof(line.substr(2, line.length()));
+		}
+		if (Line.Contains("aeta"))
+		{
+			aeta = std::stof(line.substr(4, line.length())) / 10.;
+		}
+	}
+	fstat.close();
+	return true;
 }
