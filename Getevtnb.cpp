@@ -1,264 +1,5 @@
 #include "InfoHeaders.h"
 
-void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, bool inclusive = true)
-{
-	std::string chain_name = "bTag_AntiKt4HIJets";
-	//TTree *myChain = (TTree*)f->Get(chain_name.c_str());
-	int cent_N = PbPb ? cet_N : 1;
-	int gridsize = inclusive ? grid_size : s50k_size;
-	TTree *myChain;
-	TFile *f;
-	std::string type_ = inclusive ? "" : Type[PbPb];
-	std::ofstream fileo(Form("../GetStuff/%s%s_evtnb%s.txt", dataType, type_.c_str(), suffix[pnfs]));
-
-	int JZ_ID[gridsize][2];
-	float JZ_wt[gridsize];
-	int JZ = -1;
-	int tag = -1;
-	int NUM = -1;
-	for (int j = 0; j < gridsize; j++)
-	{
-		JZ_wt[j] = 0;
-		for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
-		{
-			JZ_ID[j][jj] = 0;
-		}
-	}
-
-	if (inclusive)
-	{
-		std::ofstream fileo2(Form("../GetStuff/%s_filenum%s.txt", dataType, suffix[pnfs]));
-		std::ifstream filej("../GetStuff/JZ_ID.txt");
-		std::string linej;
-		while (std::getline(filej, linej))
-		{
-			std::stringstream linestreamj(linej);
-			std::string itemj;
-			int linePosj = 0;
-			std::string id;
-			//cout << linej << endl;
-			while (std::getline(linestreamj, itemj, ' '))
-			{
-				if (itemj == "")
-					continue;
-				if (linePosj == 0)
-				{
-					id = itemj;
-					//cout << "id: " << id << endl;
-				}
-				if (linePosj == 4)
-				{
-					if (itemj.find(dataType) == std::string::npos)
-					{
-						cout << "Wrong tag: " << itemj << endl;
-						continue;
-					}
-					int k = itemj.find("JZ");
-					//cout << itemj << endl;
-					if (k == std::string::npos)
-					{
-						cout << "Wrong name format in JZ_ID: " << itemj << endl;
-						return;
-					}
-					//cout << itemj << endl;
-					int j = 0;
-					while (JZ_ID[itemj[k + 2] - 48][j] > 1000000)
-					{
-						j++;
-					}
-
-					JZ_ID[itemj[k + 2] - 48][j] = std::stoi(id);
-					cout << itemj[k + 2] - 48 << ": " << j << ": " << id << endl;
-					//JZ_wt[itemj[k+2]-48] = 0;
-				}
-				++linePosj;
-			}
-		}
-
-		if (pnfs)
-		{
-			std::ifstream fnames(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));
-			std::string filename;
-			int counter = 0;
-			while (std::getline(fnames, filename))
-			{
-				int k = filename.rfind("Akt4HIJets");
-				if (k == std::string::npos)
-				{
-					cout << "Wrong name in reading: " << filename << endl;
-					return;
-				}
-				counter++;
-
-				bool found = false;
-
-				for (int j = 0; j < grid_size; j++)
-				{
-					for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
-					{
-						if (std::stoi(filename.substr(k - 9, 8)) == JZ_ID[j][jj])
-						{
-							found = true;
-							JZ = j;
-							tag = jj;
-						}
-					}
-				}
-
-				if (!found)
-				{
-					cout << filename << endl;
-					cout << "filename JZ info not found for pnfs" << endl;
-					return;
-				}
-				//if (JZ != 0) continue;
-				f = TFile::Open(filename.c_str(), "READ");
-				myChain = (TTree *)f->Get(chain_name.c_str());
-				int newct = myChain->GetEntries();
-				if (newct < 0 || newct > 30000)
-				{
-					cout << "file: " << filename << "; ct: " << newct << endl;
-					return;
-				}
-				//cout << counter << ": " << line << ": " << newct << endl;
-				//cout << JZ_wt[JZ] << endl;
-				JZ_wt[JZ] = JZ_wt[JZ] + newct;
-				NUM = std::stoi(filename.substr(filename.length() - 11, 6));
-				if (NUM < 0)
-				{
-					cout << "wrong num for " << filename << endl;
-					return;
-				}
-				//cout << JZ_wt[JZ] << endl;
-				//cout << endl;
-				fileo2 << JZ << "_" << tag << "_" << NUM << ": " << newct << endl;
-				f->Close();
-				f = 0;
-				myChain = 0;
-				if (counter % 100 == 0)
-				{
-					cout << "counted " << counter << " files" << endl;
-				}
-			}
-		}
-		else
-		{
-			ofstream outf(Form("../GetStuff/%s_root.txt", dataType), std::ofstream::trunc);
-			std::string input = "/pnfs/usatlas.bnl.gov/users/cher97/rucio/user.xiaoning";
-			DIR *dir1;
-			dirent *pdir;
-			dir1 = opendir(input.c_str());
-			while ((pdir = readdir(dir1)))
-			{
-				std::string foldName = pdir->d_name;
-				cout << pdir->d_name << endl;
-				if (foldName.find(dataType) == std::string::npos)
-					continue;
-				if (!(foldName.find(".root") == std::string::npos))
-					continue;
-				int k = foldName.find("JZ");
-				//cout << itemj << endl;
-				if (k == std::string::npos)
-				{
-					cout << "Wrong folder name format: " << foldName << endl;
-					return;
-				}
-				JZ = std::stoi(foldName.substr(k + 2, 1));
-
-				cout << "Success:" << pdir->d_name << endl;
-				DIR *dir2;
-				dirent *pdir2;
-				dir2 = opendir((input + "/" + foldName).c_str());
-				while ((pdir2 = readdir(dir2)))
-				{
-					std::string fName = pdir2->d_name;
-					if (fName.find(".root") == std::string::npos)
-						continue;
-					int k2 = fName.rfind("Akt4HIJets");
-					if (k2 == std::string::npos)
-					{
-						cout << "Wrong name in reading: " << input << "/" << foldName << "/" << fName << endl;
-						return;
-					}
-					f = TFile::Open((input + "/" + foldName + "/" + fName).c_str(), "READ");
-					outf << input << "/" << foldName << "/" << fName << endl;
-					myChain = (TTree *)f->Get(chain_name.c_str());
-					bool found = false;
-					for (int j = 0; j < grid_size; j++)
-					{
-						for (int jj = 0; jj < sizeof(JZ_ID[j]) / sizeof(int); jj++)
-						{
-							if (std::stoi(fName.substr(k2 - 9, 8)) == JZ_ID[j][jj])
-							{
-								found = true;
-								if (JZ != j)
-								{
-									cout << "JZ doesn't match up: " << std::stoi(fName.substr(k2 - 9, 8)) << fName << endl;
-									return;
-								}
-								tag = jj;
-							}
-						}
-					}
-
-					if (!found)
-					{
-						cout << fName << endl;
-						cout << "filename JZ info not found for non pnfs" << endl;
-						return;
-					}
-
-					int newct = myChain->GetEntries();
-					if (newct < 0 || newct > 30000)
-					{
-						cout << "file: " << input << "/" << foldName << "/" << fName << "; ct: " << newct << endl;
-						return;
-					}
-					JZ_wt[JZ] = JZ_wt[JZ] + newct;
-					int NUM = std::stoi(fName.substr(fName.length() - 11, 6));
-					fileo2 << JZ << "_" << tag << "_" << NUM << ": " << newct << endl;
-					f->Close();
-					f = 0;
-					myChain = 0;
-					//goto here;
-				}
-			}
-			outf.close();
-		}
-		fileo2.close();
-	}
-
-	else
-	{
-		Float_t mcwg;
-		TBranch *b_mcwg; //!
-		for (int i = 0; i < gridsize; i++)
-		{
-			TFile *f = TFile::Open(Form("/atlasgpfs01/usatlas/data/cher97/flav_%s_Akt4HIJets/%smc16/%smc16JZ%d.root", dataType, Type[PbPb], Type[PbPb], i + 1), "READ");
-			TTree *tree = (TTree *)f->Get(chain_name.c_str());
-			//cout << tree->GetEntries() << endl;
-			tree->SetBranchAddress("mcwg", &mcwg, &b_mcwg);
-
-			for (int jentry = 0; jentry < tree->GetEntries(); jentry++)
-			{
-				b_mcwg->GetEntry(jentry);
-				JZ_wt[i] = JZ_wt[i] + mcwg;
-			}
-			f->Close();
-			//delete f;
-			//delete tree;
-		}
-	}
-
-	int JZ_shift = inclusive ? 0 : 1;
-	for (int jz = 0; jz < gridsize; jz++)
-	{
-		cout << "JZ" << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
-		fileo << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
-	}
-	fileo.close();
-}
-
 bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inclusive, bool &PbPb, bool &pnfs, std::string &dataType)
 {
 	//initialize the values
@@ -509,11 +250,11 @@ bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat,
 	std::string line;
 
 	stat = 0;
-    cStat = 0;
-    outStat = 0;
-    outcStat = 0;
-    ptLim = 50.;
-    aeta = 2.1;
+	cStat = 0;
+	outStat = 0;
+	outcStat = 0;
+	ptLim = 50.;
+	aeta = 2.1;
 
 	while (getline(fstat, line))
 	{
@@ -526,7 +267,8 @@ bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat,
 			cStat = stat * 0.5;
 			outcStat = cStat;
 		}
-		else {
+		else
+		{
 			cout << "[ERROR]: no stat limit given" << endl;
 			return false;
 		}
@@ -553,4 +295,124 @@ bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat,
 	}
 	fstat.close();
 	return true;
+}
+
+bool parse_filename_short(std::string filename, std::string dataType, bool PbPb, bool pnfs, bool inclusive, int &JZ, int &tag, int &NUM)
+{
+	std::string dataType2 = "";
+	bool PbPb2 = false;
+	bool pnfs2 = false;
+	bool inclusive2 = false;
+	bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive2, PbPb2, pnfs2, dataType2);
+	if (!parsed)
+	{
+		cout << "[ERROR]: parsing failed at parse filename short calling parse filename" << endl;
+		return false;
+	}
+	if (PbPb2 != PbPb)
+	{
+		cout << "[ERROR]: parsing failed at parse filename short, PbPb mismatch: " << PbPb2 << "/" << PbPb << endl;
+		return false;
+	}
+	if (pnfs2 != pnfs)
+	{
+		cout << "[ERROR]: parsing failed at parse filename short, pnfs mismatch: " << pnfs2 << "/" << pnfs << endl;
+		return false;
+	}
+	if (inclusive2 != inclusive)
+	{
+		cout << "[ERROR]: parsing failed at parse filename short, inclusiveness mismatch: " << inclusive2 << "/" << inclusive << endl;
+		return false;
+	}
+	if (dataType2 != dataType)
+	{
+		cout << "[ERROR]: parsing failed at parse filename short, dataType mismatch: " << dataType2 << "/" << dataType << endl;
+		return false;
+	}
+	return true;
+}
+
+void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, bool inclusive = true)
+{
+	std::string chain_name = "bTag_AntiKt4HIJets";
+	int gridsize = inclusive ? grid_size : s50k_size;
+	int JZ_shift = inclusive ? 0 : 1;
+	std::string type_ = inclusive ? "" : Type[PbPb];
+
+	std::ofstream fileo(Form("../GetStuff/%s%s_evtnb%s.txt", dataType, type_.c_str(), suffix[pnfs]));
+	std::ofstream fileo2(Form("../GetStuff/%s_fileevtnum%s.txt", dataType, suffix[pnfs]));
+	std::ofstream fileo3(Form("../GetStuff/%s_filenum%s.txt", dataType, suffix[pnfs]));
+
+	float JZ_wt[gridsize];
+	int JZ_FN[gridsize][2];
+	int JZ = -1;
+	int tag = -1;
+	int NUM = -1;
+	for (int j = 0; j < gridsize; j++)
+	{
+		JZ_wt[j] = 0;
+		for (int jj = 0; jj < sizeof(JZ_FN[j]) / sizeof(int); jj++)
+		{
+			//JZ_ID[j][jj] = 0;
+			JZ_FN[j][jj] = 0;
+		}
+	}
+
+	std::ifstream filein(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));
+	std::string filename;
+	while (getline(filein, filename))
+	{
+		bool parsed = parse_filename_short(filename, dataType, PbPb, pnfs, inclusive, JZ, tag, NUM);
+		if (!parsed)
+		{
+			cout << "[ERROR]: parsing failed" << endl;
+			return;
+		}
+		TFile *f = TFile::Open(filename.c_str(), "READ");
+		if (!f)
+		{
+			cout << "[ERROR]: file opening failed: " << filename << endl;
+			return;
+		}
+		JZ_FN[JZ][tag]++;
+		Float_t mcwg;
+		TBranch *b_mcwg; //!
+		TTree *tree = (TTree *)f->Get(chain_name.c_str());
+		if (!tree)
+		{
+			cout << "[ERROR]: tree not found: " << filename << chain_name << endl;
+			return;
+		}
+		Long64_t nentries = tree->GetEntries();
+		fileo2 << JZ + JZ_shift << "_" << tag << "_" << NUM << ": " << nentries << endl;
+		if (!inclusive)
+		{
+			tree->SetBranchAddress("mcwg", &mcwg, &b_mcwg);
+			for (int jentry = 0; jentry < nentries; jentry++)
+			{
+				b_mcwg->GetEntry(jentry);
+				JZ_wt[JZ] = JZ_wt[JZ] + mcwg;
+			}
+		}
+		else
+		{
+			JZ_wt[JZ] = JZ_wt[JZ] + nentries;
+		}
+		delete tree;
+		delete f;
+	}
+
+	for (int jz = 0; jz < gridsize; jz++)
+	{
+		cout << "JZ" << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
+		fileo << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
+		for (int jj = 0; jj < sizeof(JZ_FN[j]) / sizeof(int); jj++)
+		{
+			fileo3 << jz + JZ_shift << "_" << jj << ": " << JZ_FN[jz][jj] << endl;
+			cout << jz + JZ_shift << "_" << jj << ": " << JZ_FN[jz][jj] << endl;
+		}
+	}
+	fileo.close();
+	fileo2.close();
+	fileo3.close();
 }
