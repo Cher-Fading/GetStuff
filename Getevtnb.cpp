@@ -332,6 +332,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 						else
 							cout << "[INFO] found: " << itemj << endl;
 						pnfs = PNFS;
+						valid++; //2
 						if (valid != 2)
 						{
 							cout << "[ERROR] pnfs info wrong" << endl;
