@@ -348,9 +348,10 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 				{
 					if (!found)
 					{
-						cout << "Wrong file name" << itemj << endl;
+						cout << "Wrong file name: " << itemj << endl;
 						continue;
 					}
+					else cout<<"found: " << itemj << endl;
 					int k = itemj.find("JZ");
 					//cout << itemj << endl;
 					int j = 0;
@@ -362,12 +363,11 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 					JZ = std::stoi(itemj.substr(k+2,1));
 					if (JZ >= 0 && JZ < gridsize)
 						valid++;
-					else
+					if (valid!=3)
 					{
-						cout << "JZ wrong" << endl;
+						cout << "JZ wrong: " << valid << endl;
 						return false;
 					}
-					valid++; //3
 					TString itemJ = itemj.data();
 					if (itemJ.Contains("r11199"))
 					{
@@ -381,7 +381,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 					}
 					if (valid != 4)
 					{
-						cout << "PbPb wrong" << endl;
+						cout << "PbPb wrong: " << valid << endl;
 						return false;
 					}
 					tag = itemJ.Contains("e6608") ? 0 : itemJ.Contains("e4108") ? 1 : -1;
@@ -394,6 +394,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 					}
 
 					dataType = itemj.substr(itemj.rfind(".")+1,itemj.length()-2-itemj.rfind("."));
+					found = false;
 					//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
 				}
 				++linePosj;
@@ -436,7 +437,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			valid++; //3
 		else
 		{
-			cout << "JZ wrong" << endl;
+			cout << "JZ wrong: " << valid << endl;
 			return false;
 		}
 		if (fileName.Contains("PbPb"))
