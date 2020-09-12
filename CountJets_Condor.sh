@@ -8,8 +8,6 @@ input="../GetStuff/$2_root$SUFFIX.txt"
 
 mkdir -p /atlasgpfs01/usatlas/data/cher97/$2$3_Counts$SUFFIX
 
-cd ~/IPtagTuning_condor
-
 #indexline=$1
 linenumber=0
 while IFS= read -r line; do
@@ -17,7 +15,7 @@ while IFS= read -r line; do
 		mkdir -p '/usatlas/scratch/cher97/tempin'$linenumber
 		xrdcp 'root://dcgftp.usatlas.bnl.gov:1096/'$line '/usatlas/scratch/cher97/tempin'$linenumber		
 		filename=/usatlas/scratch/cher97/tempin$linenumber/$(ls /usatlas/scratch/cher97/tempin$linenumber)
-		root -b -q -l 'CountsJets.cpp("'$filename'","'$5'")'
+		root -b -q -l 'CountJets.cpp("'$5'","'$filename'")'
 		sleep 2
 		rm -rf '/usatlas/scratch/cher97/tempin'$linenumber
 	fi

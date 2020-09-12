@@ -270,6 +270,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 	pnfs = false;
 	dataType = "";
 	int valid = 0;
+//cout << filename << endl;
 
 	TString fileName = filename.data();
 
@@ -286,33 +287,6 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 
 	if (inclusive) //use jobID to determine JZ tag and PbPb
 	{
-		for (int p = 0; p < nPNFS; p++)
-		{
-			if (fileName.Contains(pnfs_str[p]))
-			{
-				pnfs = true;
-
-				break;
-			}
-		}				
-		if (!pnfs)
-		{
-			for (int np = 0; np < nNpnfs; np++)
-			{
-				if (fileName.Contains(nnpnfs_str[np]))
-				{
-					pnfs = false;
-					valid++; //2
-					break;
-				}
-			}
-		}
-		if (valid != 2)
-		{
-			cout << "pnfs info wrong" << endl;
-			cout << pnfs << valid << endl;
-			return false;
-		}
 		int k = filename.rfind("Akt4HIJets");
 		if (k == std::string::npos)
 		{
@@ -320,7 +294,8 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			return false;
 		}
 		int jobID = std::stoi(filename.substr(k - 9, 8));
-		std::ifstream fJZ_ID(Form("../GetStuff/JZ_ID%s.txt",suffix2[pnfs]));
+		for (int PNFS = 0; PNFS < 2; PNFS++){
+		std::ifstream fJZ_ID(Form("../GetStuff/JZ_ID%s.txt",suffix2[PNFS]));
 		if (!fJZ_ID) {
 		  cout << "JZ_ID file not found" << endl;
 		  return false;
@@ -351,7 +326,14 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 						cout << "Wrong file name: " << itemj << endl;
 						continue;
 					}
-					else cout<<"found: " << itemj << endl;
+					else cout<< "found: " << itemj << endl;
+pnfs = PNFS;
+if (valid != 2)
+		{
+			cout << "pnfs info wrong" << endl;
+			cout << pnfs << valid << endl;
+			return false;
+		}
 					int k = itemj.find("JZ");
 					//cout << itemj << endl;
 					int j = 0;
@@ -394,12 +376,14 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 					}
 
 					dataType = itemj.substr(itemj.rfind(".")+1,itemj.length()-2-itemj.rfind("."));
-					found = false;
+					goto here;
 					//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
 				}
 				++linePosj;
 			}
 		}
+}
+here:
 		if (valid!=5){
 		  cout << "jobID wrong" << endl;
 		  return false;

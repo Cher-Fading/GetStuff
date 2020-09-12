@@ -83,6 +83,7 @@ void CountJets(const char *trainname, const char *filename)
     bool PbPb = false;
     bool pnfs = false;
     std::string dataType = "";
+//cout << filename << endl;
 
     bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
     if (!parsed)
