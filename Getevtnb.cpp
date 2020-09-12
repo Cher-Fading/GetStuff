@@ -270,7 +270,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 	pnfs = false;
 	dataType = "";
 	int valid = 0;
-//cout << filename << endl;
+	//cout << filename << endl;
 
 	TString fileName = filename.data();
 
@@ -294,99 +294,103 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			return false;
 		}
 		int jobID = std::stoi(filename.substr(k - 9, 8));
-		for (int PNFS = 0; PNFS < 2; PNFS++){
-		std::ifstream fJZ_ID(Form("../GetStuff/JZ_ID%s.txt",suffix2[PNFS]));
-		if (!fJZ_ID) {
-		  cout << "JZ_ID file not found" << endl;
-		  return false;
-		}
-		std::string linej;
-		bool found = false;
-		while (std::getline(fJZ_ID, linej))
+		for (int PNFS = 0; PNFS < 2; PNFS++)
 		{
-			std::stringstream linestreamj(linej);
-			std::string itemj;
-			int linePosj = 0;
-			//std::string id;
-			//cout << linej << endl;
-			while (std::getline(linestreamj, itemj, ' '))
+			std::ifstream fJZ_ID(Form("../GetStuff/JZ_ID%s.txt", suffix2[PNFS]));
+			if (!fJZ_ID)
 			{
-				if (itemj == "")
-					continue;
-
-				if (linePosj == 0)
+				cout << "JZ_ID file not found" << endl;
+				return false;
+			}
+			std::string linej;
+			bool found = false;
+			while (std::getline(fJZ_ID, linej))
+			{
+				std::stringstream linestreamj(linej);
+				std::string itemj;
+				int linePosj = 0;
+				//std::string id;
+				//cout << linej << endl;
+				while (std::getline(linestreamj, itemj, ' '))
 				{
-					if (std::stoi(itemj) == jobID)
-						found = true;
-				}
-				if (linePosj == 4)
-				{
-					if (!found)
-					{
-						cout << "Wrong file name: " << itemj << endl;
+					if (itemj == "")
 						continue;
-					}
-					else cout<< "found: " << itemj << endl;
-pnfs = PNFS;
-if (valid != 2)
-		{
-			cout << "pnfs info wrong" << endl;
-			cout << pnfs << valid << endl;
-			return false;
-		}
-					int k = itemj.find("JZ");
-					//cout << itemj << endl;
-					int j = 0;
-					if (k == std::string::npos)
-					{
-						cout << "Wrong name" << itemj << endl;
-						return -1;
-					}
-					JZ = std::stoi(itemj.substr(k+2,1));
-					if (JZ >= 0 && JZ < gridsize)
-						valid++;
-					if (valid!=3)
-					{
-						cout << "JZ wrong: " << valid << endl;
-						return false;
-					}
-					TString itemJ = itemj.data();
-					if (itemJ.Contains("r11199"))
-					{
-						PbPb = false;
-						valid++; //4
-					}
-					if (itemJ.Contains("r11217"))
-					{
-						PbPb = true;
-						valid++; //4
-					}
-					if (valid != 4)
-					{
-						cout << "PbPb wrong: " << valid << endl;
-						return false;
-					}
-					tag = itemJ.Contains("e6608") ? 0 : itemJ.Contains("e4108") ? 1 : -1;
-					if (tag >= 0)
-						valid++; //5
-					else
-					{
-						cout << "tag wrong" << endl;
-						return false;
-					}
 
-					dataType = itemj.substr(itemj.rfind(".")+1,itemj.length()-2-itemj.rfind("."));
-					goto here;
-					//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
+					if (linePosj == 0)
+					{
+						if (std::stoi(itemj) == jobID)
+							found = true;
+					}
+					if (linePosj == 4)
+					{
+						if (!found)
+						{
+							cout << "Wrong file name: " << itemj << endl;
+							continue;
+						}
+						else
+							cout << "found: " << itemj << endl;
+						pnfs = PNFS;
+						if (valid != 2)
+						{
+							cout << "pnfs info wrong" << endl;
+							cout << pnfs << valid << endl;
+							return false;
+						}
+						int k = itemj.find("JZ");
+						//cout << itemj << endl;
+						int j = 0;
+						if (k == std::string::npos)
+						{
+							cout << "Wrong name" << itemj << endl;
+							return -1;
+						}
+						JZ = std::stoi(itemj.substr(k + 2, 1));
+						if (JZ >= 0 && JZ < gridsize)
+							valid++;
+						if (valid != 3)
+						{
+							cout << "JZ wrong: " << valid << endl;
+							return false;
+						}
+						TString itemJ = itemj.data();
+						if (itemJ.Contains("r11199"))
+						{
+							PbPb = false;
+							valid++; //4
+						}
+						if (itemJ.Contains("r11217"))
+						{
+							PbPb = true;
+							valid++; //4
+						}
+						if (valid != 4)
+						{
+							cout << "PbPb wrong: " << valid << endl;
+							return false;
+						}
+						tag = itemJ.Contains("e6608") ? 0 : itemJ.Contains("e4108") ? 1 : -1;
+						if (tag >= 0)
+							valid++; //5
+						else
+						{
+							cout << "tag wrong" << endl;
+							return false;
+						}
+
+						dataType = itemj.substr(itemj.rfind(".") + 1, itemj.length() - 2 - itemj.rfind("."));
+						goto here;
+						//cout << itemj[k + 2] - 48 << "; " << j << ": " << id << endl;
+					}
+					++linePosj;
 				}
-				++linePosj;
 			}
 		}
-}
-here:
-		if (valid!=5){
-		  cout << "jobID wrong" << endl;
-		  return false;
+	here:
+		if (valid != 5)
+		{
+			cout << "jobID wrong" << endl;
+			return false;
 		}
 
 		NUM = std::stoi(filename.substr(filename.length() - 11, 6));
@@ -416,7 +420,7 @@ here:
 		}
 		pnfs = false;
 		valid++; //2
-		JZ = std::stoi(filename.substr(filename.find("JZ") + 2,1));
+		JZ = std::stoi(filename.substr(filename.find("JZ") + 2, 1));
 		if (JZ >= 1 && JZ <= gridsize)
 			valid++; //3
 		else
@@ -443,15 +447,15 @@ here:
 		valid++; //5
 		NUM = 0;
 		valid++; //6
-		dataType = filename.substr(filename.find("flav_")+5,filename.find("_Akt4HIJets")-filename.find("flav_")-5);
+		dataType = filename.substr(filename.find("flav_") + 5, filename.find("_Akt4HIJets") - filename.find("flav_") - 5);
 	}
-	if (valid !=6) {
-	  cout << valid << endl;
-	  return false;
+	if (valid != 6)
+	{
+		cout << valid << endl;
+		return false;
 	}
 	return true;
 }
-
 
 float get_weight(std::string filename)
 {
@@ -464,8 +468,9 @@ float get_weight(std::string filename)
 	bool pnfs = false;
 	std::string dataType = "";
 
-	bool parsed = parse_filename(filename,JZ,tag,NUM,inclusive,PbPb,pnfs,dataType);
-	if (!parsed){
+	bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
+	if (!parsed)
+	{
 		cout << "parsing failed" << endl;
 		return -1;
 	}
@@ -473,7 +478,8 @@ float get_weight(std::string filename)
 	std::string type_ = inclusive ? "" : Type[PbPb];
 
 	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType.c_str(), type_.c_str(), suffix[pnfs]));
-	if (!fevtnb){
+	if (!fevtnb)
+	{
 		cout << "wrong parsing or filename" << filename << " " << dataType << endl;
 		return -1;
 	}
@@ -487,7 +493,6 @@ float get_weight(std::string filename)
 		JZ_wt[std::stoi(eline.substr(0, 1)) - JZ_shift] = std::stoi(eline.substr(3, eline.length() - 3));
 	}
 
-	
 	if (JZ_wt[JZ] <= 0)
 	{
 		cout << "JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
