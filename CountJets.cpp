@@ -60,16 +60,16 @@ void CountJets(std::string trainname, std::string filename)
         return;
     }
 
-    std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname, JZ, tag, NUM));
+    std::ofstream fstatout(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM));
     if (!fstatout)
     {
-        cout << "[ERROR] out file name wrong: " << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname, JZ, tag, NUM) << endl;
+        cout << "[ERROR] out file name wrong: " << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM) << endl;
         return;
     }
 
     std::string chain_name = "bTag_AntiKt4HIJets";
     TChain *fChain = new TChain(chain_name.c_str());
-    fChain->Add(filename);
+    fChain->Add(filename.c_str());
     initBranches(fChain);
 
     //Int_t eventnb;
