@@ -1,9 +1,3 @@
-  21436963     13766        done   100%  user.xiaoning.420015.Pythia8EvtGen_JZ5R04.AOD.e4108_d1516_r11439_r11217..v5.26_WorkingDefaultPbPb/
-  21436948     13765        done   100%  user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e4108_d1516_r11439_r11217..v5.26_WorkingDefaultPbPb/
-  21436932     13763        done   100%  user.xiaoning.420013.Pythia8EvtGen_JZ3R04.AOD.e4108_d1516_r11439_r11217..v5.26_WorkingDefaultPbPb/
-  21436919     13762        done   100%  user.xiaoning.420012.Pythia8EvtGen_JZ2R04.AOD.e4108_d1516_r11439_r11217..v5.26_WorkingDefaultPbPb/
-  21436917     13761        done   100%  user.xiaoning.420011.Pythia8EvtGen_JZ1R04.AOD.e4108_d1516_r11439_r11217..v5.26_WorkingDefaultPbPb/
-  21436914     13760        done   100%  user.xiaoning.420010.Pythia8EvtGen_JZ0R04.AOD.e4108_d1516_r11439_r11217..v5.26_WorkingDefaultPbPb/
   21818022     14575    finished    99%  user.xiaoning.420015.Pythia8EvtGen_JZ5R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT0PbPb/
   21818019     14573    finished    99%  user.xiaoning.420014.Pythia8EvtGen_JZ4R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT0PbPb/
   21818015     14571    finished    88%  user.xiaoning.420013.Pythia8EvtGen_JZ3R04.AOD.e4108_d1516_r11439_r11217..WorkingFC4pT0PbPb/
