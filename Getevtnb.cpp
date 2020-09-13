@@ -1,6 +1,6 @@
 #include "InfoHeaders.h"
 
-bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inclusive, bool &PbPb, bool &pnfs, std::string &dataType)
+bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inclusive, bool &PbPb, bool &pnfs, std::string &dataType, bool batch = true)
 {
 	//initialize the values
 	JZ = -1;
@@ -35,7 +35,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			return false;
 		}
 		int jobID = std::stoi(filename.substr(k - 9, 8));
-		cout << "[INFO] job ID: " << jobID << endl;
+		if (!batch) cout << "[INFO] job ID: " << jobID << endl;
 		for (int PNFS = 0; PNFS < 2; PNFS++)
 		{
 			std::ifstream fJZ_ID(Form("../GetStuff/JZ_ID%s.txt", suffix2[PNFS]));
@@ -71,7 +71,7 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 							continue;
 						}
 						else
-							cout << "[INFO] found: " << itemj << endl;
+							if (!batch) cout << "[INFO] found: " << itemj << endl;
 						pnfs = PNFS;
 						valid++; //2
 						if (valid != 2)
@@ -297,13 +297,13 @@ bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat,
 	return true;
 }
 
-bool parse_filename_short(std::string filename, std::string dataType, bool PbPb, bool pnfs, bool inclusive, int &JZ, int &tag, int &NUM)
+bool parse_filename_short(std::string filename, std::string dataType, bool PbPb, bool pnfs, bool inclusive, int &JZ, int &tag, int &NUM, bool batch = true)
 {
 	std::string dataType2 = "";
 	bool PbPb2 = false;
 	bool pnfs2 = false;
 	bool inclusive2 = false;
-	bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive2, PbPb2, pnfs2, dataType2);
+	bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive2, PbPb2, pnfs2, dataType2, batch);
 	if (!parsed)
 	{
 		cout << "[ERROR]: parsing failed at parse filename short calling parse filename" << endl;
@@ -360,9 +360,11 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 
 	std::ifstream filein(Form("../GetStuff/%s_root%s.txt", dataType, suffix[pnfs]));
 	std::string filename;
+	int counter = 0;
 	while (getline(filein, filename))
 	{
-		bool parsed = parse_filename_short(filename, dataType, PbPb, pnfs, inclusive, JZ, tag, NUM);
+		if (counter%100 == 0) cout << "Counted " << counter << " files. At JZ " << JZ << ", tag " << tag << ", NUM " << NUM << endl;
+		bool parsed = parse_filename_short(filename, dataType, PbPb, pnfs, inclusive, JZ, tag, NUM, true);
 		if (!parsed)
 		{
 			cout << "[ERROR]: parsing failed" << endl;
@@ -375,6 +377,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 			return;
 		}
 		JZ_FN[JZ][tag]++;
+		counter++;
 		Float_t mcwg;
 		TBranch *b_mcwg; //!
 		TTree *tree = (TTree *)f->Get(chain_name.c_str());
