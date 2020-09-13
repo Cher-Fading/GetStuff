@@ -246,7 +246,7 @@ float get_weight(std::string filename)
 
 bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat, int &outcStat, float &ptLim, float &aeta)
 {
-	std::ifstream fstat(Form("../GetStuff/%s_stat.txt", trainname));
+	std::ifstream fstat(Form("../GetStuff/%s_stat.txt", trainname.c_str()));
 	std::string line;
 
 	stat = 0;
@@ -406,7 +406,7 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	{
 		cout << "JZ" << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
 		fileo << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
-		for (int jj = 0; jj < sizeof(JZ_FN[j]) / sizeof(int); jj++)
+		for (int jj = 0; jj < sizeof(JZ_FN[jz]) / sizeof(int); jj++)
 		{
 			fileo3 << jz + JZ_shift << "_" << jj << ": " << JZ_FN[jz][jj] << endl;
 			cout << jz + JZ_shift << "_" << jj << ": " << JZ_FN[jz][jj] << endl;
