@@ -141,33 +141,33 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
-    std::vector<float> *m_jet_jf_m;
-    std::vector<float> *m_jet_jf_efc;
-    std::vector<float> *m_jet_jf_deta; // for jet_jf_dR
-    std::vector<float> *m_jet_jf_dphi; // for jet_jf_dR
-    std::vector<float> *m_jet_jf_nvtx;
-    std::vector<float> *m_jet_jf_sig3d;
-    std::vector<float> *m_jet_jf_nvtx1t;
-    std::vector<float> *m_jet_jf_n2t;
-    std::vector<float> *m_jet_jf_ntrkAtVx;
+    std::vector<float> *m_jet_jf_m = 0;
+    std::vector<float> *m_jet_jf_efc = 0;
+    std::vector<float> *m_jet_jf_deta = 0; // for jet_jf_dR
+    std::vector<float> *m_jet_jf_dphi = 0; // for jet_jf_dR
+    std::vector<float> *m_jet_jf_nvtx = 0;
+    std::vector<float> *m_jet_jf_sig3d = 0;
+    std::vector<float> *m_jet_jf_nvtx1t = 0;
+    std::vector<float> *m_jet_jf_n2t = 0;
+    std::vector<float> *m_jet_jf_ntrkAtVx = 0;
 
     // ** SV1 Variable (8) ** //
-    std::vector<float> *m_jet_sv1_ntrkv;
-    std::vector<float> *m_jet_sv1_n2t;
-    std::vector<float> *m_jet_sv1_m;
-    std::vector<float> *m_jet_sv1_efc;
-    std::vector<float> *m_jet_sv1_sig3d;
-    std::vector<float> *m_jet_sv1_Lxy;
-    std::vector<float> *m_jet_sv1_deltaR;
-    std::vector<float> *m_jet_sv1_L3d;
+    std::vector<float> *m_jet_sv1_ntrkv = 0;
+    std::vector<float> *m_jet_sv1_n2t = 0;
+    std::vector<float> *m_jet_sv1_m = 0;
+    std::vector<float> *m_jet_sv1_efc = 0;
+    std::vector<float> *m_jet_sv1_sig3d = 0;
+    std::vector<float> *m_jet_sv1_Lxy = 0;
+    std::vector<float> *m_jet_sv1_deltaR = 0;
+    std::vector<float> *m_jet_sv1_L3d = 0;
 
     //other MV2 variables ip_x,ip_x_c,ip_x_cu
-    std::vector<float> *m_jet_ip2d_pb;
-    std::vector<float> *m_jet_ip2d_pc;
-    std::vector<float> *m_jet_ip2d_pu; //cuts & c_weight
-    std::vector<float> *m_jet_ip3d_pb;
-    std::vector<float> *m_jet_ip3d_pc;
-    std::vector<float> *m_jet_ip3d_pu;
+    std::vector<float> *m_jet_ip2d_pb = 0;
+    std::vector<float> *m_jet_ip2d_pc = 0;
+    std::vector<float> *m_jet_ip2d_pu = 0; //cuts & c_weight
+    std::vector<float> *m_jet_ip3d_pb = 0;
+    std::vector<float> *m_jet_ip3d_pc = 0;
+    std::vector<float> *m_jet_ip3d_pu = 0;
 
     f_new->Branch("eventnb", &m_eventnb);
     f_new->Branch("mcwg", &m_mcwg);
@@ -223,33 +223,33 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
-    std::vector<float> *jet_jf_m;
-    std::vector<float> *jet_jf_efc;
-    std::vector<float> *jet_jf_deta; // for jet_jf_dR
-    std::vector<float> *jet_jf_dphi; // for jet_jf_dR
-    std::vector<float> *jet_jf_nvtx;
-    std::vector<float> *jet_jf_sig3d;
-    std::vector<float> *jet_jf_nvtx1t;
-    std::vector<float> *jet_jf_n2t;
-    std::vector<float> *jet_jf_ntrkAtVx;
+    std::vector<float> *jet_jf_m = 0;
+    std::vector<float> *jet_jf_efc = 0;
+    std::vector<float> *jet_jf_deta = 0; // for jet_jf_dR
+    std::vector<float> *jet_jf_dphi = 0; // for jet_jf_dR
+    std::vector<float> *jet_jf_nvtx = 0;
+    std::vector<float> *jet_jf_sig3d = 0;
+    std::vector<float> *jet_jf_nvtx1t = 0;
+    std::vector<float> *jet_jf_n2t = 0;
+    std::vector<float> *jet_jf_ntrkAtVx = 0;
 
     // ** SV1 Variable (8) ** //
-    std::vector<float> *jet_sv1_ntrkv;
-    std::vector<float> *jet_sv1_n2t;
-    std::vector<float> *jet_sv1_m;
-    std::vector<float> *jet_sv1_efc;
-    std::vector<float> *jet_sv1_sig3d;
-    std::vector<float> *jet_sv1_Lxy;
-    std::vector<float> *jet_sv1_deltaR;
-    std::vector<float> *jet_sv1_L3d;
+    std::vector<float> *jet_sv1_ntrkv = 0;
+    std::vector<float> *jet_sv1_n2t = 0;
+    std::vector<float> *jet_sv1_m = 0;
+    std::vector<float> *jet_sv1_efc = 0;
+    std::vector<float> *jet_sv1_sig3d = 0;
+    std::vector<float> *jet_sv1_Lxy = 0;
+    std::vector<float> *jet_sv1_deltaR = 0;
+    std::vector<float> *jet_sv1_L3d = 0;
 
     //other MV2 variables ip_x,ip_x_c,ip_x_cu
-    std::vector<float> *jet_ip2d_pb;
-    std::vector<float> *jet_ip2d_pc;
-    std::vector<float> *jet_ip2d_pu; //cuts & c_weight
-    std::vector<float> *jet_ip3d_pb;
-    std::vector<float> *jet_ip3d_pc;
-    std::vector<float> *jet_ip3d_pu;
+    std::vector<float> *jet_ip2d_pb = 0;
+    std::vector<float> *jet_ip2d_pc = 0;
+    std::vector<float> *jet_ip2d_pu = 0; //cuts & c_weight
+    std::vector<float> *jet_ip3d_pb = 0;
+    std::vector<float> *jet_ip3d_pc = 0;
+    std::vector<float> *jet_ip3d_pu = 0;
 
     TBranch *b_eventnb;
     TBranch *b_mcwg;
