@@ -34,7 +34,7 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
         {
             missed++;
             std::string type_ = PbPb ? "PbPb" : "pp";
-            std::string input = (string)Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM;
+            std::string input = (string)Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM);
             //mfile << input << dataType << type_ << "_Counts/" << trainname << "_" << JZ << "_" << tag << "_" << NUM << "_counts.txt" << endl;
         }
         n_types = 0;
