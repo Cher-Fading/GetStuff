@@ -281,7 +281,7 @@ float get_weight(std::string filename)
 	return JZ_wt[JZ];
 }
 
-bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat, int &outcStat, float &ptLim, float &aeta)
+bool parse_trainname(std::string trainname, float &stat, float &cStat, float &outStat, float &outcStat, float &ptLim, float &aeta)
 {
 	std::ifstream fstat(Form("../GetStuff/%s_stat.txt", trainname.c_str()));
 	std::string line;
@@ -299,7 +299,7 @@ bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat,
 		if (Line.Contains("stat"))
 		{
 			TString stat_str = line.substr(4, line.length());
-			stat = stat_str.ReplaceAll("k", "000").Atoi();
+			stat = stat_str.ReplaceAll("k", "000").Atof();
 			outStat = stat;
 			cStat = stat * 0.5;
 			outcStat = cStat;
@@ -312,7 +312,7 @@ bool parse_trainname(std::string trainname, int &stat, int &cStat, int &outStat,
 		if (Line.Contains("cstat"))
 		{
 			TString cstat_str = line.substr(5, line.length());
-			cStat = cstat_str.ReplaceAll("k", "000").Atoi();
+			cStat = cstat_str.ReplaceAll("k", "000").Atof();
 			outcStat = cStat;
 		}
 		if (Line.Contains("badMargin"))
