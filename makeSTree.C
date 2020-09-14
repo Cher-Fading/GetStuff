@@ -336,7 +336,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     fChain->SetBranchAddress("jet_ip3d_pu", &jet_ip3d_pu, &b_jet_ip3d_pu);
 
     Long64_t nentries = fChain->GetEntries();
-
+    cout << "Entries: " << nentries << endl;
     for (Long64_t jentry = 0; jentry < nentries; jentry++)
     {
         //myChain->GetEntry(jentry);
