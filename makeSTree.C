@@ -288,7 +288,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     TBranch *b_jet_ip3d_pc;
 
     TChain *fChain = new TChain(chain_name);
-    fChain->Add(filename);
+    fChain->Add(filename.c_str());
     initBranches(fChain);
 
     fChain->SetBranchAddress("eventnb", &eventnb, &b_eventnb);
