@@ -133,11 +133,11 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     Float_t m_Fcal;
     Int_t m_njets;
     std::vector<float> *m_jet_pt = 0;     //MV2
-    std::vector<float> *m_jet_eta;        //MV2
-    std::vector<int> *m_jet_LabDr_HadF;   //label
-    std::vector<float> *m_jet_nConst;     //cuts not used (nConst > 1)
-    std::vector<int> *m_jet_truthMatch;   //cuts (truthMatch == 1)
-    std::vector<int> *m_jet_aliveAfterOR; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    std::vector<float> *m_jet_eta = 0;        //MV2
+    std::vector<int> *m_jet_LabDr_HadF = 0;   //label
+    std::vector<float> *m_jet_nConst = 0;     //cuts not used (nConst > 1)
+    std::vector<int> *m_jet_truthMatch = 0;   //cuts (truthMatch == 1)
+    std::vector<int> *m_jet_aliveAfterOR = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
@@ -215,11 +215,11 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     Float_t Fcal;
     Int_t njets;
     std::vector<float> *jet_pt = 0;     //MV2
-    std::vector<float> *jet_eta;        //MV2
-    std::vector<int> *jet_LabDr_HadF;   //label
-    std::vector<float> *jet_nConst;     //cuts not used (nConst > 1)
-    std::vector<int> *jet_truthMatch;   //cuts (truthMatch == 1)
-    std::vector<int> *jet_aliveAfterOR; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    std::vector<float> *jet_eta = 0;        //MV2
+    std::vector<int> *jet_LabDr_HadF = 0;   //label
+    std::vector<float> *jet_nConst = 0;     //cuts not used (nConst > 1)
+    std::vector<int> *jet_truthMatch = 0;   //cuts (truthMatch == 1)
+    std::vector<int> *jet_aliveAfterOR = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
@@ -302,7 +302,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
 
     fChain->SetBranchAddress("jet_pt", &jet_pt, &b_jet_pt);
     fChain->SetBranchAddress("jet_eta", &jet_eta, &b_jet_eta);
-    fChain->SetBranchAddress("jet_LabDr_HadF", &jet_LabDr_HadF, &b_jet_LabDr_HadF);
+    /*fChain->SetBranchAddress("jet_LabDr_HadF", &jet_LabDr_HadF, &b_jet_LabDr_HadF);
     fChain->SetBranchAddress("jet_aliveAfterOR", &jet_aliveAfterOR, &b_jet_aliveAfterOR);
     fChain->SetBranchAddress("jet_nConst", &jet_nConst, &b_jet_nConst);
     fChain->SetBranchAddress("jet_truthMatch", &jet_truthMatch, &b_jet_truthMatch);
@@ -333,30 +333,32 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     fChain->SetBranchAddress("jet_ip2d_pu", &jet_ip2d_pu, &b_jet_ip2d_pu);
     fChain->SetBranchAddress("jet_ip3d_pb", &jet_ip3d_pb, &b_jet_ip3d_pb);
     fChain->SetBranchAddress("jet_ip3d_pc", &jet_ip3d_pc, &b_jet_ip3d_pc);
-    fChain->SetBranchAddress("jet_ip3d_pu", &jet_ip3d_pu, &b_jet_ip3d_pu);
+    fChain->SetBranchAddress("jet_ip3d_pu", &jet_ip3d_pu, &b_jet_ip3d_pu);*/
 
     Long64_t nentries = fChain->GetEntries();
     cout << "Entries: " << nentries << endl;
     for (Long64_t jentry = 0; jentry < nentries; jentry++)
     {
-        //myChain->GetEntry(jentry);
-        b_eventnb->GetEntry(jentry);
+if (jentry > 100) break;
+        fChain->GetEntry(jentry);
+        /*b_eventnb->GetEntry(jentry);
 
         b_Fcal->GetEntry(jentry);
-        b_njets->GetEntry(jentry);
+        b_njets->GetEntry(jentry);*/
         //cout << eventnb << endl;
+m_njets=njets;
         m_eventnb = eventnb;
+m_Fcal = Fcal;
         //cout << Fcal << endl;
-        m_Fcal = Fcal;
         m_mcwg = 1;
         if (!inclusive)
         {
-            b_mcwg->GetEntry(jentry);
+            //b_mcwg->GetEntry(jentry);
             //cout << mcwg << endl;
             m_mcwg = mcwg;
         }
 
-        b_jet_pt->GetEntry(jentry);
+        /*b_jet_pt->GetEntry(jentry);
         b_jet_eta->GetEntry(jentry);
         b_jet_LabDr_HadF->GetEntry(jentry);   //label
         b_jet_nConst->GetEntry(jentry);       //cuts not used (nConst > 1)
@@ -386,11 +388,11 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         b_jet_ip2d_pc->GetEntry(jentry);
         b_jet_ip3d_pu->GetEntry(jentry);
         b_jet_ip3d_pb->GetEntry(jentry);
-        b_jet_ip3d_pc->GetEntry(jentry);
+        b_jet_ip3d_pc->GetEntry(jentry);*/
 
         m_jet_pt = jet_pt;
         m_jet_eta = jet_eta;
-        m_jet_LabDr_HadF = jet_LabDr_HadF;
+        /*m_jet_LabDr_HadF = jet_LabDr_HadF;
         m_jet_nConst = jet_nConst;
         m_jet_truthMatch = jet_truthMatch;
         m_jet_aliveAfterOR = jet_aliveAfterOR;
@@ -422,12 +424,12 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         m_jet_ip2d_pu = jet_ip2d_pu;
         m_jet_ip3d_pb = jet_ip3d_pb;
         m_jet_ip3d_pc = jet_ip3d_pc;
-        m_jet_ip3d_pu = jet_ip3d_pu;
+        m_jet_ip3d_pu = jet_ip3d_pu;*/
 
         f_new->Fill();
         m_jet_pt->clear();
         m_jet_eta->clear();
-        m_jet_LabDr_HadF->clear();
+        /*m_jet_LabDr_HadF->clear();
         m_jet_nConst->clear();
         m_jet_truthMatch->clear();
         m_jet_aliveAfterOR->clear();
@@ -459,7 +461,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         m_jet_ip2d_pu->clear();
         m_jet_ip3d_pb->clear();
         m_jet_ip3d_pc->clear();
-        m_jet_ip3d_pu->clear();
+        m_jet_ip3d_pu->clear();*/
     }
     f_new->Write();
     fout->Close();
