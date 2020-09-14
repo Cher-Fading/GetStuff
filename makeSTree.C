@@ -91,14 +91,14 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         return;
     }
     std::string line2;
-    std::vector<float> *jets_count;
-    std::vector<float> *jets_total;
+    std::vector<float> jets_count;
+    std::vector<float> jets_total;
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
         {
-            jets_count->push_back(0.);
-            jets_total->push_back(0.);
+            jets_count.push_back(0.);
+            jets_total.push_back(0.);
         }
     }
     //order: 0light fail, 1light pass, 2light total, 3b fail, 4b pass, 5b total, 6c fail, 7c pass, 8c total
@@ -115,9 +115,9 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         cout << "[ERROR]: parsing failed for total count" << endl;
         return;
     }
-    int stat_small = (int)(jets_count->at(1) / jets_total->at(1) * stat);
-    int stat_small_b = (int)(jets_count->at(4) / jets_total->at(4) * stat);
-    int cStat_small = (int)(jets_count->at(7) / jets_total->at(7) * cStat);
+    int stat_small = (int)(jets_count[1] / jets_total[1] * stat);
+    int stat_small_b = (int)(jets_count[4] / jets_total[4] * stat);
+    int cStat_small = (int)(jets_count[7] / jets_total[7] * cStat);
 
     if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
     {
