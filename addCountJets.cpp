@@ -3,6 +3,7 @@
 void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool pnfs)
 {
     std::ifstream filenum(Form("../GetStuff/%s_fileevtnum%s.txt", dataType.c_str(), suffix[pnfs]));
+    std::ifstream mfile(Form("../GetStuff/%s_filemissed%s.txt", dataType.c_str(), suffix[pnfs]));
     std::string line;
     std::string line2;
 
@@ -28,6 +29,10 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
         NUM = std::stoi(line.substr());
 
         std::ifstream filec(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM));
+        if (!filec){
+            missed++;
+            mfile << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM) << endl;
+        }
         int n_types = 0;
         while (getline(filec, line2))
         {
@@ -47,6 +52,8 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
         filec.close();
     }
     filenum.close();
+    mfile.close();
+    cout << "missing " << missed << " files" << endl;
     std::ofstream ftotal(Form("../GetStuff/%s_totaljets%s.txt", dataType.c_str(), suffix[pnfs]));
     for (int i = 0; i < n_types; i++){
         ftotal << types[i] << " " << counts[i] << endl;
