@@ -52,7 +52,7 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
         if (!filec)
         {
             missed++;
-            mfile << line << endl;
+            mfile << line.c_str() << endl;
         }
         n_types = 0;
         while (getline(filec, line2))
