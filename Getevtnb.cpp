@@ -292,36 +292,27 @@ bool parse_trainname(std::string trainname, float &stat, float &cStat, float &ou
 	outcStat = 0;
 	ptLim = 50.;
 	aeta = 2.1;
+	float ratio = 1.;
 
 	while (getline(fstat, line))
 	{
 		TString Line = line.data();
+		//cout << line << endl;
 		if (Line.Contains("stat"))
 		{
 			TString stat_str = line.substr(4, line.length());
-			stat = stat_str.ReplaceAll("k", "000").Atof();
-			outStat = stat;
-			cStat = stat * 0.5;
-			outcStat = cStat;
-		}
-		else
-		{
-			cout << "[ERROR]: no stat limit given" << endl;
-			return false;
+			stat = stat_str.ReplaceAll("k", "000").Atof();	
 		}
 		if (Line.Contains("cstat"))
 		{
 			TString cstat_str = line.substr(5, line.length());
 			cStat = cstat_str.ReplaceAll("k", "000").Atof();
-			outcStat = cStat;
 		}
 		if (Line.Contains("badMargin"))
 		{
-			float ratio = 1 + std::stof(line.substr(9, line.length())) / 100.;
-			outStat = ratio * stat;
-			outcStat = ratio * cStat;
+			ratio = 1 + std::stof(line.substr(9, line.length())) / 100.;
 		}
-		if (Line.Contains("pt"))
+		if (Line.Contains("pT"))
 		{
 			ptLim = std::stof(line.substr(2, line.length()));
 		}
@@ -330,6 +321,15 @@ bool parse_trainname(std::string trainname, float &stat, float &cStat, float &ou
 			aeta = std::stof(line.substr(4, line.length())) / 10.;
 		}
 	}
+	
+	if (stat == 0)
+		{
+			cout << "[ERROR]: no stat limit given" << endl;
+			return false;
+		}	
+	if (cStat==0)cStat = stat * 0.5;
+	outStat = ratio * stat;
+	outcStat = ratio * cStat;
 	fstat.close();
 	return true;
 }

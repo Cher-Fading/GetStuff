@@ -1,0 +1,9 @@
+Light Failed 724937
+Light Passed 61784
+Light Total 786721
+B Failed 1224
+B Passed 1861
+B Total 3085
+C Failed 2948
+C Passed 4091
+C Total 7039

@@ -53,6 +53,7 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
         {
             missed++;
             mfile << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM) << endl;
+continue;
         }
         n_types = 0;
         while (getline(filec, line2))
@@ -89,7 +90,8 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
     std::ofstream ftotal(Form("../GetStuff/%s_totaljets%s.txt", dataType.c_str(), suffix[pnfs]));
     for (int i = 0; i < n_types; i++)
     {
-        ftotal << types[i] << " " << counts[i] << endl;
+cout << types[i] << " " << counts[i] << endl;        
+ftotal << types[i] << " " << counts[i] << endl;
     }
     ftotal.close();
 }
