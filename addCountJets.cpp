@@ -18,7 +18,8 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
     int k3;
     int l1;
     int l2;
-    
+    int missed = 0;
+    int n_types = 0;
     while (getline(filenum, line))
     {
         k1 = line.find("_");
@@ -29,11 +30,13 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
         NUM = std::stoi(line.substr());
 
         std::ifstream filec(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM));
-        if (!filec){
+        if (!filec)
+        {
             missed++;
-            mfile << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM) << endl;
+            std::string type_ = PbPb ? "PbPb" : "pp";
+            mfile << "/atlasgpfs01/usatlas/data/cher97/" + dataType + type_ + "_Counts/" + trainname + "_" + JZ + "_" + tag + "_" + NUM + "_counts.txt" << endl;
         }
-        int n_types = 0;
+        n_types = 0;
         while (getline(filec, line2))
         {
             l1 = line2.rfind(" ");
@@ -44,7 +47,9 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
                 types[n_types] = line2.substr(0, l1);
                 cout << "Type " << n_types << ": " << types[n_types] << endl;
                 counts[n_types] = std::stoi(line2.substr(l1 + 1, line2.length() - l1 - 1));
-            } else {
+            }
+            else
+            {
                 counts[n_types] += std::stoi(line2.substr(l1 + 1, line2.length() - l1 - 1));
             }
             n_types++;
@@ -55,7 +60,8 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
     mfile.close();
     cout << "missing " << missed << " files" << endl;
     std::ofstream ftotal(Form("../GetStuff/%s_totaljets%s.txt", dataType.c_str(), suffix[pnfs]));
-    for (int i = 0; i < n_types; i++){
+    for (int i = 0; i < n_types; i++)
+    {
         ftotal << types[i] << " " << counts[i] << endl;
     }
     ftotal.close();
