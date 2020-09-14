@@ -4,6 +4,14 @@
 
 // Header file for the classes stored in the TTree if any.
 #include <vector>
+#ifdef __CLING__
+// these are not headers - do not treat them as such - needed for ROOT6
+#include "Getevtnb.cpp"
+#endif
+
+#ifdef __CINT__
+gROOT->LoadMacro("Getevtnb.cpp");
+#endif
 const char *chain_name = "bTag_AntiKt4HIJets";
 
 void initBranches(TChain *fChain)
@@ -50,8 +58,72 @@ void initBranches(TChain *fChain)
     fChain->SetBranchStatus("jet_ip3d_pu", 1);
 }
 
-void makeSTree(const char *filename, const char *outputFolder, const char *outputName, bool PbPb = true, bool pnfs = true, bool inclusive = true, int num = 100, float ratioB = 0.33, float ratioC = 0.33, float ptLim = 50., float aeta_cut = 2.1)
+void makeSTree(std::string trainname, std::string filename, const char *outputFolder, const char *outputName)
 {
+
+    float stat = 0;
+    float cStat = 0;
+    float outStat = 0;
+    float outcStat = 0;
+    float ptLim = 50.;
+    float aeta = 2.1;
+
+    bool train_parsed = parse_trainname(trainname, stat, cStat, outStat, outcStat, ptLim, aeta);
+    if (!train_parsed)
+    {
+        cout << "[ERROR]: parsing failed" << endl;
+        return;
+    }
+
+    int JZ = -1;
+    int tag = -1;
+    int NUM = -1;
+    bool inclusive = false;
+    bool PbPb = false;
+    bool pnfs = false;
+    std::string dataType = "";
+    //cout << filename << endl;
+
+    bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
+    if (!parsed)
+    {
+        cout << "[ERROR]: parsing failed" << endl;
+        return;
+    }
+    std::string line2;
+    std::vector<float> *jets_count;
+    std::vector<float> *jets_total;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            jets_count->push_back(0.);
+            jets_total->push_back(0.);
+        }
+    }
+    //order: 0light fail, 1light pass, 2light total, 3b fail, 4b pass, 5b total, 6c fail, 7c pass, 8c total
+    bool parsed_count = parse_count(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM), jets_count);
+    if (!parsed_count)
+    {
+        cout << "[ERROR]: parsing failed for individual count" << endl;
+        return;
+    }
+
+    bool parsed_total = parse_count(Form("../GetStuff/%s_totaljets%s.txt", dataType.c_str(), suffix[pnfs]), jets_total);
+    if (!parsed_total)
+    {
+        cout << "[ERROR]: parsing failed for total count" << endl;
+        return;
+    }
+    int stat_small = (int)(jets_count->at(1) / jets_total->at(1) * stat);
+    int stat_small_b = (int)(jets_count->at(4) / jets_total->at(4) * stat);
+    int cStat_small = (int)(jets_count->at(7) / jets_total->at(7) * cStat);
+
+    if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
+    {
+        cout << "[ERROR]: No jets pass in this file, pass file" << endl;
+        return;
+    }
 
     TFile *fout = new TFile(Form("%s/%s_small.root", outputFolder, outputName), "RECREATE");
     TTree *f_new = new TTree(chain_name, chain_name);
