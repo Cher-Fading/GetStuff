@@ -118,6 +118,9 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     int stat_small = (int)(jets_count[1] / jets_total[1] * stat);
     int stat_small_b = (int)(jets_count[4] / jets_total[4] * stat);
     int cStat_small = (int)(jets_count[7] / jets_total[7] * cStat);
+    int b = 0;
+    int light = 0;
+    int c = 0;
 
     if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
     {
@@ -132,7 +135,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     Float_t m_mcwg;
     Float_t m_Fcal;
     Int_t m_njets;
-    std::vector<float> *m_jet_pt = 0;     //MV2
+    std::vector<float> *m_jet_pt = 0;         //MV2
     std::vector<float> *m_jet_eta = 0;        //MV2
     std::vector<int> *m_jet_LabDr_HadF = 0;   //label
     std::vector<float> *m_jet_nConst = 0;     //cuts not used (nConst > 1)
@@ -214,7 +217,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     Float_t mcwg;
     Float_t Fcal;
     Int_t njets;
-    std::vector<float> *jet_pt = 0;     //MV2
+    std::vector<float> *jet_pt = 0;         //MV2
     std::vector<float> *jet_eta = 0;        //MV2
     std::vector<int> *jet_LabDr_HadF = 0;   //label
     std::vector<float> *jet_nConst = 0;     //cuts not used (nConst > 1)
@@ -339,16 +342,18 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     cout << "Entries: " << nentries << endl;
     for (Long64_t jentry = 0; jentry < nentries; jentry++)
     {
-if (jentry > 100) break;
+        //if (jentry > 100) break;
+        if (b >= b_max && light >= light_max && c >= c_max)
+            break;
         fChain->GetEntry(jentry);
         /*b_eventnb->GetEntry(jentry);
 
         b_Fcal->GetEntry(jentry);
         b_njets->GetEntry(jentry);*/
         //cout << eventnb << endl;
-m_njets=njets;
+        m_njets = njets;
         m_eventnb = eventnb;
-m_Fcal = Fcal;
+        m_Fcal = Fcal;
         //cout << Fcal << endl;
         m_mcwg = 1;
         if (!inclusive)
