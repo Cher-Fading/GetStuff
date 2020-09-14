@@ -1,5 +1,40 @@
 #include "InfoHeaders.h"
 
+bool parse_count(const char* filename, std::vector<float> &jets_count)
+{
+	std::ifstream filec(filename);
+	if (!filec)
+	{
+		cout << "missing: " << filename << endl;
+		return false;
+	}
+	n_types = 0;
+	while (getline(filec, line2))
+	{
+		int l1 = line2.find(" ");
+		if (l1 == std::string::npos)
+		{
+			if (n_types == 0) //if the first line is empty
+			{
+				cout << "file empty at " << filename << endl;
+				return false;
+			}
+			continue; //else this migth be the last line
+		}
+		int l2 = line2.rfind(" ");
+		float count = std::stof(line2.substr(l2 + 1, line2.length() - l2 - 1));
+		if (count < 0)
+		{
+			"wrong counts at line: " << n_types << endl;
+			return false;
+		}
+		jets_count[n_types] = count;
+		n_types++;
+	}
+	filec.close();
+	return true;
+}
+
 bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inclusive, bool &PbPb, bool &pnfs, std::string &dataType, bool batch = true)
 {
 	//initialize the values
@@ -35,7 +70,8 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 			return false;
 		}
 		int jobID = std::stoi(filename.substr(k - 9, 8));
-		if (!batch) cout << "[INFO] job ID: " << jobID << endl;
+		if (!batch)
+			cout << "[INFO] job ID: " << jobID << endl;
 		for (int PNFS = 0; PNFS < 2; PNFS++)
 		{
 			std::ifstream fJZ_ID(Form("../GetStuff/JZ_ID%s.txt", suffix2[PNFS]));
@@ -70,8 +106,8 @@ bool parse_filename(std::string filename, int &JZ, int &tag, int &NUM, bool &inc
 							//cout << "Wrong file name: " << itemj << endl;
 							continue;
 						}
-						else
-							if (!batch) cout << "[INFO] found: " << itemj << endl;
+						else if (!batch)
+							cout << "[INFO] found: " << itemj << endl;
 						pnfs = PNFS;
 						valid++; //2
 						if (valid != 2)
@@ -363,7 +399,8 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 	int counter = 0;
 	while (getline(filein, filename))
 	{
-		if (counter%100 == 0) cout << "Counted " << counter << " files. At JZ " << JZ << ", tag " << tag << ", NUM " << NUM << endl;
+		if (counter % 100 == 0)
+			cout << "Counted " << counter << " files. At JZ " << JZ << ", tag " << tag << ", NUM " << NUM << endl;
 		bool parsed = parse_filename_short(filename, dataType, PbPb, pnfs, inclusive, JZ, tag, NUM, true);
 		if (!parsed)
 		{

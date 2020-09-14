@@ -38,6 +38,7 @@ const float Filter[] = {9.9713E-01, 2.8748E-03, 4.2952E-03, 5.2994E-03, 4.5901E-
 const int grid_size = sizeof(Weight) / sizeof(float);
 char legend1[3][50] = {"b-Jets", "c-jet", "light jet"};
 char leg[3][10] = {"B", "C", "U"};
+char types_jets[3][10] = {"Light","B","C"};
 const float FCal_range[] = {0, 0.063719, 0.14414, 0.289595, 0.525092, 0.87541, 1.36875, 2.04651, 2.98931, 5}; // fcal_cuts options
 
 const int cet[] = {0, 2, 2, 5, 5, 8}; //selected centrality sections

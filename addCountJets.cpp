@@ -30,6 +30,7 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
     int l2;
     int missed = 0;
     int n_types = 0;
+
     while (getline(filenum, line))
     {
 
@@ -49,7 +50,7 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
             return;
         }
 
-        std::ifstream filec(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM));
+        std::ifstream filec(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM));
         if (!filec)
         {
             missed++;
@@ -63,12 +64,12 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
             {
                 if (n_types == 0)//if the first line is empty
                 {
-                    cout << "file empty at " << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], trainname.c_str(), JZ, tag, NUM) << endl;
+                    cout << "file empty at " << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM) << endl;
                     return;
                 }
                 continue;//else this migth be the last line
             }
-            
+
             if (counter == 0)
             {
                 types[n_types] = line2.substr(0, l1);
