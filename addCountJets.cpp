@@ -11,7 +11,7 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
 {
     //std::ifstream filenum(Form("../GetStuff/%s_fileevtnum%s.txt", dataType.c_str(), suffix[pnfs]));
     std::ifstream filenum(Form("../GetStuff/%s_root%s.txt", dataType.c_str(), suffix[pnfs]));
-    std::ifstream mfile(Form("../GetStuff/%s_filemissed%s.txt", dataType.c_str(), suffix[pnfs]));
+    std::ofstream mfile(Form("../GetStuff/%s_filemissed%s.txt", dataType.c_str(), suffix[pnfs]));
     std::string line;
     std::string line2;
 

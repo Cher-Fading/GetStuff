@@ -26,7 +26,7 @@ bool parse_count(const char* filename, std::vector<float> &jets_count)
 		float count = std::stof(line2.substr(l2 + 1, line2.length() - l2 - 1));
 		if (count < 0)
 		{
-			"wrong counts at line: " << n_types << endl;
+			cout << "wrong counts at line: " << n_types << endl;
 			return false;
 		}
 		jets_count[n_types] = count;
