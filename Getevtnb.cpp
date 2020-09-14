@@ -8,7 +8,8 @@ bool parse_count(const char* filename, std::vector<float> &jets_count)
 		cout << "missing: " << filename << endl;
 		return false;
 	}
-	n_types = 0;
+	int n_types = 0;
+	std::string line2;
 	while (getline(filec, line2))
 	{
 		int l1 = line2.find(" ");
