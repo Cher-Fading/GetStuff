@@ -344,7 +344,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     for (Long64_t jentry = 0; jentry < nentries; jentry++)
     {
         //if (jentry > 100) break;
-        if (b >= b_max && light >= light_max && c >= c_max)
+        if (b >= stat_small_b && light >= stat_small && c >= cStat_small)
             break;
         fChain->GetEntry(jentry);
         /*b_eventnb->GetEntry(jentry);
