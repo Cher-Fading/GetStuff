@@ -1,0 +1,9 @@
+Light Failed 131922890
+Light Passed 64378146
+Light Total 196301036
+B Failed 1858484
+B Passed 1986175
+B Total 3844659
+C Failed 4174833
+C Passed 4378416
+C Total 8553249
