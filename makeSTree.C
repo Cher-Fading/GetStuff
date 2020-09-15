@@ -69,6 +69,8 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     float aeta = 2.1;
 
     bool train_parsed = parse_trainname(trainname, stat, cStat, outStat, outcStat, ptLim, aeta);
+    cout << "pT: " << ptLim << endl;
+    cout << "eta: " << aeta << endl;
     if (!train_parsed)
     {
         cout << "[ERROR]: parsing failed" << endl;
@@ -407,6 +409,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
             b+=jet_LabDr_HadF->at(i)==5;
             c+=jet_LabDr_HadF->at(i)==4;
             c+=jet_LabDr_HadF->at(i)==0;
+            cout << jet_pt->at(i) << endl;
             m_jet_pt->push_back(jet_pt->at(i));
             cout << m_jet_pt->at(i) << endl;
             m_jet_eta->push_back(jet_eta->at(i));
