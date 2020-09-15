@@ -365,8 +365,9 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
             //cout << mcwg << endl;
             m_mcwg = mcwg;
         }
+//cout << njets << endl;
 
-        b_jet_pt->GetEntry(jentry);
+        /*b_jet_pt->GetEntry(jentry);
         b_jet_eta->GetEntry(jentry);
         b_jet_LabDr_HadF->GetEntry(jentry);   //label
         b_jet_nConst->GetEntry(jentry);       //cuts not used (nConst > 1)
@@ -396,22 +397,37 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         b_jet_ip2d_pc->GetEntry(jentry);
         b_jet_ip3d_pu->GetEntry(jentry);
         b_jet_ip3d_pb->GetEntry(jentry);
-        b_jet_ip3d_pc->GetEntry(jentry);
-
+        b_jet_ip3d_pc->GetEntry(jentry);*/
+//int Njets = 0;
         for (int i = 0; i < njets; i++)
         {
             if (b >= stat_small_b && light >= stat_small && c >= cStat_small)
                 break;
+
+	//cout << jet_pt->at(i) << endl;
+//cout << jet_eta->at(i) << endl;
+//cout << jet_truthMatch->at(i) << endl;
+//cout << jet_aliveAfterOR->at(i) << endl;
+//cout << !(jet_pt->at(i) >= ptLim * 1e3 && fabs(jet_eta->at(i)) <= 2.1 && jet_truthMatch->at(i) == 1 && jet_aliveAfterOR->at(i) == 1) << endl;
             if (!(jet_pt->at(i) >= ptLim * 1e3 && fabs(jet_eta->at(i)) <= 2.1 && jet_truthMatch->at(i) == 1 && jet_aliveAfterOR->at(i) == 1))
                 continue;
-            if (jet_LabDr_HadF->at(i) != 0 || jet_LabDr_HadF->at(i) != 4 || jet_LabDr_HadF->at(i) != 5)
+//cout << (jet_LabDr_HadF->at(i) != 0 || jet_LabDr_HadF->at(i) != 4 || jet_LabDr_HadF->at(i) != 5) << endl;
+//cout << jet_LabDr_HadF->at(i) << endl;
+            if (jet_LabDr_HadF->at(i) != 0 && jet_LabDr_HadF->at(i) != 4 && jet_LabDr_HadF->at(i) != 5)
                 continue;
+	    if (jet_LabDr_HadF->at(i) == 5 && b >= stat_small_b) continue;
+	if (jet_LabDr_HadF->at(i) == 4 && c >= cStat_small) continue;
+if (jet_LabDr_HadF->at(i) == 0 && light >= stat_small) continue;
+
             b+=jet_LabDr_HadF->at(i)==5;
             c+=jet_LabDr_HadF->at(i)==4;
-            c+=jet_LabDr_HadF->at(i)==0;
-            cout << jet_pt->at(i) << endl;
+            light+=jet_LabDr_HadF->at(i)==0;
+            //cout << jet_pt->at(i) << endl;
+cout << "b: " << b << "c: " << c << "u: " << light << endl;
             m_jet_pt->push_back(jet_pt->at(i));
-            cout << m_jet_pt->at(i) << endl;
+
+            //cout << m_jet_pt->at(Njets) << endl;
+//Njets++;
             m_jet_eta->push_back(jet_eta->at(i));
             m_jet_LabDr_HadF->push_back(jet_LabDr_HadF->at(i));
             m_jet_nConst->push_back(jet_nConst->at(i));
