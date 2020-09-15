@@ -15,7 +15,7 @@ while IFS= read -r line; do
 		mkdir -p '/usatlas/scratch/cher97/tempin'$linenumber
 		xrdcp 'root://dcgftp.usatlas.bnl.gov:1096/'$line '/usatlas/scratch/cher97/tempin'$linenumber		
 		filename=/usatlas/scratch/cher97/tempin$linenumber/$(ls /usatlas/scratch/cher97/tempin$linenumber)
-		root -b -q -l 'makeStree.C("'$5'","'$filename'","/usatlas/scratch/cher97","'$linenumber'")'
+		root -b -q -l 'makeSTree.C("'$5'","'$filename'","/usatlas/scratch/cher97","'$linenumber'")'
 		sleep 2
 		rm -rf '/usatlas/scratch/cher97/tempin'$linenumber
 	fi
