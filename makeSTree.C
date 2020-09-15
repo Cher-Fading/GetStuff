@@ -115,9 +115,10 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         cout << "[ERROR]: parsing failed for total count" << endl;
         return;
     }
-    int stat_small = (int)(jets_count[1] / jets_total[1] * stat);
-    int stat_small_b = (int)(jets_count[4] / jets_total[4] * stat);
-    int cStat_small = (int)(jets_count[7] / jets_total[7] * cStat);
+    int stat_small = (int)round((jets_count[1] / jets_total[1] * stat));
+    int stat_small_b = (int)round((jets_count[4] / jets_total[4] * stat));
+    int cStat_small = (int)round((jets_count[7] / jets_total[7] * cStat));
+    cout << "Need the following stat: " << "Light: " << stat_small << "B: " << stat_small_b << "C: " << cStat_small << endl;
     int b = 0;
     int light = 0;
     int c = 0;
@@ -305,7 +306,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
 
     fChain->SetBranchAddress("jet_pt", &jet_pt, &b_jet_pt);
     fChain->SetBranchAddress("jet_eta", &jet_eta, &b_jet_eta);
-    /*fChain->SetBranchAddress("jet_LabDr_HadF", &jet_LabDr_HadF, &b_jet_LabDr_HadF);
+    fChain->SetBranchAddress("jet_LabDr_HadF", &jet_LabDr_HadF, &b_jet_LabDr_HadF);
     fChain->SetBranchAddress("jet_aliveAfterOR", &jet_aliveAfterOR, &b_jet_aliveAfterOR);
     fChain->SetBranchAddress("jet_nConst", &jet_nConst, &b_jet_nConst);
     fChain->SetBranchAddress("jet_truthMatch", &jet_truthMatch, &b_jet_truthMatch);
@@ -336,7 +337,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     fChain->SetBranchAddress("jet_ip2d_pu", &jet_ip2d_pu, &b_jet_ip2d_pu);
     fChain->SetBranchAddress("jet_ip3d_pb", &jet_ip3d_pb, &b_jet_ip3d_pb);
     fChain->SetBranchAddress("jet_ip3d_pc", &jet_ip3d_pc, &b_jet_ip3d_pc);
-    fChain->SetBranchAddress("jet_ip3d_pu", &jet_ip3d_pu, &b_jet_ip3d_pu);*/
+    fChain->SetBranchAddress("jet_ip3d_pu", &jet_ip3d_pu, &b_jet_ip3d_pu);
 
     Long64_t nentries = fChain->GetEntries();
     cout << "Entries: " << nentries << endl;
@@ -363,7 +364,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
             m_mcwg = mcwg;
         }
 
-        /*b_jet_pt->GetEntry(jentry);
+        b_jet_pt->GetEntry(jentry);
         b_jet_eta->GetEntry(jentry);
         b_jet_LabDr_HadF->GetEntry(jentry);   //label
         b_jet_nConst->GetEntry(jentry);       //cuts not used (nConst > 1)
@@ -393,11 +394,59 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         b_jet_ip2d_pc->GetEntry(jentry);
         b_jet_ip3d_pu->GetEntry(jentry);
         b_jet_ip3d_pb->GetEntry(jentry);
-        b_jet_ip3d_pc->GetEntry(jentry);*/
+        b_jet_ip3d_pc->GetEntry(jentry);
 
-        m_jet_pt = jet_pt;
+        for (int i = 0; i < njets; i++)
+        {
+            if (b >= b_max && light >= light_max && c >= c_max)
+                break;
+            if (!(jet_pt->at(i) >= ptLim * 1e3 && fabs(jet_eta->at(i)) <= 2.1 && jet_truthMatch->at(i) == 1 && jet_aliveAfterOR->at(i) == 1))
+                continue;
+            if (jet_LabDr_HadF->at(i) != 0 || jet_LabDr_HadF->at(i) != 4 || jet_LabDr_HadF->at(i) != 5)
+                continue;
+            b+=jet_LabDr_HadF->at(i)==5;
+            c+=jet_LabDr_HadF->at(i)==4;
+            c+=jet_LabDr_HadF->at(i)==0;
+            m_jet_pt->push_back(jet_pt->at(i));
+            m_jet_eta->push_back(jet_eta->at(i));
+            m_jet_LabDr_HadF->push_back(jet_LabDr_HadF->at(i));
+            m_jet_nConst->push_back(jet_nConst->at(i));
+            m_jet_truthMatch->push_back(jet_truthMatch->at(i));
+            m_jet_aliveAfterOR->push_back(jet_aliveAfterOR->at(i));
+
+            // ** JetFitter Variables (8) ** //
+            m_jet_jf_m->push_back(jet_jf_m->at(i));
+            m_jet_jf_efc->push_back(jet_jf_efc->at(i));
+            m_jet_jf_deta->push_back(jet_jf_deta->at(i));
+            m_jet_jf_dphi->push_back(jet_jf_dphi->at(i));
+            m_jet_jf_nvtx->push_back(jet_jf_nvtx->at(i));
+            m_jet_jf_sig3d->push_back(jet_jf_sig3d->at(i));
+            m_jet_jf_nvtx1t->push_back(jet_jf_nvtx1t->at(i));
+            m_jet_jf_n2t->push_back(jet_jf_n2t->at(i));
+            m_jet_jf_ntrkAtVx->push_back(jet_jf_ntrkAtVx->at(i));
+
+            // ** SV1 Variable (8) ** //
+            m_jet_sv1_ntrkv->push_back(jet_sv1_ntrkv->at(i));
+            m_jet_sv1_n2t->push_back(jet_sv1_n2t->at(i));
+            m_jet_sv1_m->push_back(jet_sv1_m->at(i));
+            m_jet_sv1_efc->push_back(jet_sv1_efc->at(i));
+            m_jet_sv1_sig3d->push_back(jet_sv1_sig3d->at(i));
+            m_jet_sv1_Lxy->push_back(jet_sv1_Lxy->at(i));
+            m_jet_sv1_deltaR->push_back(jet_sv1_deltaR->at(i));
+            m_jet_sv1_L3d->push_back(jet_sv1_L3d->at(i));
+
+            //other MV2 variables ip_x,ip_x_c,ip_x_cu
+            m_jet_ip2d_pb->push_back(jet_ip2d_pb->at(i));
+            m_jet_ip2d_pc->push_back(jet_ip2d_pc->at(i));
+            m_jet_ip2d_pu->push_back(jet_ip2d_pu->at(i));
+            m_jet_ip3d_pb->push_back(jet_ip3d_pb->at(i));
+            m_jet_ip3d_pc->push_back(jet_ip3d_pc->at(i));
+            m_jet_ip3d_pu->push_back(jet_ip3d_pu->at(i));
+        }
+
+        /*m_jet_pt = jet_pt;
         m_jet_eta = jet_eta;
-        /*m_jet_LabDr_HadF = jet_LabDr_HadF;
+        m_jet_LabDr_HadF = jet_LabDr_HadF;
         m_jet_nConst = jet_nConst;
         m_jet_truthMatch = jet_truthMatch;
         m_jet_aliveAfterOR = jet_aliveAfterOR;
@@ -434,7 +483,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         f_new->Fill();
         m_jet_pt->clear();
         m_jet_eta->clear();
-        /*m_jet_LabDr_HadF->clear();
+        m_jet_LabDr_HadF->clear();
         m_jet_nConst->clear();
         m_jet_truthMatch->clear();
         m_jet_aliveAfterOR->clear();
@@ -466,7 +515,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         m_jet_ip2d_pu->clear();
         m_jet_ip3d_pb->clear();
         m_jet_ip3d_pc->clear();
-        m_jet_ip3d_pu->clear();*/
+        m_jet_ip3d_pu->clear();
     }
     f_new->Write();
     fout->Close();

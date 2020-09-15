@@ -50,6 +50,7 @@ const int llrlim = 40;
 char suffix[2][10] = {"", "_pnfs"};
 char suffix2[2][10] = {"_nPNFS",""};
 char Type[2][10] = {"pp", "PbPb"};
+//const int Order_flav[6] = {0,-1,-1,-1,2,1};
 
 const int nString = 2;
 char inclusive_str[nString][30] = {"/usatlas/scratch", "/pnfs"};

@@ -40,6 +40,8 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
         JZ = std::stoi(line.substr(0, k1));
         tag = std::stoi(line.substr(k1 + 1, k2 - k1 - 1));
         NUM = std::stoi(line.substr());*/
+        if (counter % 100 == 0)
+            cout << "Counting file " << counter << "; " << line << endl;
 
         bool parsed = parse_filename_short(line, dataType, PbPb, pnfs, inclusive, JZ, tag, NUM, true);
         if (!parsed)
@@ -53,7 +55,7 @@ void addCountJets(std::string trainname, std::string dataType, bool PbPb, bool p
         {
             missed++;
             mfile << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM) << endl;
-continue;
+            continue;
         }
         n_types = 0;
         while (getline(filec, line2))
@@ -61,12 +63,12 @@ continue;
             l1 = line2.rfind(" ");
             if (l1 == std::string::npos)
             {
-                if (n_types == 0)//if the first line is empty
+                if (n_types == 0) //if the first line is empty
                 {
                     cout << "file empty at " << Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM) << endl;
                     return;
                 }
-                continue;//else this migth be the last line
+                continue; //else this migth be the last line
             }
 
             if (counter == 0)
@@ -90,8 +92,8 @@ continue;
     std::ofstream ftotal(Form("../GetStuff/%s_totaljets%s.txt", dataType.c_str(), suffix[pnfs]));
     for (int i = 0; i < n_types; i++)
     {
-cout << types[i] << " " << counts[i] << endl;        
-ftotal << types[i] << " " << counts[i] << endl;
+        cout << types[i] << " " << counts[i] << endl;
+        ftotal << types[i] << " " << counts[i] << endl;
     }
     ftotal.close();
 }
