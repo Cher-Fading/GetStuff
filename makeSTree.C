@@ -120,7 +120,8 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     int stat_small = (int)round((jets_count[1] / jets_total[1] * stat));
     int stat_small_b = (int)round((jets_count[4] / jets_total[4] * stat));
     int cStat_small = (int)round((jets_count[7] / jets_total[7] * cStat));
-    cout << "Need the following stat: " << "Light: " << stat_small << " B: " << stat_small_b << " C: " << cStat_small << endl;
+    cout << "Need the following stat: "
+         << "Light: " << stat_small << " B: " << stat_small_b << " C: " << cStat_small << endl;
     int b = 0;
     int light = 0;
     int c = 0;
@@ -365,7 +366,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
             //cout << mcwg << endl;
             m_mcwg = mcwg;
         }
-//cout << njets << endl;
+        //cout << njets << endl;
 
         /*b_jet_pt->GetEntry(jentry);
         b_jet_eta->GetEntry(jentry);
@@ -398,36 +399,39 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         b_jet_ip3d_pu->GetEntry(jentry);
         b_jet_ip3d_pb->GetEntry(jentry);
         b_jet_ip3d_pc->GetEntry(jentry);*/
-//int Njets = 0;
+        //int Njets = 0;
         for (int i = 0; i < njets; i++)
         {
             if (b >= stat_small_b && light >= stat_small && c >= cStat_small)
                 break;
 
-	//cout << jet_pt->at(i) << endl;
-//cout << jet_eta->at(i) << endl;
-//cout << jet_truthMatch->at(i) << endl;
-//cout << jet_aliveAfterOR->at(i) << endl;
-//cout << !(jet_pt->at(i) >= ptLim * 1e3 && fabs(jet_eta->at(i)) <= 2.1 && jet_truthMatch->at(i) == 1 && jet_aliveAfterOR->at(i) == 1) << endl;
+            //cout << jet_pt->at(i) << endl;
+            //cout << jet_eta->at(i) << endl;
+            //cout << jet_truthMatch->at(i) << endl;
+            //cout << jet_aliveAfterOR->at(i) << endl;
+            //cout << !(jet_pt->at(i) >= ptLim * 1e3 && fabs(jet_eta->at(i)) <= 2.1 && jet_truthMatch->at(i) == 1 && jet_aliveAfterOR->at(i) == 1) << endl;
             if (!(jet_pt->at(i) >= ptLim * 1e3 && fabs(jet_eta->at(i)) <= 2.1 && jet_truthMatch->at(i) == 1 && jet_aliveAfterOR->at(i) == 1))
                 continue;
-//cout << (jet_LabDr_HadF->at(i) != 0 || jet_LabDr_HadF->at(i) != 4 || jet_LabDr_HadF->at(i) != 5) << endl;
-//cout << jet_LabDr_HadF->at(i) << endl;
+            //cout << (jet_LabDr_HadF->at(i) != 0 || jet_LabDr_HadF->at(i) != 4 || jet_LabDr_HadF->at(i) != 5) << endl;
+            //cout << jet_LabDr_HadF->at(i) << endl;
             if (jet_LabDr_HadF->at(i) != 0 && jet_LabDr_HadF->at(i) != 4 && jet_LabDr_HadF->at(i) != 5)
                 continue;
-	    if (jet_LabDr_HadF->at(i) == 5 && b >= stat_small_b) continue;
-	if (jet_LabDr_HadF->at(i) == 4 && c >= cStat_small) continue;
-if (jet_LabDr_HadF->at(i) == 0 && light >= stat_small) continue;
+            if (jet_LabDr_HadF->at(i) == 5 && b >= stat_small_b)
+                continue;
+            if (jet_LabDr_HadF->at(i) == 4 && c >= cStat_small)
+                continue;
+            if (jet_LabDr_HadF->at(i) == 0 && light >= stat_small)
+                continue;
 
-            b+=jet_LabDr_HadF->at(i)==5;
-            c+=jet_LabDr_HadF->at(i)==4;
-            light+=jet_LabDr_HadF->at(i)==0;
+            b += jet_LabDr_HadF->at(i) == 5;
+            c += jet_LabDr_HadF->at(i) == 4;
+            light += jet_LabDr_HadF->at(i) == 0;
             //cout << jet_pt->at(i) << endl;
-cout << "b: " << b << "c: " << c << "u: " << light << endl;
+            cout << "b: " << b << "c: " << c << "u: " << light << endl;
             m_jet_pt->push_back(jet_pt->at(i));
 
             //cout << m_jet_pt->at(Njets) << endl;
-//Njets++;
+            //Njets++;
             m_jet_eta->push_back(jet_eta->at(i));
             m_jet_LabDr_HadF->push_back(jet_LabDr_HadF->at(i));
             m_jet_nConst->push_back(jet_nConst->at(i));
