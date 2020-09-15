@@ -398,7 +398,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
 
         for (int i = 0; i < njets; i++)
         {
-            if (b >= b_max && light >= light_max && c >= c_max)
+            if (b >= stat_small_b && light >= stat_small && c >= cStat_small)
                 break;
             if (!(jet_pt->at(i) >= ptLim * 1e3 && fabs(jet_eta->at(i)) <= 2.1 && jet_truthMatch->at(i) == 1 && jet_aliveAfterOR->at(i) == 1))
                 continue;
