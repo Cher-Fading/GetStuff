@@ -61,6 +61,9 @@ void initBranches(TChain *fChain)
 void makeSTree(std::string trainname, std::string filename, const char *outputFolder)
 {
 
+    gInterpreter->GenerateDictionary("vector<vector<float> >", "vector");
+    gInterpreter->GenerateDictionary("vector<vector<int> >", "vector");
+    
     float stat = 0;
     float cStat = 0;
     float outStat = 0;
@@ -132,7 +135,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         return;
     }
 
-    TFile *fout = new TFile(Form("%s/%d_%d_%d_small.root", outputFolder, JZ, tag,NUM), "RECREATE");
+    TFile *fout = new TFile(Form("%s/%d_%d_%d_small.root", outputFolder, JZ, tag, NUM), "RECREATE");
     TTree *f_new = new TTree(chain_name, chain_name);
 
     Int_t m_eventnb;
