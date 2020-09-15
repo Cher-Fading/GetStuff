@@ -58,7 +58,7 @@ void initBranches(TChain *fChain)
     fChain->SetBranchStatus("jet_ip3d_pu", 1);
 }
 
-void makeSTree(std::string trainname, std::string filename, const char *outputFolder, const char *outputName)
+void makeSTree(std::string trainname, std::string filename, const char *outputFolder)
 {
 
     float stat = 0;
@@ -132,7 +132,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         return;
     }
 
-    TFile *fout = new TFile(Form("%s/%s_small.root", outputFolder, outputName), "RECREATE");
+    TFile *fout = new TFile(Form("%s/%d_%d_%d_small.root", outputFolder, JZ, tag,NUM), "RECREATE");
     TTree *f_new = new TTree(chain_name, chain_name);
 
     Int_t m_eventnb;
