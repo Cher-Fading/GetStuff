@@ -118,7 +118,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     int stat_small = (int)round((jets_count[1] / jets_total[1] * stat));
     int stat_small_b = (int)round((jets_count[4] / jets_total[4] * stat));
     int cStat_small = (int)round((jets_count[7] / jets_total[7] * cStat));
-    cout << "Need the following stat: " << "Light: " << stat_small << "B: " << stat_small_b << "C: " << cStat_small << endl;
+    cout << "Need the following stat: " << "Light: " << stat_small << " B: " << stat_small_b << " C: " << cStat_small << endl;
     int b = 0;
     int light = 0;
     int c = 0;
@@ -408,6 +408,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
             c+=jet_LabDr_HadF->at(i)==4;
             c+=jet_LabDr_HadF->at(i)==0;
             m_jet_pt->push_back(jet_pt->at(i));
+            cout << m_jet_pt->at(i) << endl;
             m_jet_eta->push_back(jet_eta->at(i));
             m_jet_LabDr_HadF->push_back(jet_LabDr_HadF->at(i));
             m_jet_nConst->push_back(jet_nConst->at(i));
