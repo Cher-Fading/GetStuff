@@ -46,7 +46,7 @@ void count_missing_counts(std::string dataType, bool PbPb, bool pnfs, bool inclu
 
     std::string line0;
     while (getline(fdone,line0)){
-        if (!line0.data().Contains("_"))
+        if (line0.find("_")==std::string::npos)
             continue;
         JZ = std::stoi(line0.substr(0, 1));
         tag = std::stoi(line0.substr(line0.find("_") + 1, 1));
