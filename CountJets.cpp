@@ -35,19 +35,6 @@ void initBranches(TChain *fChain)
 
 void CountJets(std::string trainname, std::string filename)
 {
-    int stat = 0;
-    int cStat = 0;
-    int outStat = 0;
-    int outcStat = 0;
-    float ptLim = 50.;
-    float aeta = 2.1;
-
-    bool train_parsed = parse_trainname(trainname, stat, cStat, outStat, outcStat, ptLim, aeta);
-    if (!train_parsed)
-    {
-        cout << "parsing failed" << endl;
-        return;
-    }
 
     int JZ = -1;
     int tag = -1;
