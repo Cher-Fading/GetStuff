@@ -54,13 +54,16 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
         //cout << line0 << endl;
         //cout << line0.substr(5, 1) << endl;
         std::ifstream fc(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s", dataType.c_str(), Type[PbPb], suffix[pnfs], line0.c_str()));
+	bool empty = false;
         while (getline(fc, linec))
         {
             if (linec.find("Light Total") == std::string::npos)
                 continue;
             if (std::stoi(linec.substr(linec.length() - 1, 1)) == 0)
-                goto here;
+                empty = true;
         }
+        fc.close();
+	if (empty) continue;
         JZ = std::stoi(line0.substr(5, 1));
         //cout << line0.substr(7, 1) << endl;
         tag = std::stoi(line0.substr(7, 1));
@@ -73,8 +76,6 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
         done[JZ][NUM][tag][central] = 1;
         //if (line0=="100k_5_0_1323_counts.txt") cout << done[JZ][NUM][tag][central] << endl;
         donef[central]++;
-    here:
-        fc.close();
         //delete fc;
         //return;
     }
