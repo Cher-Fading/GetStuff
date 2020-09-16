@@ -18,6 +18,7 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
     std::ofstream fmiss(Form("../GetStuff/%s_countsmiss%s.txt", dataType.c_str(), suffix[pnfs]));
 
     int cent_N = PbPb ? cet_N : 1;
+    cout << "centrality: " << cent_N << endl;
     int totf = 0;
     int donef[cent_N];
     int outf[cent_N];
@@ -49,23 +50,29 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
     {
         if (line0.find("_") == std::string::npos)
             continue;
-        cout << line0.substr(5, 1) << endl;
+	//cout << line0 << endl;
+        //cout << line0.substr(5, 1) << endl;
         JZ = std::stoi(line0.substr(5, 1));
-        cout << line0.substr(7, 1) << endl;
+        //cout << line0.substr(7, 1) << endl;
         tag = std::stoi(line0.substr(7, 1));
         int cet_length = PbPb ? 2 : 0;
-        cout << line0.substr(9, line0.length() - 20 - cet_length) << endl;
+        //cout << line0.substr(9, line0.length() - 20 - cet_length) << endl;
         NUM = std::stoi(line0.substr(9, line0.length() - 20 - cet_length));
-        cout << line0.substr(line0.length() - 11, 1) << endl;
+        //cout << line0.substr(line0.length() - 12, 1) << endl;
         int central = PbPb ? std::stoi(line0.substr(line0.length() - 11, 1)) : 0;
-        done[JZ][tag][NUM][central] = 1;
+//if (line0=="100k_5_0_1323_counts.txt") cout << JZ << tag << NUM << central << endl;
+        done[JZ][NUM][tag][central] = 1;
+//if (line0=="100k_5_0_1323_counts.txt") cout << done[JZ][NUM][tag][central] << endl;
         donef[central]++;
+	//return;
     }
 
     std::string line;
     while (getline(froot, line))
     {
         bool parsed = parse_filename_short(line, dataType, PbPb, pnfs, inclusive, JZ, tag, NUM, true);
+	//cout << line << endl;
+	//cout << "JZ" << JZ << "tag" << tag << "NUM" << NUM << endl;
         if (!parsed)
         {
             cout << "[ERROR]: parsing failed" << endl;
@@ -81,15 +88,17 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
         bool missing = false;
         for (int c = 0; c < cent_N; c++)
         {
+//cout << done[JZ][NUM][tag][c] << endl;
             if (done[JZ][NUM][tag][c] != 1)
             {
                 missing = true;
-                //cout << filename << " for centrality: " << c << endl;
+                cout << line << " for centrality: " << c << endl;
                 outf[c]++;
             }
         }
         if (missing)
             fmiss << line << endl;
+  //return;
     }
 
     for (int i = 0; i < gridsize; i++)
