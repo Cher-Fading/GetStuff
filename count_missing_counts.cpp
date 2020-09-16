@@ -7,7 +7,7 @@
 gROOT->LoadMacro("Getevtnb.cpp");
 #endif
 
-void count_missing_counts(std::string dataType, bool PbPb, bool pnfs, bool inclusive)
+void count_missing_counts(std::string dataType, std::string trainname, bool PbPb, bool pnfs, bool inclusive)
 {
     int gridsize = inclusive?grid_size:s50k_size;
     int JZ = -1;
@@ -48,11 +48,11 @@ void count_missing_counts(std::string dataType, bool PbPb, bool pnfs, bool inclu
     while (getline(fdone,line0)){
         if (line0.find("_")==std::string::npos)
             continue;
-        JZ = std::stoi(line0.substr(0, 1));
-        tag = std::stoi(line0.substr(line0.find("_") + 1, 1));
+        JZ = std::stoi(line0.substr(5, 1));
+        tag = std::stoi(line0.substr(7, 1));
         int cet_length = PbPb ? 2 : 0;
-        NUM = std::stoi(line0.substr(line0.rfind("_" + 1, line0.length() - 8 - cet_length)));
-        int central = PbPb ? std::stoi(line0.substr(line0.length() - 5, 1)) : 0;
+        NUM = std::stoi(line0.substr(9, line0.length() - 20 - cet_length));
+        int central = PbPb ? std::stoi(line0.substr(line0.length() - 11, 1)) : 0;
         done[JZ][tag][NUM][central] = 1;
         donef[central]++;
     }
