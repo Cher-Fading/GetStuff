@@ -46,12 +46,21 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
     }
 
     std::string line0;
+    std::string linec;
     while (getline(fdone, line0))
     {
         if (line0.find("_") == std::string::npos)
             continue;
-	//cout << line0 << endl;
+        //cout << line0 << endl;
         //cout << line0.substr(5, 1) << endl;
+        std::ifstream fc(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s", dataType.c_str(), Type[PbPb], suffix[pnfs], line0.c_str()));
+        while (getline(fc, linec))
+        {
+            if (linec.find("Light Total") == std::string::npos)
+                continue;
+            if (std::stoi(linec.substr(linec.length() - 1, 1)) == 0)
+                goto here;
+        }
         JZ = std::stoi(line0.substr(5, 1));
         //cout << line0.substr(7, 1) << endl;
         tag = std::stoi(line0.substr(7, 1));
@@ -60,19 +69,22 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
         NUM = std::stoi(line0.substr(9, line0.length() - 20 - cet_length));
         //cout << line0.substr(line0.length() - 12, 1) << endl;
         int central = PbPb ? std::stoi(line0.substr(line0.length() - 11, 1)) : 0;
-//if (line0=="100k_5_0_1323_counts.txt") cout << JZ << tag << NUM << central << endl;
+        //if (line0=="100k_5_0_1323_counts.txt") cout << JZ << tag << NUM << central << endl;
         done[JZ][NUM][tag][central] = 1;
-//if (line0=="100k_5_0_1323_counts.txt") cout << done[JZ][NUM][tag][central] << endl;
+        //if (line0=="100k_5_0_1323_counts.txt") cout << done[JZ][NUM][tag][central] << endl;
         donef[central]++;
-	//return;
+    here:
+        fc.close();
+        delete fc;
+        //return;
     }
 
     std::string line;
     while (getline(froot, line))
     {
         bool parsed = parse_filename_short(line, dataType, PbPb, pnfs, inclusive, JZ, tag, NUM, true);
-	//cout << line << endl;
-	//cout << "JZ" << JZ << "tag" << tag << "NUM" << NUM << endl;
+        //cout << line << endl;
+        //cout << "JZ" << JZ << "tag" << tag << "NUM" << NUM << endl;
         if (!parsed)
         {
             cout << "[ERROR]: parsing failed" << endl;
@@ -88,7 +100,7 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
         bool missing = false;
         for (int c = 0; c < cent_N; c++)
         {
-//cout << done[JZ][NUM][tag][c] << endl;
+            //cout << done[JZ][NUM][tag][c] << endl;
             if (done[JZ][NUM][tag][c] != 1)
             {
                 missing = true;
@@ -98,7 +110,7 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
         }
         if (missing)
             fmiss << line << endl;
-  //return;
+        //return;
     }
 
     for (int i = 0; i < gridsize; i++)
