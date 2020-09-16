@@ -11,4 +11,4 @@ if ["$2" == "pp" ]; then
     PbPb = false
 fi
 
-root -b -q -l 'count_missing_counts.cpp("'$1'",'$PbPb','$3','$4')'
+root -b -q -l 'count_missing_counts.cpp("'$1'","'$5'",'$PbPb','$3','$4')'
