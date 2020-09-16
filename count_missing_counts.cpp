@@ -15,7 +15,7 @@ void count_missing_counts(std::string dataType, bool PbPb, bool pnfs, bool inclu
     int NUM = -1;
     std::ifstream froot(Form("../GetStuff/%s_root%s.txt", dataType.c_str(), suffix[pnfs]));
     std::ifstream fdone(Form("../GetStuff/%s_countsdone%s.txt", dataType.c_str(), suffix[pnfs]));
-    std::ofstream fmiss(Form("../GetStuff/%s_countsmiss%s.txt",dataType.c_str(),suffix[pnfs]]);
+    std::ofstream fmiss(Form("../GetStuff/%s_countsmiss%s.txt",dataType.c_str(),suffix[pnfs]));
 
     int cent_N = PbPb?cet_N:1;
     int totf = 0;
@@ -99,7 +99,7 @@ void count_missing_counts(std::string dataType, bool PbPb, bool pnfs, bool inclu
                         cout << "JZ: " << i << endl;
                         cout << "ID: " << j << endl;
                         cout << "tag: " << k << endl;
-                        std::string C = PbPb?c:"pp";
+                        std::string C = PbPb?std::to_string(c):"pp";
                         cout << "centrality: " << C << endl;
                     }
                 }
