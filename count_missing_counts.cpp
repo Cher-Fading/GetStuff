@@ -9,15 +9,15 @@ gROOT->LoadMacro("Getevtnb.cpp");
 
 void count_missing_counts(std::string dataType, std::string trainname, bool PbPb, bool pnfs, bool inclusive)
 {
-    int gridsize = inclusive?grid_size:s50k_size;
+    int gridsize = inclusive ? grid_size : s50k_size;
     int JZ = -1;
     int tag = -1;
     int NUM = -1;
     std::ifstream froot(Form("../GetStuff/%s_root%s.txt", dataType.c_str(), suffix[pnfs]));
     std::ifstream fdone(Form("../GetStuff/%s_countsdone%s.txt", dataType.c_str(), suffix[pnfs]));
-    std::ofstream fmiss(Form("../GetStuff/%s_countsmiss%s.txt",dataType.c_str(),suffix[pnfs]));
+    std::ofstream fmiss(Form("../GetStuff/%s_countsmiss%s.txt", dataType.c_str(), suffix[pnfs]));
 
-    int cent_N = PbPb?cet_N:1;
+    int cent_N = PbPb ? cet_N : 1;
     int totf = 0;
     int donef[cent_N];
     int outf[cent_N];
@@ -45,20 +45,26 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
     }
 
     std::string line0;
-    while (getline(fdone,line0)){
-        if (line0.find("_")==std::string::npos)
+    while (getline(fdone, line0))
+    {
+        if (line0.find("_") == std::string::npos)
             continue;
+        cout << line0.substr(5, 1) << endl;
         JZ = std::stoi(line0.substr(5, 1));
+        cout << line0.substr(7, 1) << endl;
         tag = std::stoi(line0.substr(7, 1));
         int cet_length = PbPb ? 2 : 0;
+        cout << line0.substr(9, line0.length() - 20 - cet_length) << endl;
         NUM = std::stoi(line0.substr(9, line0.length() - 20 - cet_length));
+        cout << line0.substr(line0.length() - 11, 1) << endl;
         int central = PbPb ? std::stoi(line0.substr(line0.length() - 11, 1)) : 0;
         done[JZ][tag][NUM][central] = 1;
         donef[central]++;
     }
 
     std::string line;
-    while (getline(froot,line)){
+    while (getline(froot, line))
+    {
         bool parsed = parse_filename_short(line, dataType, PbPb, pnfs, inclusive, JZ, tag, NUM, true);
         if (!parsed)
         {
@@ -99,7 +105,7 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
                         cout << "JZ: " << i << endl;
                         cout << "ID: " << j << endl;
                         cout << "tag: " << k << endl;
-                        std::string C = PbPb?std::to_string(c):"pp";
+                        std::string C = PbPb ? std::to_string(c) : "pp";
                         cout << "centrality: " << C << endl;
                     }
                 }
