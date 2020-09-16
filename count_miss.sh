@@ -1,7 +1,9 @@
 if [ "$3" == "true" ]; then
     SUFFIX=_pnfs
 fi
-ls /atlasgpfs01/usatlas/data/cher97/$1$2_Counts$SUFFIX/*.txt > ~/GetStuff/$1_countsdone$SUFFIX.txt
+cd /atlasgpfs01/usatlas/data/cher97/$1$2_Counts$SUFFIX
+ls *.txt > ~/GetStuff/$1_countsdone$SUFFIX.txt
+cd ~/GetStuff
 echo 'listing done'
 
 if [ "$2" == "PbPb" ]; then
