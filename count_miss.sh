@@ -5,11 +5,11 @@ ls /atlasgpfs01/usatlas/data/cher97/$1$2_Counts$SUFFIX/*.txt >../GetStuff/$1_cou
 echo 'listing done'
 
 if [ "$2" == "PbPb" ]; then
-    PbPb = true
+    PbPb=true
 fi
 
 if [ "$2" == "pp" ]; then
-    PbPb = false
+    PbPb=false
 fi
 
 root -b -q -l 'count_missing_counts.cpp("'$1'","'$5'",'$PbPb','$3','$4')'
