@@ -75,7 +75,7 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
         donef[central]++;
     here:
         fc.close();
-        delete fc;
+        //delete fc;
         //return;
     }
 
