@@ -131,7 +131,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
 
     if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
     {
-        cout << "[ERROR]: No jets pass in this file, pass file" << endl;
+        cout << "[WARNING]: No jets pass in this file, pass file" << endl;
         return;
     }
 
