@@ -701,7 +701,6 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         }
         if (m_jet_pt_b->size() > 0)
         {
-
             m_njets_b = njets_b;
             m_eventnb_b = eventnb;
             m_Fcal_b = Fcal;
