@@ -151,12 +151,6 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     cout << "Need the following stat: "
          << "Light: " << stat_small << " B: " << stat_small_b << " C: " << cStat_small << endl;
 
-    if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
-    {
-        cout << "[WARNING]: No jets pass in this file, pass file" << endl;
-        return;
-    }
-
     int b = 0;
     int light = 0;
     int c = 0;
@@ -411,6 +405,15 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     f_new_c->Branch("jet_ip3d_pc", &m_jet_ip3d_pc_c);
     f_new_c->Branch("jet_ip3d_pu", &m_jet_ip3d_pu_c);
 
+    if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
+    {
+        cout << "[WARNING]: No jets pass in this file, pass file" << endl;
+        f_new_u->Write();
+        f_new_b->Write();
+        f_new_c->Write();
+        fout->Close();
+        return;
+    }
     //Int_t           runnb;
     Int_t eventnb;
     Float_t mcwg;
