@@ -698,7 +698,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
             }
             //cout << jet_pt->at(i) << endl;
             cout << "b: " << b << "c: " << c << "u: " << light << endl;
-            cout << i << endl;
+            //cout << i << endl;
         }
         if (m_jet_pt_b->size() > 0)
         {
@@ -853,7 +853,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         m_jet_ip3d_pb_c->clear();
         m_jet_ip3d_pc_c->clear();
         m_jet_ip3d_pu_c->clear();
-        return;
+        //return;
     }
     f_new_b->Write();
     f_new_c->Write();
