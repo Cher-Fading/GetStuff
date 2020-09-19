@@ -98,7 +98,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     cout << "eta: " << aeta << endl;
     if (!train_parsed)
     {
-        cout << "[ERROR]: parsing failed" << endl;
+        cout << "[ERROR]: training parsing failed" << endl;
         return;
     }
     if (cut)
