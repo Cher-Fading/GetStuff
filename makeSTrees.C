@@ -339,7 +339,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     //cout << m_jet_pt << endl;
     f_new_b->Branch("jet_eta", &m_jet_eta_b);
     f_new_b->Branch("jet_LabDr_HadF", &m_jet_LabDr_HadF_b);
-    f_new_b->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR) _b;
+    f_new_b->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR_b);
     f_new_b->Branch("jet_nConst", &m_jet_nConst_b);
     f_new_b->Branch("jet_truthMatch", &m_jet_truthMatch_b);
     //f_new_b->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
@@ -380,7 +380,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     //cout << m_jet_pt << endl;
     f_new_c->Branch("jet_eta", &m_jet_eta_c);
     f_new_c->Branch("jet_LabDr_HadF", &m_jet_LabDr_HadF_c);
-    f_new_c->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR) cb;
+    f_new_c->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR_c);
     f_new_c->Branch("jet_nConst", &m_jet_nConst_c);
     f_new_c->Branch("jet_truthMatch", &m_jet_truthMatch_c);
     //f_new_c->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
@@ -699,7 +699,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
             //cout << jet_pt->at(i) << endl;
             cout << "b: " << b << "c: " << c << "u: " << light << endl;
         }
-        if (m_jet_pt_b->size() >= 0)
+        if (m_jet_pt_b->size() > 0)
         {
 
             m_njets_b = njets_b;
@@ -715,7 +715,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
             }
             f_new_b->Fill();
         }
-        if (m_jet_pt_c->size() >= 0)
+        if (m_jet_pt_c->size() > 0)
         {
             m_njets_c = njets_c;
             m_eventnb_c = eventnb;
@@ -730,7 +730,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
             }
             f_new_c->Fill();
         }
-        if (m_jet_pt_u->size() >= 0)
+        if (m_jet_pt_u->size() > 0)
         {
             m_njets_u = njets_u;
             m_eventnb_u = eventnb;
