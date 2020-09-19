@@ -7,7 +7,7 @@
 gROOT->LoadMacro("Getevtnb.cpp");
 #endif
 
-void count_missing_counts(std::string dataType, std::string trainname, bool PbPb, bool pnfs, bool inclusive)
+void count_missing_small(std::string dataType, std::string trainname, bool PbPb, bool pnfs, bool inclusive)
 {
     int gridsize = inclusive ? grid_size : s50k_size;
     int JZ = -1;
