@@ -129,7 +129,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         //cout << filename.substr(filename.length() - 12, 1) << endl;
         central = PbPb ? std::stoi(filename.substr(filename.length() - 12, 1)) : 0;
     }
-    Centrality = PbPb ? "_"+std::to_string(central) : "";
+    Centrality = PbPb ? "_" + std::to_string(central) : "";
     //return;
     //order: 0light fail, 1light pass, 2light total, 3b fail, 4b pass, 5b total, 6c fail, 7c pass, 8c total
     bool parsed_count = parse_count(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM), jets_count);
@@ -654,7 +654,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 m_jet_ip3d_pc_c->push_back(jet_ip3d_pc->at(i));
                 m_jet_ip3d_pu_c->push_back(jet_ip3d_pu->at(i));
             }
-            if (jet_LabDr_HadF->at(i))
+            if (jet_LabDr_HadF->at(i) == 0)
             {
                 if (light >= stat_small)
                     continue;
