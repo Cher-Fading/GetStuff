@@ -549,7 +549,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
 
         b_Fcal->GetEntry(jentry);
         b_njets->GetEntry(jentry);*/
-        //cout << eventnb << endl;
+        cout << njets << endl;
         int njets_u = 0;
         int njets_b = 0;
         int njets_c = 0;
@@ -698,6 +698,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
             }
             //cout << jet_pt->at(i) << endl;
             cout << "b: " << b << "c: " << c << "u: " << light << endl;
+            cout << i << endl;
         }
         if (m_jet_pt_b->size() > 0)
         {
