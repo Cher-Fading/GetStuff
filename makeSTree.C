@@ -126,8 +126,6 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     cout << "Need the following stat: "
          << "Light: " << stat_small << " B: " << stat_small_b << " C: " << cStat_small << endl;
 
-<<<<<<< HEAD
-=======
     if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
     {
         cout << "[WARNING]: No jets pass in this file, pass file" << endl;
@@ -137,7 +135,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     int b = 0;
     int light = 0;
     int c = 0;
->>>>>>> f3a4742c70c4ce7b3a845b479a30a6167f8d7be7
+
     TFile *fout = new TFile(Form("%s/%d_%d_%d_small.root", outputFolder, JZ, tag, NUM), "RECREATE");
     TTree *f_new = new TTree(chain_name, chain_name);
 
@@ -222,11 +220,11 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     f_new->Branch("jet_ip3d_pc", &m_jet_ip3d_pc);
     f_new->Branch("jet_ip3d_pu", &m_jet_ip3d_pu);
 
-if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
+    if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
     {
         cout << "[WARNING]: No jets pass in this file, pass file" << endl;
-f_new->Write();
-fout->Close();
+        f_new->Write();
+        fout->Close();
         return;
     }
 

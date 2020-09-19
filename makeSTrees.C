@@ -80,6 +80,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     bool PbPb = false;
     bool pnfs = false;
     //int central = -1;
+    std::string Centrality;
     std::string dataType = "";
     std::vector<float> jets_count;
     std::vector<float> jets_total;
@@ -114,19 +115,21 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     else
     {
         int start = filename.rfind("/") + 1;
+        cout << filename.substr(start, 1) << endl;
         JZ = std::stoi(filename.substr(start, 1));
-        cout << line0.substr(7-shift, 1) << endl;
+        cout << filename.substr(start + 2, 1) << endl;
         tag = std::stoi(filename.substr(start + 2, 1));
-        PbPb = (filename[start-8]=="b");
+        PbPb = (filename.substr(start - 8, 1) == "b");
         int cet_length = PbPb ? 2 : 0;
-        cout << line0.substr(9-shift, line0.length() - (20-shift) - cet_length) << endl;
-        NUM = std::stoi(filename.substr(start+4, filename.length() - start - cet_length - 4 - 11));
-        int shift = PbPb?4:2;
-        dataType = filename.substr(filename.rfind("cher97/")+7, filename.find("_small/")-(filename.rfind("cher97/")+7)-shift);
+        cout << filename.substr(start + 4, filename.length() - start - cet_length - 4 - 11) << endl;
+        NUM = std::stoi(filename.substr(start + 4, filename.length() - start - cet_length - 4 - 11));
+        int shift = PbPb ? 4 : 2;
+        dataType = filename.substr(filename.rfind("cher97/") + 7, filename.find("_small/") - (filename.rfind("cher97/") + 7) - shift);
         cout << dataType << endl;
-        //cout << line0.substr(line0.length() - 12, 1) << endl;
-        //central = PbPb ? std::stoi(filename.substr(filename.length() - 12, 1)) : 0;
+        cout << filename.substr(filename.length() - 12, 1) << endl;
+        central = PbPb ? std::stoi(filename.substr(filename.length() - 12, 1)) : 0;
     }
+    Centrality = PbPb ? "_"+central : "";
     return;
     //order: 0light fail, 1light pass, 2light total, 3b fail, 4b pass, 5b total, 6c fail, 7c pass, 8c total
     bool parsed_count = parse_count(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM), jets_count);
@@ -158,10 +161,10 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     int light = 0;
     int c = 0;
 
-    TFile *fout = new TFile(Form("%s/%d_%d_%d_smalls.root", outputFolder, JZ, tag, NUM,Centrality), "RECREATE");
-    TTree *f_new_b_u = new TTree(Form("%s_u", chain_name.c_str()), Form("%s_u", chain_name.c_str()));
-    TTree *f_new_b_b = new TTree(Form("%s_b", chain_name.c_str()), Form("%s_b", chain_name.c_str()));
-    TTree *f_new_b_c = new TTree(Form("%s_c", chain_name.c_str()), Form("%s_c", chain_name.c_str()));
+    TFile *fout = new TFile(Form("%s/%d_%d_%d_smalls%s.root", outputFolder, JZ, tag, NUM, Centrality), "RECREATE");
+    TTree *f_new_u = new TTree(Form("%s_u", chain_name.c_str()), Form("%s_u", chain_name.c_str()));
+    TTree *f_new_b = new TTree(Form("%s_b", chain_name.c_str()), Form("%s_b", chain_name.c_str()));
+    TTree *f_new_c = new TTree(Form("%s_c", chain_name.c_str()), Form("%s_c", chain_name.c_str()));
 
     Int_t m_eventnb_u;
     Float_t m_mcwg_u;
