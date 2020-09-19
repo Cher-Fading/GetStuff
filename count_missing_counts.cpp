@@ -14,11 +14,16 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
     int tag = -1;
     int NUM = -1;
     std::ifstream froot(Form("../GetStuff/%s_root%s.txt", dataType.c_str(), suffix[pnfs]));
+<<<<<<< HEAD
     //std::ifstream fdone(Form("../GetStuff/%s_countsdone%s.txt", dataType.c_str(), suffix[pnfs]));
     //std::ofstream fmiss(Form("../GetStuff/%s_countsmiss%s.txt", dataType.c_str(), suffix[pnfs]));
     
     std::ifstream fdone(Form("../GetStuff/%s%s_donesmall%s.txt", dataType.c_str(), Type[PbPb], suffix[pnfs]));
     std::ofstream fmiss(Form("../GetStuff/%s%s_misssmall%s.txt", dataType.c_str(), Type[PbPb], suffix[pnfs]));
+=======
+    std::ifstream fdone(Form("../GetStuff/%s%s_countsdone%s.txt", dataType.c_str(), Type[PbPb],suffix[pnfs]));
+    std::ofstream fmiss(Form("../GetStuff/%s%s_countsmiss%s.txt", dataType.c_str(), Type[PbPb],suffix[pnfs]));
+>>>>>>> f3a4742c70c4ce7b3a845b479a30a6167f8d7be7
 
     int cent_N = PbPb ? cet_N : 1;
     cout << "centrality: " << cent_N << endl;
