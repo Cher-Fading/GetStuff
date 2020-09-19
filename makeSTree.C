@@ -367,7 +367,8 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         b_Fcal->GetEntry(jentry);
         b_njets->GetEntry(jentry);*/
         //cout << eventnb << endl;
-        m_njets = njets;
+        int njets_passed = 0;
+        //m_njets = njets;
         m_eventnb = eventnb;
         m_Fcal = Fcal;
         //cout << Fcal << endl;
@@ -438,6 +439,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
             b += jet_LabDr_HadF->at(i) == 5;
             c += jet_LabDr_HadF->at(i) == 4;
             light += jet_LabDr_HadF->at(i) == 0;
+            njets_passed++;
             //cout << jet_pt->at(i) << endl;
             cout << "b: " << b << "c: " << c << "u: " << light << endl;
             m_jet_pt->push_back(jet_pt->at(i));
@@ -515,7 +517,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         m_jet_ip3d_pb = jet_ip3d_pb;
         m_jet_ip3d_pc = jet_ip3d_pc;
         m_jet_ip3d_pu = jet_ip3d_pu;*/
-
+        m_njets = njets_passed;
         f_new->Fill();
         m_jet_pt->clear();
         m_jet_eta->clear();
