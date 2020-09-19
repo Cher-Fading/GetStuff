@@ -106,7 +106,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         bool parsed = parse_filename(filename, JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
         if (!parsed)
         {
-            cout << "[ERROR]: parsing failed" << endl;
+            cout << "[ERROR]: filename parsing failed" << endl;
             return;
         }
         std::string line2;
