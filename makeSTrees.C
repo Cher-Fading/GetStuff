@@ -298,7 +298,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     //cout << m_jet_pt << endl;
     f_new_u->Branch("jet_eta", &m_jet_eta_u);
     f_new_u->Branch("jet_LabDr_HadF", &m_jet_LabDr_HadF_u);
-    f_new_u->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR) ub;
+    f_new_u->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR_u);
     f_new_u->Branch("jet_nConst", &m_jet_nConst_u);
     f_new_u->Branch("jet_truthMatch", &m_jet_truthMatch_u);
     //f_new_u->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
