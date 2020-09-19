@@ -66,7 +66,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     bool cut = true; //not filtered samples
     if (filename.find("_small.root") != std::string::npos)
         cut = false; //already filtered samples
-
+    cout << cut << endl;
     float stat = 0;
     float cStat = 0;
     float outStat = 0;
