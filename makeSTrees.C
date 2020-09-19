@@ -853,6 +853,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         m_jet_ip3d_pb_c->clear();
         m_jet_ip3d_pc_c->clear();
         m_jet_ip3d_pu_c->clear();
+        return;
     }
     f_new_b->Write();
     f_new_c->Write();
