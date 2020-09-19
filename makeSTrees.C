@@ -115,22 +115,22 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     else
     {
         int start = filename.rfind("/") + 1;
-        cout << filename.substr(start, 1) << endl;
+        //cout << filename.substr(start, 1) << endl;
         JZ = std::stoi(filename.substr(start, 1));
-        cout << filename.substr(start + 2, 1) << endl;
+        //cout << filename.substr(start + 2, 1) << endl;
         tag = std::stoi(filename.substr(start + 2, 1));
         PbPb = (filename.substr(start - 8, 1) == "b");
         int cet_length = PbPb ? 2 : 0;
-        cout << filename.substr(start + 4, filename.length() - start - cet_length - 4 - 11) << endl;
+        //cout << filename.substr(start + 4, filename.length() - start - cet_length - 4 - 11) << endl;
         NUM = std::stoi(filename.substr(start + 4, filename.length() - start - cet_length - 4 - 11));
         int shift = PbPb ? 4 : 2;
         dataType = filename.substr(filename.rfind("cher97/") + 7, filename.find("_small/") - (filename.rfind("cher97/") + 7) - shift);
-        cout << dataType << endl;
-        cout << filename.substr(filename.length() - 12, 1) << endl;
+        //cout << dataType << endl;
+        //cout << filename.substr(filename.length() - 12, 1) << endl;
         central = PbPb ? std::stoi(filename.substr(filename.length() - 12, 1)) : 0;
     }
     Centrality = PbPb ? "_"+std::to_string(central) : "";
-    return;
+    //return;
     //order: 0light fail, 1light pass, 2light total, 3b fail, 4b pass, 5b total, 6c fail, 7c pass, 8c total
     bool parsed_count = parse_count(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM), jets_count);
     if (!parsed_count)
