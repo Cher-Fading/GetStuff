@@ -161,10 +161,10 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     int light = 0;
     int c = 0;
 
-    TFile *fout = new TFile(Form("%s/%d_%d_%d_smalls%s.root", outputFolder, JZ, tag, NUM, Centrality), "RECREATE");
-    TTree *f_new_u = new TTree(Form("%s_u", chain_name.c_str()), Form("%s_u", chain_name.c_str()));
-    TTree *f_new_b = new TTree(Form("%s_b", chain_name.c_str()), Form("%s_b", chain_name.c_str()));
-    TTree *f_new_c = new TTree(Form("%s_c", chain_name.c_str()), Form("%s_c", chain_name.c_str()));
+    TFile *fout = new TFile(Form("%s/%d_%d_%d_smalls%s.root", outputFolder, JZ, tag, NUM, Centrality.c_str()), "RECREATE");
+    TTree *f_new_u = new TTree(Form("%s_u", chain_name), Form("%s_u", chain_name));
+    TTree *f_new_b = new TTree(Form("%s_b", chain_name), Form("%s_b", chain_name));
+    TTree *f_new_c = new TTree(Form("%s_c", chain_name), Form("%s_c", chain_name));
 
     Int_t m_eventnb_u;
     Float_t m_mcwg_u;
