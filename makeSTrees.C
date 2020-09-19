@@ -549,12 +549,12 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
 
         b_Fcal->GetEntry(jentry);
         b_njets->GetEntry(jentry);*/
-        cout << njets << endl;
+        //cout << njets << endl;
         int njets_u = 0;
         int njets_b = 0;
         int njets_c = 0;
 
-        for (int i = 0; i < njets; i++)
+        for (int i = 0; i < jet_pt->size(); i++)
         {
             if (b >= stat_small_b && light >= stat_small && c >= cStat_small)
                 break;
