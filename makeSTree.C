@@ -63,7 +63,7 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
 
     gInterpreter->GenerateDictionary("vector<vector<float> >", "vector");
     gInterpreter->GenerateDictionary("vector<vector<int> >", "vector");
-    
+
     float stat = 0;
     float cStat = 0;
     float outStat = 0;
@@ -125,9 +125,6 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
     int cStat_small = (int)round((jets_count[7] / jets_total[7] * cStat));
     cout << "Need the following stat: "
          << "Light: " << stat_small << " B: " << stat_small_b << " C: " << cStat_small << endl;
-    int b = 0;
-    int light = 0;
-    int c = 0;
 
     if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
     {
@@ -135,6 +132,9 @@ void makeSTree(std::string trainname, std::string filename, const char *outputFo
         return;
     }
 
+    int b = 0;
+    int light = 0;
+    int c = 0;
     TFile *fout = new TFile(Form("%s/%d_%d_%d_small.root", outputFolder, JZ, tag, NUM), "RECREATE");
     TTree *f_new = new TTree(chain_name, chain_name);
 
