@@ -14,16 +14,11 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
     int tag = -1;
     int NUM = -1;
     std::ifstream froot(Form("../GetStuff/%s_root%s.txt", dataType.c_str(), suffix[pnfs]));
-<<<<<<< HEAD
     //std::ifstream fdone(Form("../GetStuff/%s_countsdone%s.txt", dataType.c_str(), suffix[pnfs]));
     //std::ofstream fmiss(Form("../GetStuff/%s_countsmiss%s.txt", dataType.c_str(), suffix[pnfs]));
-    
+
     std::ifstream fdone(Form("../GetStuff/%s%s_donesmall%s.txt", dataType.c_str(), Type[PbPb], suffix[pnfs]));
     std::ofstream fmiss(Form("../GetStuff/%s%s_misssmall%s.txt", dataType.c_str(), Type[PbPb], suffix[pnfs]));
-=======
-    std::ifstream fdone(Form("../GetStuff/%s%s_countsdone%s.txt", dataType.c_str(), Type[PbPb],suffix[pnfs]));
-    std::ofstream fmiss(Form("../GetStuff/%s%s_countsmiss%s.txt", dataType.c_str(), Type[PbPb],suffix[pnfs]));
->>>>>>> f3a4742c70c4ce7b3a845b479a30a6167f8d7be7
 
     int cent_N = PbPb ? cet_N : 1;
     cout << "centrality: " << cent_N << endl;
@@ -55,7 +50,7 @@ void count_missing_counts(std::string dataType, std::string trainname, bool PbPb
 
     std::string line0;
     std::string linec;
-int shift = 5;
+    int shift = 5;
     while (getline(fdone, line0))
     {
         if (line0.find("_") == std::string::npos)
@@ -77,19 +72,19 @@ int shift = 5;
         }
         fc.close();
 	if (empty) continue;*/
-        JZ = std::stoi(line0.substr(5-shift, 1));
+        JZ = std::stoi(line0.substr(5 - shift, 1));
         //cout << line0.substr(7-shift, 1) << endl;
-        tag = std::stoi(line0.substr(7-shift, 1));
+        tag = std::stoi(line0.substr(7 - shift, 1));
         int cet_length = PbPb ? 2 : 0;
         //cout << line0.substr(9-shift, line0.length() - (20-shift) - cet_length) << endl;
-        NUM = std::stoi(line0.substr(9-shift, line0.length() - (20-shift) - cet_length));
+        NUM = std::stoi(line0.substr(9 - shift, line0.length() - (20 - shift) - cet_length));
         //cout << line0.substr(line0.length() - 12, 1) << endl;
         int central = PbPb ? std::stoi(line0.substr(line0.length() - 12, 1)) : 0;
         //if (line0=="100k_5_0_1323_counts.txt") cout << JZ << tag << NUM << central << endl;
         done[JZ][NUM][tag][central] = 1;
         //if (line0=="100k_5_0_1323_counts.txt") cout << done[JZ][NUM][tag][central] << endl;
         donef[central]++;
-//return;
+        //return;
         //delete fc;
         //return;
     }
@@ -125,7 +120,7 @@ int shift = 5;
         }
         if (missing)
             fmiss << line << endl;
-//fmiss << JZ << "_" << tag << "_" << NUM << "_small.root" << endl;
+        //fmiss << JZ << "_" << tag << "_" << NUM << "_small.root" << endl;
         //return;
     }
 
