@@ -745,41 +745,41 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
             f_new_u->Fill();
         }
 
-        m_jet_pt_b->clear();
-        m_jet_eta_b->clear();
-        m_jet_LabDr_HadF_b->clear();
-        m_jet_nConst_b->clear();
-        m_jet_truthMatch_b->clear();
-        m_jet_aliveAfterOR_b->clear();
+        m_jet_pt_u->clear();
+        m_jet_eta_u->clear();
+        m_jet_LabDr_HadF_u->clear();
+        m_jet_nConst_u->clear();
+        m_jet_truthMatch_u->clear();
+        m_jet_aliveAfterOR_u->clear();
 
         // ** JetFitter Variables (8) ** //
-        m_jet_jf_m_b->clear();
-        m_jet_jf_efc_b->clear();
-        m_jet_jf_deta_b->clear();
-        m_jet_jf_dphi_b->clear();
-        m_jet_jf_nvtx_b->clear();
-        m_jet_jf_sig3d_b->clear();
-        m_jet_jf_nvtx1t_b->clear();
-        m_jet_jf_n2t_b->clear();
-        m_jet_jf_ntrkAtVx_b->clear();
+        m_jet_jf_m_u->clear();
+        m_jet_jf_efc_u->clear();
+        m_jet_jf_deta_u->clear();
+        m_jet_jf_dphi_u->clear();
+        m_jet_jf_nvtx_u->clear();
+        m_jet_jf_sig3d_u->clear();
+        m_jet_jf_nvtx1t_u->clear();
+        m_jet_jf_n2t_u->clear();
+        m_jet_jf_ntrkAtVx_u->clear();
 
         // ** SV1 Variable (8) ** //
-        m_jet_sv1_ntrkv_b->clear();
-        m_jet_sv1_n2t_b->clear();
-        m_jet_sv1_m_b->clear();
-        m_jet_sv1_efc_b->clear();
-        m_jet_sv1_sig3d_b->clear();
-        m_jet_sv1_Lxy_b->clear();
-        m_jet_sv1_deltaR_b->clear();
-        m_jet_sv1_L3d_b->clear();
+        m_jet_sv1_ntrkv_u->clear();
+        m_jet_sv1_n2t_u->clear();
+        m_jet_sv1_m_u->clear();
+        m_jet_sv1_efc_u->clear();
+        m_jet_sv1_sig3d_u->clear();
+        m_jet_sv1_Lxy_u->clear();
+        m_jet_sv1_deltaR_u->clear();
+        m_jet_sv1_L3d_u->clear();
 
         //other MV2 variables ip_x,ip_x_c,ip_x_cu
-        m_jet_ip2d_pb_b->clear();
-        m_jet_ip2d_pc_b->clear();
-        m_jet_ip2d_pu_b->clear();
-        m_jet_ip3d_pb_b->clear();
-        m_jet_ip3d_pc_b->clear();
-        m_jet_ip3d_pu_b->clear();
+        m_jet_ip2d_pb_u->clear();
+        m_jet_ip2d_pc_u->clear();
+        m_jet_ip2d_pu_u->clear();
+        m_jet_ip3d_pb_u->clear();
+        m_jet_ip3d_pc_u->clear();
+        m_jet_ip3d_pu_u->clear();
 
         m_jet_pt_b->clear();
         m_jet_eta_b->clear();
