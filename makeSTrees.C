@@ -161,7 +161,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     int light = 0;
     int c = 0;
 
-    TFile *fout = new TFile(Form("%s/%d_%d_%d_smalls%s.root", outputFolder, JZ, tag, NUM, Centrality.c_str()), "RECREATE");
+    TFile *fout = new TFile(Form("%s/%s_%d_%d_%d_smalls%s.root", outputFolder, trainname.c_str(), JZ, tag, NUM, Centrality.c_str()), "RECREATE");
     TTree *f_new_u = new TTree(Form("%s_u", chain_name), Form("%s_u", chain_name));
     TTree *f_new_b = new TTree(Form("%s_b", chain_name), Form("%s_b", chain_name));
     TTree *f_new_c = new TTree(Form("%s_c", chain_name), Form("%s_c", chain_name));
