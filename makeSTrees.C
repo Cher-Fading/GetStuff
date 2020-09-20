@@ -128,6 +128,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         //cout << dataType << endl;
         //cout << filename.substr(filename.length() - 12, 1) << endl;
         central = PbPb ? std::stoi(filename.substr(filename.length() - 12, 1)) : 0;
+        inclusive = (filename.find("Working")!=std::string::npos);
     }
     Centrality = PbPb ? "_" + std::to_string(central) : "";
     double file_weight = get_weight(JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
