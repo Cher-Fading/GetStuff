@@ -299,15 +299,15 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     f_new_u->Branch("nConst", &m_jet_nConst_u);
     f_new_u->Branch("truthMatch", &m_jet_truthMatch_u);
     //f_new_u->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
-    f_new_u->Branch("jet_sv1_ntrkv", &m_jet_sv1_ntrkv_u);
-    f_new_u->Branch("jet_sv1_n2t", &m_jet_sv1_n2t_u);
-    f_new_u->Branch("jet_sv1_m", &m_jet_sv1_m_u);
-    f_new_u->Branch("jet_sv1_efc", &m_jet_sv1_efc_u);
+    f_new_u->Branch("sv1_ntrkv", &m_jet_sv1_ntrkv_u);
+    f_new_u->Branch("sv1_n2t", &m_jet_sv1_n2t_u);
+    f_new_u->Branch("sv1_m", &m_jet_sv1_m_u);
+    f_new_u->Branch("sv1_efc", &m_jet_sv1_efc_u);
     //f_new_u->Branch("jet_sv1_normdist", &m_jet_sv1_normdist);
-    f_new_u->Branch("jet_sv1_Lxy", &m_jet_sv1_Lxy_u);
-    f_new_u->Branch("jet_sv1_L3d", &m_jet_sv1_L3d_u);
-    f_new_u->Branch("jet_sv1_deltaR", &m_jet_sv1_deltaR_u);
-    f_new_u->Branch("jet_sv1_sig3d", &m_jet_sv1_sig3d_u);
+    f_new_u->Branch("sv1_Lxy", &m_jet_sv1_Lxy_u);
+    f_new_u->Branch("sv1_L3d", &m_jet_sv1_L3d_u);
+    f_new_u->Branch("sv1_deltaR", &m_jet_sv1_deltaR_u);
+    f_new_u->Branch("sv1_sig3d", &m_jet_sv1_sig3d_u);
 
     f_new_u->Branch("jf_mass", &m_jet_jf_m_u);
     f_new_u->Branch("jf_efrc", &m_jet_jf_efc_u);
@@ -320,12 +320,12 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     f_new_u->Branch("jf_nvtx1t", &m_jet_jf_nvtx1t_u);
     f_new_u->Branch("jf_n2tv", &m_jet_jf_n2t_u);
 
-    f_new_u->Branch("jet_ip2d_pb", &m_jet_ip2d_pb_u);
-    f_new_u->Branch("jet_ip2d_pc", &m_jet_ip2d_pc_u);
-    f_new_u->Branch("jet_ip2d_pu", &m_jet_ip2d_pu_u);
-    f_new_u->Branch("jet_ip3d_pb", &m_jet_ip3d_pb_u);
-    f_new_u->Branch("jet_ip3d_pc", &m_jet_ip3d_pc_u);
-    f_new_u->Branch("jet_ip3d_pu", &m_jet_ip3d_pu_u);
+    f_new_u->Branch("ip2d_pb", &m_jet_ip2d_pb_u);
+    f_new_u->Branch("ip2d_pc", &m_jet_ip2d_pc_u);
+    f_new_u->Branch("ip2d_pu", &m_jet_ip2d_pu_u);
+    f_new_u->Branch("ip3d_pb", &m_jet_ip3d_pb_u);
+    f_new_u->Branch("ip3d_pc", &m_jet_ip3d_pc_u);
+    f_new_u->Branch("ip3d_pu", &m_jet_ip3d_pu_u);
 
     //b
     f_new_b->Branch("eventnb", &m_eventnb_b);
@@ -333,41 +333,41 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     //f_new_b->Branch("njets", &m_njets_b);
     f_new_b->Branch("Fcal", &m_Fcal_b);
 
-    f_new_b->Branch("jet_pt", &m_jet_pt_b);
+    f_new_b->Branch("pt", &m_jet_pt_b);
     //cout << m_jet_pt << endl;
-    f_new_b->Branch("jet_eta", &m_jet_eta_b);
-    f_new_b->Branch("jet_LabDr_HadF", &m_jet_LabDr_HadF_b);
-    f_new_b->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR_b);
-    f_new_b->Branch("jet_nConst", &m_jet_nConst_b);
-    f_new_b->Branch("jet_truthMatch", &m_jet_truthMatch_b);
+    f_new_b->Branch("eta", &m_jet_eta_b);
+    f_new_b->Branch("LabDr_HadF", &m_jet_LabDr_HadF_b);
+    f_new_b->Branch("aliveAfterOR", &m_jet_aliveAfterOR_b);
+    f_new_b->Branch("nConst", &m_jet_nConst_b);
+    f_new_b->Branch("truthMatch", &m_jet_truthMatch_b);
     //f_new_b->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
-    f_new_b->Branch("jet_sv1_ntrkv", &m_jet_sv1_ntrkv_b);
-    f_new_b->Branch("jet_sv1_n2t", &m_jet_sv1_n2t_b);
-    f_new_b->Branch("jet_sv1_m", &m_jet_sv1_m_b);
-    f_new_b->Branch("jet_sv1_efc", &m_jet_sv1_efc_b);
+    f_new_b->Branch("sv1_ntrkv", &m_jet_sv1_ntrkv_b);
+    f_new_b->Branch("sv1_n2t", &m_jet_sv1_n2t_b);
+    f_new_b->Branch("sv1_m", &m_jet_sv1_m_b);
+    f_new_b->Branch("sv1_efc", &m_jet_sv1_efc_b);
     //f_new_b->Branch("jet_sv1_normdist", &m_jet_sv1_normdist);
-    f_new_b->Branch("jet_sv1_Lxy", &m_jet_sv1_Lxy_b);
-    f_new_b->Branch("jet_sv1_L3d", &m_jet_sv1_L3d_b);
-    f_new_b->Branch("jet_sv1_deltaR", &m_jet_sv1_deltaR_b);
-    f_new_b->Branch("jet_sv1_sig3d", &m_jet_sv1_sig3d_b);
+    f_new_b->Branch("sv1_Lxy", &m_jet_sv1_Lxy_b);
+    f_new_b->Branch("sv1_L3d", &m_jet_sv1_L3d_b);
+    f_new_b->Branch("sv1_deltaR", &m_jet_sv1_deltaR_b);
+    f_new_b->Branch("sv1_sig3d", &m_jet_sv1_sig3d_b);
 
-    f_new_b->Branch("jet_jf_m", &m_jet_jf_m_b);
-    f_new_b->Branch("jet_jf_efc", &m_jet_jf_efc_b);
+    f_new_b->Branch("jf_m", &m_jet_jf_m_b);
+    f_new_b->Branch("jf_efc", &m_jet_jf_efc_b);
     //f_new_b->Branch("jet_jf_deta", &m_jet_jf_deta_b);
     //f_new_b->Branch("jet_jf_dphi", &m_jet_jf_dphi_b);
     f_new_b->Branch("jf_dR", &m_jet_jf_dR_b);
-    f_new_b->Branch("jet_jf_ntrkAtVx", &m_jet_jf_ntrkAtVx_b);
-    f_new_b->Branch("jet_jf_nvtx", &m_jet_jf_nvtx_b);
-    f_new_b->Branch("jet_jf_sig3d", &m_jet_jf_sig3d_b);
-    f_new_b->Branch("jet_jf_nvtx1t", &m_jet_jf_nvtx1t_b);
-    f_new_b->Branch("jet_jf_n2t", &m_jet_jf_n2t_b);
+    f_new_b->Branch("jf_ntrkAtVx", &m_jet_jf_ntrkAtVx_b);
+    f_new_b->Branch("jf_nvtx", &m_jet_jf_nvtx_b);
+    f_new_b->Branch("jf_sig3d", &m_jet_jf_sig3d_b);
+    f_new_b->Branch("jf_nvtx1t", &m_jet_jf_nvtx1t_b);
+    f_new_b->Branch("jf_n2t", &m_jet_jf_n2t_b);
 
-    f_new_b->Branch("jet_ip2d_pb", &m_jet_ip2d_pb_b);
-    f_new_b->Branch("jet_ip2d_pc", &m_jet_ip2d_pc_b);
-    f_new_b->Branch("jet_ip2d_pu", &m_jet_ip2d_pu_b);
-    f_new_b->Branch("jet_ip3d_pb", &m_jet_ip3d_pb_b);
-    f_new_b->Branch("jet_ip3d_pc", &m_jet_ip3d_pc_b);
-    f_new_b->Branch("jet_ip3d_pu", &m_jet_ip3d_pu_b);
+    f_new_b->Branch("ip2d_pb", &m_jet_ip2d_pb_b);
+    f_new_b->Branch("ip2d_pc", &m_jet_ip2d_pc_b);
+    f_new_b->Branch("ip2d_pu", &m_jet_ip2d_pu_b);
+    f_new_b->Branch("ip3d_pb", &m_jet_ip3d_pb_b);
+    f_new_b->Branch("ip3d_pc", &m_jet_ip3d_pc_b);
+    f_new_b->Branch("ip3d_pu", &m_jet_ip3d_pu_b);
 
     //c
     f_new_c->Branch("eventnb", &m_eventnb_c);
@@ -375,41 +375,41 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     //f_new_c->Branch("njets", &m_njets_c);
     f_new_c->Branch("Fcal", &m_Fcal_c);
 
-    f_new_c->Branch("jet_pt", &m_jet_pt_c);
+    f_new_c->Branch("pt", &m_jet_pt_c);
     //cout << m_jet_pt << endl;
-    f_new_c->Branch("jet_eta", &m_jet_eta_c);
-    f_new_c->Branch("jet_LabDr_HadF", &m_jet_LabDr_HadF_c);
-    f_new_c->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR_c);
-    f_new_c->Branch("jet_nConst", &m_jet_nConst_c);
-    f_new_c->Branch("jet_truthMatch", &m_jet_truthMatch_c);
+    f_new_c->Branch("eta", &m_jet_eta_c);
+    f_new_c->Branch("LabDr_HadF", &m_jet_LabDr_HadF_c);
+    f_new_c->Branch("aliveAfterOR", &m_jet_aliveAfterOR_c);
+    f_new_c->Branch("nConst", &m_jet_nConst_c);
+    f_new_c->Branch("truthMatch", &m_jet_truthMatch_c);
     //f_new_c->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
-    f_new_c->Branch("jet_sv1_ntrkv", &m_jet_sv1_ntrkv_c);
-    f_new_c->Branch("jet_sv1_n2t", &m_jet_sv1_n2t_c);
-    f_new_c->Branch("jet_sv1_m", &m_jet_sv1_m_c);
-    f_new_c->Branch("jet_sv1_efc", &m_jet_sv1_efc_c);
+    f_new_c->Branch("sv1_ntrkv", &m_jet_sv1_ntrkv_c);
+    f_new_c->Branch("sv1_n2t", &m_jet_sv1_n2t_c);
+    f_new_c->Branch("sv1_m", &m_jet_sv1_m_c);
+    f_new_c->Branch("sv1_efc", &m_jet_sv1_efc_c);
     //f_new_c->Branch("jet_sv1_normdist", &m_jet_sv1_normdist);
-    f_new_c->Branch("jet_sv1_Lxy", &m_jet_sv1_Lxy_c);
-    f_new_c->Branch("jet_sv1_L3d", &m_jet_sv1_L3d_c);
-    f_new_c->Branch("jet_sv1_deltaR", &m_jet_sv1_deltaR_c);
-    f_new_c->Branch("jet_sv1_sig3d", &m_jet_sv1_sig3d_c);
+    f_new_c->Branch("sv1_Lxy", &m_jet_sv1_Lxy_c);
+    f_new_c->Branch("sv1_L3d", &m_jet_sv1_L3d_c);
+    f_new_c->Branch("sv1_deltaR", &m_jet_sv1_deltaR_c);
+    f_new_c->Branch("sv1_sig3d", &m_jet_sv1_sig3d_c);
 
-    f_new_c->Branch("jet_jf_m", &m_jet_jf_m_c);
-    f_new_c->Branch("jet_jf_efc", &m_jet_jf_efc_c);
+    f_new_c->Branch("jf_m", &m_jet_jf_m_c);
+    f_new_c->Branch("jf_efc", &m_jet_jf_efc_c);
     //f_new_c->Branch("jet_jf_deta", &m_jet_jf_deta_c);
     //f_new_c->Branch("jet_jf_dphi", &m_jet_jf_dphi_c);
     f_new_c->Branch("jf_dR", &m_jet_jf_dR_c);
-    f_new_c->Branch("jet_jf_ntrkAtVx", &m_jet_jf_ntrkAtVx_c);
-    f_new_c->Branch("jet_jf_nvtx", &m_jet_jf_nvtx_c);
-    f_new_c->Branch("jet_jf_sig3d", &m_jet_jf_sig3d_c);
-    f_new_c->Branch("jet_jf_nvtx1t", &m_jet_jf_nvtx1t_c);
-    f_new_c->Branch("jet_jf_n2t", &m_jet_jf_n2t_c);
+    f_new_c->Branch("jf_ntrkAtVx", &m_jet_jf_ntrkAtVx_c);
+    f_new_c->Branch("jf_nvtx", &m_jet_jf_nvtx_c);
+    f_new_c->Branch("jf_sig3d", &m_jet_jf_sig3d_c);
+    f_new_c->Branch("jf_nvtx1t", &m_jet_jf_nvtx1t_c);
+    f_new_c->Branch("jf_n2t", &m_jet_jf_n2t_c);
 
-    f_new_c->Branch("jet_ip2d_pb", &m_jet_ip2d_pb_c);
-    f_new_c->Branch("jet_ip2d_pc", &m_jet_ip2d_pc_c);
-    f_new_c->Branch("jet_ip2d_pu", &m_jet_ip2d_pu_c);
-    f_new_c->Branch("jet_ip3d_pb", &m_jet_ip3d_pb_c);
-    f_new_c->Branch("jet_ip3d_pc", &m_jet_ip3d_pc_c);
-    f_new_c->Branch("jet_ip3d_pu", &m_jet_ip3d_pu_c);
+    f_new_c->Branch("ip2d_pb", &m_jet_ip2d_pb_c);
+    f_new_c->Branch("ip2d_pc", &m_jet_ip2d_pc_c);
+    f_new_c->Branch("ip2d_pu", &m_jet_ip2d_pu_c);
+    f_new_c->Branch("ip3d_pb", &m_jet_ip3d_pb_c);
+    f_new_c->Branch("ip3d_pc", &m_jet_ip3d_pc_c);
+    f_new_c->Branch("ip3d_pu", &m_jet_ip3d_pu_c);
 
     if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
     {
