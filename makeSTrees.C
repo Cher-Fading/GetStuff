@@ -130,6 +130,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         central = PbPb ? std::stoi(filename.substr(filename.length() - 12, 1)) : 0;
     }
     Centrality = PbPb ? "_" + std::to_string(central) : "";
+    double file_weight = get_weight(filename);
     //return;
     //order: 0light fail, 1light pass, 2light total, 3b fail, 4b pass, 5b total, 6c fail, 7c pass, 8c total
     bool parsed_count = parse_count(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM), jets_count);
@@ -563,6 +564,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         int njets_b = 0;
         int njets_c = 0;
 
+
         for (int i = 0; i < jet_pt->size(); i++)
         {
             if (b >= stat_small_b && light >= stat_small && c >= cStat_small)
@@ -584,6 +586,17 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 if (b >= stat_small_b)
                     continue;
                 b++;
+                //njets_u++;
+                m_eventnb_b = eventnb;
+                m_Fcal_b = (double)Fcal;
+                //cout << Fcal << endl;
+                m_mcwg_b = file_weight;
+                if (!inclusive)
+                {
+                    //b_mcwg->GetEntry(jentry);
+                    //cout << mcwg << endl;
+                    m_mcwg_b = (double)mcwg*file_weight;
+                }
                 //njets_b++;
                 m_jet_pt_b = (double)(jet_pt->at(i));
                 m_jet_eta_b = (double)(jet_eta->at(i));
@@ -633,12 +646,12 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 m_eventnb_c = eventnb;
                 m_Fcal_c = (double)Fcal;
                 //cout << Fcal << endl;
-                m_mcwg_c = 1;
+                m_mcwg_c = file_weight;
                 if (!inclusive)
                 {
                     //b_mcwg->GetEntry(jentry);
                     //cout << mcwg << endl;
-                    m_mcwg_c = (double)mcwg;
+                    m_mcwg_c = (double)mcwg*file_weight;
                 }
                 //njets_c++;
                 m_jet_pt_c = (double)(jet_pt->at(i));
@@ -684,15 +697,15 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                     continue;
                 light++;
                 //njets_u++;
-                m_eventnb_b = eventnb;
-                m_Fcal_b = (double)Fcal;
+                m_eventnb_u = eventnb;
+                m_Fcal_u = (double)Fcal;
                 //cout << Fcal << endl;
-                m_mcwg_b = 1;
+                m_mcwg_u = file_weight;
                 if (!inclusive)
                 {
                     //b_mcwg->GetEntry(jentry);
                     //cout << mcwg << endl;
-                    m_mcwg_b = (double)mcwg;
+                    m_mcwg_u = (double)mcwg*file_weight;
                 }
                 m_jet_pt_u = (double)(jet_pt->at(i));
                 m_jet_eta_u = (double)(jet_eta->at(i));
