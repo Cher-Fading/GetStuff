@@ -281,6 +281,34 @@ float get_weight(std::string filename)
 	return JZ_wt[JZ];
 }
 
+float get_weight(int JZ, int tag, int NUM, bool inclusive, bool PbPb, bool pnfs, std::string dataType)
+{
+	std::string type_ = inclusive ? "" : Type[PbPb];
+
+	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType.c_str(), type_.c_str(), suffix[pnfs]));
+	if (!fevtnb)
+	{
+		cout << "[ERROR] wrong parsing or filename" << filename << " " << dataType << endl;
+		return -1;
+	}
+	std::string eline;
+	//int JZ_wt[gridsize];
+	int gridsize = inclusive ? grid_size : s50k_size;
+	float JZ_wt[gridsize];
+	int JZ_shift = inclusive ? 0 : 1;
+	while (std::getline(fevtnb, eline))
+	{
+		JZ_wt[std::stoi(eline.substr(0, 1)) - JZ_shift] = std::stoi(eline.substr(3, eline.length() - 3));
+	}
+
+	if (JZ_wt[JZ] <= 0)
+	{
+		cout << "[ERROR] JZ weight <= 0 at weight = " << JZ_wt[JZ] << " for JZ = " << JZ << endl;
+		return -1;
+	}
+	return JZ_wt[JZ];
+}
+
 bool parse_trainname(std::string trainname, float &stat, float &cStat, float &outStat, float &outcStat, float &ptLim, float &aeta)
 {
 	std::ifstream fstat(Form("../GetStuff/%s_stat.txt", trainname.c_str()));

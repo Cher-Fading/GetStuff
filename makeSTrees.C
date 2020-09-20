@@ -130,7 +130,11 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         central = PbPb ? std::stoi(filename.substr(filename.length() - 12, 1)) : 0;
     }
     Centrality = PbPb ? "_" + std::to_string(central) : "";
-    double file_weight = get_weight(filename);
+    double file_weight = get_weight(JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
+    if (file_weight == -1){
+        cout << "[ERROR]: file weight is -1" << endl;
+        return;
+    }
     //return;
     //order: 0light fail, 1light pass, 2light total, 3b fail, 4b pass, 5b total, 6c fail, 7c pass, 8c total
     bool parsed_count = parse_count(Form("/atlasgpfs01/usatlas/data/cher97/%s%s_Counts%s/%s_%d_%d_%d_counts.txt", dataType.c_str(), Type[PbPb], suffix[pnfs], trainname.c_str(), JZ, tag, NUM), jets_count);
