@@ -480,8 +480,8 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 		fileo << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
 		for (int jj = 0; jj < sizeof(JZ_FN[jz]) / sizeof(int); jj++)
 		{
-			fileo3 << jz + JZ_shift << "_" << jj << ": " << JZ_FN[jz][jj] << endl;
-			cout << jz + JZ_shift << "_" << jj << ": " << JZ_FN[jz][jj] << endl;
+			fileo3 << jz + JZ_shift << "_" << jj << ": " << std::setprecision(15) << JZ_FN[jz][jj] << endl;
+			cout << jz + JZ_shift << "_" << jj << ": " << std::setprecision(15) << JZ_FN[jz][jj] << endl;
 		}
 	}
 	fileo.close();
