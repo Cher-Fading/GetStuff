@@ -161,131 +161,131 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     TTree *f_new_c = new TTree(Form("%s_c", chain_name), Form("%s_c", chain_name));
 
     Int_t m_eventnb_u;
-    Float_t m_mcwg_u;
-    Float_t m_Fcal_u;
-    Int_t m_njets_u;
-    std::vector<float> *m_jet_pt_u = 0;         //MV2
-    std::vector<float> *m_jet_eta_u = 0;        //MV2
-    std::vector<int> *m_jet_LabDr_HadF_u = 0;   //label
-    std::vector<float> *m_jet_nConst_u = 0;     //cuts not used (nConst > 1)
-    std::vector<int> *m_jet_truthMatch_u = 0;   //cuts (truthMatch == 1)
-    std::vector<int> *m_jet_aliveAfterOR_u = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    Double_t m_mcwg_u;
+    Double_t m_Fcal_u;
+    //Int_t m_njets_u;
+    Double_t m_jet_pt_u = 0;        //MV2
+    Double_t m_jet_eta_u = 0;       //MV2
+    Int_t m_jet_LabDr_HadF_u = 0;   //label
+    Int_t m_jet_nConst_u = 0;       //cuts not used (nConst > 1)
+    Int_t m_jet_truthMatch_u = 0;   //cuts (truthMatch == 1)
+    Int_t m_jet_aliveAfterOR_u = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
-    std::vector<float> *m_jet_jf_m_u = 0;
-    std::vector<float> *m_jet_jf_efc_u = 0;
-    std::vector<float> *m_jet_jf_deta_u = 0; // for jet_jf_dR
-    std::vector<float> *m_jet_jf_dphi_u = 0; // for jet_jf_dR
-    std::vector<float> *m_jet_jf_nvtx_u = 0;
-    std::vector<float> *m_jet_jf_sig3d_u = 0;
-    std::vector<float> *m_jet_jf_nvtx1t_u = 0;
-    std::vector<float> *m_jet_jf_n2t_u = 0;
-    std::vector<float> *m_jet_jf_ntrkAtVx_u = 0;
+    Double_t m_jet_jf_m_u = 0;
+    Double_t m_jet_jf_efc_u = 0;
+    Double_t m_jet_jf_deta_u = 0; // for jet_jf_dR
+    Double_t m_jet_jf_dphi_u = 0; // for jet_jf_dR
+    Double_t m_jet_jf_nvtx_u = 0;
+    Double_t m_jet_jf_sig3d_u = 0;
+    Int_t m_jet_jf_nvtx1t_u = 0;
+    Int_t m_jet_jf_n2t_u = 0;
+    Int_t m_jet_jf_ntrkAtVx_u = 0;
 
     // ** SV1 Variable (8) ** //
-    std::vector<float> *m_jet_sv1_ntrkv_u = 0;
-    std::vector<float> *m_jet_sv1_n2t_u = 0;
-    std::vector<float> *m_jet_sv1_m_u = 0;
-    std::vector<float> *m_jet_sv1_efc_u = 0;
-    std::vector<float> *m_jet_sv1_sig3d_u = 0;
-    std::vector<float> *m_jet_sv1_Lxy_u = 0;
-    std::vector<float> *m_jet_sv1_deltaR_u = 0;
-    std::vector<float> *m_jet_sv1_L3d_u = 0;
+    Int_t m_jet_sv1_ntrkv_u = 0;
+    Int_t m_jet_sv1_n2t_u = 0;
+    Double_t m_jet_sv1_m_u = 0;
+    Double_t m_jet_sv1_efc_u = 0;
+    Double_t m_jet_sv1_sig3d_u = 0;
+    Double_t m_jet_sv1_Lxy_u = 0;
+    Double_t m_jet_sv1_deltaR_u = 0;
+    Double_t m_jet_sv1_L3d_u = 0;
 
     //other MV2 variables ip_x,ip_x_c,ip_x_cu
-    std::vector<float> *m_jet_ip2d_pb_u = 0;
-    std::vector<float> *m_jet_ip2d_pc_u = 0;
-    std::vector<float> *m_jet_ip2d_pu_u = 0; //cuts & c_weight
-    std::vector<float> *m_jet_ip3d_pb_u = 0;
-    std::vector<float> *m_jet_ip3d_pc_u = 0;
-    std::vector<float> *m_jet_ip3d_pu_u = 0;
-
+    Float_t m_jet_ip2d_pb_u = 0;
+    Float_t m_jet_ip2d_pc_u = 0;
+    Float_t m_jet_ip2d_pu_u = 0; //cuts & c_weight
+    Float_t m_jet_ip3d_pb_u = 0;
+    Float_t m_jet_ip3d_pc_u = 0;
+    Float_t m_jet_ip3d_pu_u = 0;
+    //b
     Int_t m_eventnb_b;
-    Float_t m_mcwg_b;
-    Float_t m_Fcal_b;
-    Int_t m_njets_b;
-    std::vector<float> *m_jet_pt_b = 0;         //MV2
-    std::vector<float> *m_jet_eta_b = 0;        //MV2
-    std::vector<int> *m_jet_LabDr_HadF_b = 0;   //label
-    std::vector<float> *m_jet_nConst_b = 0;     //cuts not used (nConst > 1)
-    std::vector<int> *m_jet_truthMatch_b = 0;   //cuts (truthMatch == 1)
-    std::vector<int> *m_jet_aliveAfterOR_b = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    Double_t m_mcwg_b;
+    Double_t m_Fcal_b;
+    //Int_t m_njets_u;
+    Double_t m_jet_pt_b = 0;        //MV2
+    Double_t m_jet_eta_b = 0;       //MV2
+    Int_t m_jet_LabDr_HadF_b = 0;   //label
+    Int_t m_jet_nConst_b = 0;       //cuts not used (nConst > 1)
+    Int_t m_jet_truthMatch_b = 0;   //cuts (truthMatch == 1)
+    Int_t m_jet_aliveAfterOR_b = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
-    std::vector<float> *m_jet_jf_m_b = 0;
-    std::vector<float> *m_jet_jf_efc_b = 0;
-    std::vector<float> *m_jet_jf_deta_b = 0; // for jet_jf_dR
-    std::vector<float> *m_jet_jf_dphi_b = 0; // for jet_jf_dR
-    std::vector<float> *m_jet_jf_nvtx_b = 0;
-    std::vector<float> *m_jet_jf_sig3d_b = 0;
-    std::vector<float> *m_jet_jf_nvtx1t_b = 0;
-    std::vector<float> *m_jet_jf_n2t_b = 0;
-    std::vector<float> *m_jet_jf_ntrkAtVx_b = 0;
+    Double_t m_jet_jf_m_b = 0;
+    Double_t m_jet_jf_efc_b = 0;
+    Double_t m_jet_jf_deta_b = 0; // for jet_jf_dR
+    Double_t m_jet_jf_dphi_b = 0; // for jet_jf_dR
+    Double_t m_jet_jf_nvtx_b = 0;
+    Double_t m_jet_jf_sig3d_b = 0;
+    Int_t m_jet_jf_nvtx1t_b = 0;
+    Int_t m_jet_jf_n2t_b = 0;
+    Int_t m_jet_jf_ntrkAtVx_b = 0;
 
     // ** SV1 Variable (8) ** //
-    std::vector<float> *m_jet_sv1_ntrkv_b = 0;
-    std::vector<float> *m_jet_sv1_n2t_b = 0;
-    std::vector<float> *m_jet_sv1_m_b = 0;
-    std::vector<float> *m_jet_sv1_efc_b = 0;
-    std::vector<float> *m_jet_sv1_sig3d_b = 0;
-    std::vector<float> *m_jet_sv1_Lxy_b = 0;
-    std::vector<float> *m_jet_sv1_deltaR_b = 0;
-    std::vector<float> *m_jet_sv1_L3d_b = 0;
+    Int_t m_jet_sv1_ntrkv_b = 0;
+    Int_t m_jet_sv1_n2t_b = 0;
+    Double_t m_jet_sv1_m_b = 0;
+    Double_t m_jet_sv1_efc_b = 0;
+    Double_t m_jet_sv1_sig3d_b = 0;
+    Double_t m_jet_sv1_Lxy_b = 0;
+    Double_t m_jet_sv1_deltaR_b = 0;
+    Double_t m_jet_sv1_L3d_b = 0;
 
     //other MV2 variables ip_x,ip_x_c,ip_x_cu
-    std::vector<float> *m_jet_ip2d_pb_b = 0;
-    std::vector<float> *m_jet_ip2d_pc_b = 0;
-    std::vector<float> *m_jet_ip2d_pu_b = 0; //cuts & c_weight
-    std::vector<float> *m_jet_ip3d_pb_b = 0;
-    std::vector<float> *m_jet_ip3d_pc_b = 0;
-    std::vector<float> *m_jet_ip3d_pu_b = 0;
-
+    Float_t m_jet_ip2d_pb_b = 0;
+    Float_t m_jet_ip2d_pc_b = 0;
+    Float_t m_jet_ip2d_pu_b = 0; //cuts & c_weight
+    Float_t m_jet_ip3d_pb_b = 0;
+    Float_t m_jet_ip3d_pc_b = 0;
+    Float_t m_jet_ip3d_pu_b = 0;
+    //c
     Int_t m_eventnb_c;
-    Float_t m_mcwg_c;
-    Float_t m_Fcal_c;
-    Int_t m_njets_c;
-    std::vector<float> *m_jet_pt_c = 0;         //MV2
-    std::vector<float> *m_jet_eta_c = 0;        //MV2
-    std::vector<int> *m_jet_LabDr_HadF_c = 0;   //label
-    std::vector<float> *m_jet_nConst_c = 0;     //cuts not used (nConst > 1)
-    std::vector<int> *m_jet_truthMatch_c = 0;   //cuts (truthMatch == 1)
-    std::vector<int> *m_jet_aliveAfterOR_c = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    Double_t m_mcwg_c;
+    Double_t m_Fcal_c;
+    //Int_t m_njets_u;
+    Double_t m_jet_pt_c = 0;        //MV2
+    Double_t m_jet_eta_c = 0;       //MV2
+    Int_t m_jet_LabDr_HadF_c = 0;   //label
+    Int_t m_jet_nConst_c = 0;       //cuts not used (nConst > 1)
+    Int_t m_jet_truthMatch_c = 0;   //cuts (truthMatch == 1)
+    Int_t m_jet_aliveAfterOR_c = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
-    std::vector<float> *m_jet_jf_m_c = 0;
-    std::vector<float> *m_jet_jf_efc_c = 0;
-    std::vector<float> *m_jet_jf_deta_c = 0; // for jet_jf_dR
-    std::vector<float> *m_jet_jf_dphi_c = 0; // for jet_jf_dR
-    std::vector<float> *m_jet_jf_nvtx_c = 0;
-    std::vector<float> *m_jet_jf_sig3d_c = 0;
-    std::vector<float> *m_jet_jf_nvtx1t_c = 0;
-    std::vector<float> *m_jet_jf_n2t_c = 0;
-    std::vector<float> *m_jet_jf_ntrkAtVx_c = 0;
+    Double_t m_jet_jf_m_c = 0;
+    Double_t m_jet_jf_efc_c = 0;
+    Double_t m_jet_jf_deta_c = 0; // for jet_jf_dR
+    Double_t m_jet_jf_dphi_c = 0; // for jet_jf_dR
+    Double_t m_jet_jf_nvtx_c = 0;
+    Double_t m_jet_jf_sig3d_c = 0;
+    Int_t m_jet_jf_nvtx1t_c = 0;
+    Int_t m_jet_jf_n2t_c = 0;
+    Int_t m_jet_jf_ntrkAtVx_c = 0;
 
     // ** SV1 Variable (8) ** //
-    std::vector<float> *m_jet_sv1_ntrkv_c = 0;
-    std::vector<float> *m_jet_sv1_n2t_c = 0;
-    std::vector<float> *m_jet_sv1_m_c = 0;
-    std::vector<float> *m_jet_sv1_efc_c = 0;
-    std::vector<float> *m_jet_sv1_sig3d_c = 0;
-    std::vector<float> *m_jet_sv1_Lxy_c = 0;
-    std::vector<float> *m_jet_sv1_deltaR_c = 0;
-    std::vector<float> *m_jet_sv1_L3d_c = 0;
+    Int_t m_jet_sv1_ntrkv_c = 0;
+    Int_t m_jet_sv1_n2t_c = 0;
+    Double_t m_jet_sv1_m_c = 0;
+    Double_t m_jet_sv1_efc_c = 0;
+    Double_t m_jet_sv1_sig3d_c = 0;
+    Double_t m_jet_sv1_Lxy_c = 0;
+    Double_t m_jet_sv1_deltaR_c = 0;
+    Double_t m_jet_sv1_L3d_c = 0;
 
     //other MV2 variables ip_x,ip_x_c,ip_x_cu
-    std::vector<float> *m_jet_ip2d_pb_c = 0;
-    std::vector<float> *m_jet_ip2d_pc_c = 0;
-    std::vector<float> *m_jet_ip2d_pu_c = 0; //cuts & c_weight
-    std::vector<float> *m_jet_ip3d_pb_c = 0;
-    std::vector<float> *m_jet_ip3d_pc_c = 0;
-    std::vector<float> *m_jet_ip3d_pu_c = 0;
+    Float_t m_jet_ip2d_pb_c = 0;
+    Float_t m_jet_ip2d_pc_c = 0;
+    Float_t m_jet_ip2d_pu_c = 0; //cuts & c_weight
+    Float_t m_jet_ip3d_pb_c = 0;
+    Float_t m_jet_ip3d_pc_c = 0;
+    Float_t m_jet_ip3d_pu_c = 0;
 
     f_new_u->Branch("eventnb", &m_eventnb_u);
     f_new_u->Branch("mcwg", &m_mcwg_u);
-    f_new_u->Branch("njets", &m_njets_u);
+    //f_new_u->Branch("njets", &m_njets_u);
     f_new_u->Branch("Fcal", &m_Fcal_u);
 
     f_new_u->Branch("jet_pt", &m_jet_pt_u);
@@ -326,7 +326,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     //b
     f_new_b->Branch("eventnb", &m_eventnb_b);
     f_new_b->Branch("mcwg", &m_mcwg_b);
-    f_new_b->Branch("njets", &m_njets_b);
+    //f_new_b->Branch("njets", &m_njets_b);
     f_new_b->Branch("Fcal", &m_Fcal_b);
 
     f_new_b->Branch("jet_pt", &m_jet_pt_b);
@@ -367,7 +367,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     //c
     f_new_c->Branch("eventnb", &m_eventnb_c);
     f_new_c->Branch("mcwg", &m_mcwg_c);
-    f_new_c->Branch("njets", &m_njets_c);
+    //f_new_c->Branch("njets", &m_njets_c);
     f_new_c->Branch("Fcal", &m_Fcal_c);
 
     f_new_c->Branch("jet_pt", &m_jet_pt_c);
@@ -421,10 +421,10 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     Int_t njets;
     std::vector<float> *jet_pt = 0;         //MV2
     std::vector<float> *jet_eta = 0;        //MV2
-    std::vector<int> *jet_LabDr_HadF = 0;   //label
+    wtd::vector<int> *jet_LabDr_HadF = 0;   //label
     std::vector<float> *jet_nConst = 0;     //cuts not used (nConst > 1)
-    std::vector<int> *jet_truthMatch = 0;   //cuts (truthMatch == 1)
-    std::vector<int> *jet_aliveAfterOR = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    wtd::vector<int> *jet_truthMatch = 0;   //cuts (truthMatch == 1)
+    wtd::vector<int> *jet_aliveAfterOR = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
@@ -579,177 +579,161 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                     continue;
                 b++;
                 njets_b++;
-                m_jet_pt_b->push_back(jet_pt->at(i));
-                m_jet_eta_b->push_back(jet_eta->at(i));
-                m_jet_LabDr_HadF_b->push_back(jet_LabDr_HadF->at(i));
-                m_jet_nConst_b->push_back(jet_nConst->at(i));
-                m_jet_truthMatch_b->push_back(jet_truthMatch->at(i));
-                m_jet_aliveAfterOR_b->push_back(jet_aliveAfterOR->at(i));
+                m_jet_pt_b = (double)(jet_pt->at(i));
+                m_jet_eta_b = (double)(jet_eta->at(i));
+                m_jet_LabDr_HadF_b = (int)(jet_LabDr_HadF->at(i));
+                m_jet_nConst_b = (int)(jet_nConst->at(i));
+                m_jet_truthMatch_b = (int)(jet_truthMatch->at(i));
+                m_jet_aliveAfterOR_b = (int)(jet_aliveAfterOR->at(i));
 
                 // ** JetFitter Variables (8) ** //
-                m_jet_jf_m_b->push_back(jet_jf_m->at(i));
-                m_jet_jf_efc_b->push_back(jet_jf_efc->at(i));
-                m_jet_jf_deta_b->push_back(jet_jf_deta->at(i));
-                m_jet_jf_dphi_b->push_back(jet_jf_dphi->at(i));
-                m_jet_jf_nvtx_b->push_back(jet_jf_nvtx->at(i));
-                m_jet_jf_sig3d_b->push_back(jet_jf_sig3d->at(i));
-                m_jet_jf_nvtx1t_b->push_back(jet_jf_nvtx1t->at(i));
-                m_jet_jf_n2t_b->push_back(jet_jf_n2t->at(i));
-                m_jet_jf_ntrkAtVx_b->push_back(jet_jf_ntrkAtVx->at(i));
+                m_jet_jf_m_b = (double)(jet_jf_m->at(i));
+                m_jet_jf_efc_b = (double)(jet_jf_efc->at(i));
+                m_jet_jf_deta_b = (double)(jet_jf_deta->at(i));
+                m_jet_jf_dphi_b = (double)(jet_jf_dphi->at(i));
+                m_jet_jf_nvtx_b = (int)(jet_jf_nvtx->at(i));
+                m_jet_jf_sig3d_b = (double)(jet_jf_sig3d->at(i));
+                m_jet_jf_nvtx1t_b = (int)(jet_jf_nvtx1t->at(i));
+                m_jet_jf_n2t_b = (int)(jet_jf_n2t->at(i));
+                m_jet_jf_ntrkAtVx_b = (int)(jet_jf_ntrkAtVx->at(i));
 
                 // ** SV1 Variable (8) ** //
-                m_jet_sv1_ntrkv_b->push_back(jet_sv1_ntrkv->at(i));
-                m_jet_sv1_n2t_b->push_back(jet_sv1_n2t->at(i));
-                m_jet_sv1_m_b->push_back(jet_sv1_m->at(i));
-                m_jet_sv1_efc_b->push_back(jet_sv1_efc->at(i));
-                m_jet_sv1_sig3d_b->push_back(jet_sv1_sig3d->at(i));
-                m_jet_sv1_Lxy_b->push_back(jet_sv1_Lxy->at(i));
-                m_jet_sv1_deltaR_b->push_back(jet_sv1_deltaR->at(i));
-                m_jet_sv1_L3d_b->push_back(jet_sv1_L3d->at(i));
+                m_jet_sv1_ntrkv_b = (int)(jet_sv1_ntrkv->at(i));
+                m_jet_sv1_n2t_b = (int)(jet_sv1_n2t->at(i));
+                m_jet_sv1_m_b = (double)(jet_sv1_m->at(i));
+                m_jet_sv1_efc_b = (double)(jet_sv1_efc->at(i));
+                m_jet_sv1_sig3d_b = (double)(jet_sv1_sig3d->at(i));
+                m_jet_sv1_Lxy_b = (double)(jet_sv1_Lxy->at(i));
+                m_jet_sv1_deltaR_b = (double)(jet_sv1_deltaR->at(i));
+                m_jet_sv1_L3d_b = (double)(jet_sv1_L3d->at(i));
 
                 //other MV2 variables ip_x,ip_x_c,ip_x_cu
-                m_jet_ip2d_pb_b->push_back(jet_ip2d_pb->at(i));
-                m_jet_ip2d_pc_b->push_back(jet_ip2d_pc->at(i));
-                m_jet_ip2d_pu_b->push_back(jet_ip2d_pu->at(i));
-                m_jet_ip3d_pb_b->push_back(jet_ip3d_pb->at(i));
-                m_jet_ip3d_pc_b->push_back(jet_ip3d_pc->at(i));
-                m_jet_ip3d_pu_b->push_back(jet_ip3d_pu->at(i));
+                m_jet_ip2d_pb_b = (jet_ip2d_pb->at(i));
+                m_jet_ip2d_pc_b = (jet_ip2d_pc->at(i));
+                m_jet_ip2d_pu_b = (jet_ip2d_pu->at(i));
+                m_jet_ip3d_pb_b = (jet_ip3d_pb->at(i));
+                m_jet_ip3d_pc_b = (jet_ip3d_pc->at(i));
+                m_jet_ip3d_pu_b = (jet_ip3d_pu->at(i));
+
+                f_new_b->Fill();
             }
             if (jet_LabDr_HadF->at(i) == 4)
             {
                 if (c >= cStat_small)
                     continue;
                 c++;
-                njets_c++;
-                m_jet_pt_c->push_back(jet_pt->at(i));
-                m_jet_eta_c->push_back(jet_eta->at(i));
-                m_jet_LabDr_HadF_c->push_back(jet_LabDr_HadF->at(i));
-                m_jet_nConst_c->push_back(jet_nConst->at(i));
-                m_jet_truthMatch_c->push_back(jet_truthMatch->at(i));
-                m_jet_aliveAfterOR_c->push_back(jet_aliveAfterOR->at(i));
+                //njets_u++;
+                m_eventnb_c = eventnb;
+                m_Fcal_c = (double)Fcal;
+                //cout << Fcal << endl;
+                m_mcwg_c = 1;
+                if (!inclusive)
+                {
+                    //b_mcwg->GetEntry(jentry);
+                    //cout << mcwg << endl;
+                    m_mcwg_c = (double)mcwg;
+                }
+                //njets_c++;
+                m_jet_pt_c = (double)(jet_pt->at(i));
+                m_jet_eta_c = (double)(jet_eta->at(i));
+                m_jet_LabDr_HadF_c = (int)(jet_LabDr_HadF->at(i));
+                m_jet_nConst_c = (int)(jet_nConst->at(i));
+                m_jet_truthMatch_c = (int)(jet_truthMatch->at(i));
+                m_jet_aliveAfterOR_c = (int)(jet_aliveAfterOR->at(i));
 
                 // ** JetFitter Variables (8) ** //
-                m_jet_jf_m_c->push_back(jet_jf_m->at(i));
-                m_jet_jf_efc_c->push_back(jet_jf_efc->at(i));
-                m_jet_jf_deta_c->push_back(jet_jf_deta->at(i));
-                m_jet_jf_dphi_c->push_back(jet_jf_dphi->at(i));
-                m_jet_jf_nvtx_c->push_back(jet_jf_nvtx->at(i));
-                m_jet_jf_sig3d_c->push_back(jet_jf_sig3d->at(i));
-                m_jet_jf_nvtx1t_c->push_back(jet_jf_nvtx1t->at(i));
-                m_jet_jf_n2t_c->push_back(jet_jf_n2t->at(i));
-                m_jet_jf_ntrkAtVx_c->push_back(jet_jf_ntrkAtVx->at(i));
+                m_jet_jf_m_c = (double)(jet_jf_m->at(i));
+                m_jet_jf_efc_c = (double)(jet_jf_efc->at(i));
+                m_jet_jf_deta_c = (double)(jet_jf_deta->at(i));
+                m_jet_jf_dphi_c = (double)(jet_jf_dphi->at(i));
+                m_jet_jf_nvtx_c = (int)(jet_jf_nvtx->at(i));
+                m_jet_jf_sig3d_c = (double)(jet_jf_sig3d->at(i));
+                m_jet_jf_nvtx1t_c = (int)(jet_jf_nvtx1t->at(i));
+                m_jet_jf_n2t_c = (int)(jet_jf_n2t->at(i));
+                m_jet_jf_ntrkAtVx_c = (int)(jet_jf_ntrkAtVx->at(i));
 
                 // ** SV1 Variable (8) ** //
-                m_jet_sv1_ntrkv_c->push_back(jet_sv1_ntrkv->at(i));
-                m_jet_sv1_n2t_c->push_back(jet_sv1_n2t->at(i));
-                m_jet_sv1_m_c->push_back(jet_sv1_m->at(i));
-                m_jet_sv1_efc_c->push_back(jet_sv1_efc->at(i));
-                m_jet_sv1_sig3d_c->push_back(jet_sv1_sig3d->at(i));
-                m_jet_sv1_Lxy_c->push_back(jet_sv1_Lxy->at(i));
-                m_jet_sv1_deltaR_c->push_back(jet_sv1_deltaR->at(i));
-                m_jet_sv1_L3d_c->push_back(jet_sv1_L3d->at(i));
+                m_jet_sv1_ntrkv_c = (int)(jet_sv1_ntrkv->at(i));
+                m_jet_sv1_n2t_c = (int)(jet_sv1_n2t->at(i));
+                m_jet_sv1_m_c = (double)(jet_sv1_m->at(i));
+                m_jet_sv1_efc_c = (double)(jet_sv1_efc->at(i));
+                m_jet_sv1_sig3d_c = (double)(jet_sv1_sig3d->at(i));
+                m_jet_sv1_Lxy_c = (double)(jet_sv1_Lxy->at(i));
+                m_jet_sv1_deltaR_c = (double)(jet_sv1_deltaR->at(i));
+                m_jet_sv1_L3d_c = (double)(jet_sv1_L3d->at(i));
 
                 //other MV2 variables ip_x,ip_x_c,ip_x_cu
-                m_jet_ip2d_pb_c->push_back(jet_ip2d_pb->at(i));
-                m_jet_ip2d_pc_c->push_back(jet_ip2d_pc->at(i));
-                m_jet_ip2d_pu_c->push_back(jet_ip2d_pu->at(i));
-                m_jet_ip3d_pb_c->push_back(jet_ip3d_pb->at(i));
-                m_jet_ip3d_pc_c->push_back(jet_ip3d_pc->at(i));
-                m_jet_ip3d_pu_c->push_back(jet_ip3d_pu->at(i));
+                m_jet_ip2d_pb_c = (jet_ip2d_pb->at(i));
+                m_jet_ip2d_pc_c = (jet_ip2d_pc->at(i));
+                m_jet_ip2d_pu_c = (jet_ip2d_pu->at(i));
+                m_jet_ip3d_pb_c = (jet_ip3d_pb->at(i));
+                m_jet_ip3d_pc_c = (jet_ip3d_pc->at(i));
+                m_jet_ip3d_pu_c = (jet_ip3d_pu->at(i));
+
+                f_new_c->Fill();
             }
             if (jet_LabDr_HadF->at(i) == 0)
             {
                 if (light >= stat_small)
                     continue;
                 light++;
-                njets_u++;
-                m_jet_pt_u->push_back(jet_pt->at(i));
-                m_jet_eta_u->push_back(jet_eta->at(i));
-                m_jet_LabDr_HadF_u->push_back(jet_LabDr_HadF->at(i));
-                m_jet_nConst_u->push_back(jet_nConst->at(i));
-                m_jet_truthMatch_u->push_back(jet_truthMatch->at(i));
-                m_jet_aliveAfterOR_u->push_back(jet_aliveAfterOR->at(i));
+                //njets_u++;
+                m_eventnb_b = eventnb;
+                m_Fcal_b = (double)Fcal;
+                //cout << Fcal << endl;
+                m_mcwg_b = 1;
+                if (!inclusive)
+                {
+                    //b_mcwg->GetEntry(jentry);
+                    //cout << mcwg << endl;
+                    m_mcwg_b = (double)mcwg;
+                }
+                m_jet_pt_u = (double)(jet_pt->at(i));
+                m_jet_eta_u = (double)(jet_eta->at(i));
+                m_jet_LabDr_HadF_u = (int)(jet_LabDr_HadF->at(i));
+                m_jet_nConst_u = (int)(jet_nConst->at(i));
+                m_jet_truthMatch_u = (int)(jet_truthMatch->at(i));
+                m_jet_aliveAfterOR_u = (int)(jet_aliveAfterOR->at(i));
+                (int)
 
-                // ** JetFitter Variables (8) ** //
-                m_jet_jf_m_u->push_back(jet_jf_m->at(i));
-                m_jet_jf_efc_u->push_back(jet_jf_efc->at(i));
-                m_jet_jf_deta_u->push_back(jet_jf_deta->at(i));
-                m_jet_jf_dphi_u->push_back(jet_jf_dphi->at(i));
-                m_jet_jf_nvtx_u->push_back(jet_jf_nvtx->at(i));
-                m_jet_jf_sig3d_u->push_back(jet_jf_sig3d->at(i));
-                m_jet_jf_nvtx1t_u->push_back(jet_jf_nvtx1t->at(i));
-                m_jet_jf_n2t_u->push_back(jet_jf_n2t->at(i));
-                m_jet_jf_ntrkAtVx_u->push_back(jet_jf_ntrkAtVx->at(i));
+                    // ** JetFitter Variables (8) ** //
+                    m_jet_jf_m_u = (double)(jet_jf_m->at(i));
+                m_jet_jf_efc_u = (double)(jet_jf_efc->at(i));
+                m_jet_jf_deta_u = (double)(jet_jf_deta->at(i));
+                m_jet_jf_dphi_u = (double)(jet_jf_dphi->at(i));
+                m_jet_jf_nvtx_u = (int)(jet_jf_nvtx->at(i));
+                m_jet_jf_sig3d_u = (double)(jet_jf_sig3d->at(i));
+                m_jet_jf_nvtx1t_u = (int)(jet_jf_nvtx1t->at(i));
+                m_jet_jf_n2t_u = (int)(jet_jf_n2t->at(i));
+                (double)
+                    m_jet_jf_ntrkAtVx_u = (int)(jet_jf_ntrkAtVx->at(i));
 
                 // ** SV1 Variable (8) ** //
-                m_jet_sv1_ntrkv_u->push_back(jet_sv1_ntrkv->at(i));
-                m_jet_sv1_n2t_u->push_back(jet_sv1_n2t->at(i));
-                m_jet_sv1_m_u->push_back(jet_sv1_m->at(i));
-                m_jet_sv1_efc_u->push_back(jet_sv1_efc->at(i));
-                m_jet_sv1_sig3d_u->push_back(jet_sv1_sig3d->at(i));
-                m_jet_sv1_Lxy_u->push_back(jet_sv1_Lxy->at(i));
-                m_jet_sv1_deltaR_u->push_back(jet_sv1_deltaR->at(i));
-                m_jet_sv1_L3d_u->push_back(jet_sv1_L3d->at(i));
+                m_jet_sv1_ntrkv_u = (int)(jet_sv1_ntrkv->at(i));
+                m_jet_sv1_n2t_u = (int)(jet_sv1_n2t->at(i));
+                m_jet_sv1_m_u = (double)(jet_sv1_m->at(i));
+                m_jet_sv1_efc_u = (double)(jet_sv1_efc->at(i));
+                m_jet_sv1_sig3d_u = (double)(jet_sv1_sig3d->at(i));
+                m_jet_sv1_Lxy_u = (double)(jet_sv1_Lxy->at(i));
+                m_jet_sv1_deltaR_u = (double)(jet_sv1_deltaR->at(i));
+                m_jet_sv1_L3d_u = (double)(jet_sv1_L3d->at(i));
 
                 //other MV2 variables ip_x,ip_x_c,ip_x_cu
-                m_jet_ip2d_pb_u->push_back(jet_ip2d_pb->at(i));
-                m_jet_ip2d_pc_u->push_back(jet_ip2d_pc->at(i));
-                m_jet_ip2d_pu_u->push_back(jet_ip2d_pu->at(i));
-                m_jet_ip3d_pb_u->push_back(jet_ip3d_pb->at(i));
-                m_jet_ip3d_pc_u->push_back(jet_ip3d_pc->at(i));
-                m_jet_ip3d_pu_u->push_back(jet_ip3d_pu->at(i));
+                m_jet_ip2d_pb_u = (jet_ip2d_pb->at(i));
+                m_jet_ip2d_pc_u = (jet_ip2d_pc->at(i));
+                m_jet_ip2d_pu_u = (jet_ip2d_pu->at(i));
+                m_jet_ip3d_pb_u = (jet_ip3d_pb->at(i));
+                m_jet_ip3d_pc_u = (jet_ip3d_pc->at(i));
+                m_jet_ip3d_pu_u = (jet_ip3d_pu->at(i));
+
+                f_new_u->Fill();
             }
             //cout << jet_pt->at(i) << endl;
             cout << "b: " << b << "c: " << c << "u: " << light << endl;
             //cout << i << endl;
         }
-        if (m_jet_pt_b->size() > 0)
-        {
-            m_njets_b = njets_b;
-            m_eventnb_b = eventnb;
-            m_Fcal_b = Fcal;
-            //cout << Fcal << endl;
-            m_mcwg_b = 1;
-            if (!inclusive)
-            {
-                //b_mcwg->GetEntry(jentry);
-                //cout << mcwg << endl;
-                m_mcwg_b = mcwg;
-            }
-            f_new_b->Fill();
-        }
-        if (m_jet_pt_c->size() > 0)
-        {
-            m_njets_c = njets_c;
-            m_eventnb_c = eventnb;
-            m_Fcal_c = Fcal;
-            //cout << Fcal << endl;
-            m_mcwg_c = 1;
-            if (!inclusive)
-            {
-                //b_mcwg->GetEntry(jentry);
-                //cout << mcwg << endl;
-                m_mcwg_c = mcwg;
-            }
-            f_new_c->Fill();
-        }
-        if (m_jet_pt_u->size() > 0)
-        {
-            m_njets_u = njets_u;
-            m_eventnb_u = eventnb;
-            m_Fcal_u = Fcal;
-            //cout << Fcal << endl;
-            m_mcwg_u = 1;
-            if (!inclusive)
-            {
-                //b_mcwg->GetEntry(jentry);
-                //cout << mcwg << endl;
-                m_mcwg_u = mcwg;
-            }
-            f_new_u->Fill();
-        }
-
-        m_jet_pt_u->clear();
+        
+        /*m_jet_pt_u->clear();
         m_jet_eta_u->clear();
         m_jet_LabDr_HadF_u->clear();
         m_jet_nConst_u->clear();
@@ -855,7 +839,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         m_jet_ip2d_pu_c->clear();
         m_jet_ip3d_pb_c->clear();
         m_jet_ip3d_pc_c->clear();
-        m_jet_ip3d_pu_c->clear();
+        m_jet_ip3d_pu_c->clear();*/
         //return;
     }
     f_new_b->Write();
