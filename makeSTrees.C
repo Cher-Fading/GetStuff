@@ -128,11 +128,12 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         //cout << dataType << endl;
         //cout << filename.substr(filename.length() - 12, 1) << endl;
         central = PbPb ? std::stoi(filename.substr(filename.length() - 12, 1)) : 0;
-        inclusive = (filename.find("Working")!=std::string::npos);
+        inclusive = (filename.find("Working") != std::string::npos);
     }
     Centrality = PbPb ? "_" + std::to_string(central) : "";
     double file_weight = get_weight(JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
-    if (file_weight == -1){
+    if (file_weight == -1)
+    {
         cout << "[ERROR]: file weight is -1" << endl;
         return;
     }
@@ -162,11 +163,56 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     int c = 0;
 
     TFile *fout = new TFile(Form("%s/%s_%d_%d_%d_smalls%s.root", outputFolder, trainname.c_str(), JZ, tag, NUM, Centrality.c_str()), "RECREATE");
-    TTree *f_new_u = new TTree(Form("%s_u", chain_name), Form("%s_u", chain_name));
-    TTree *f_new_b = new TTree(Form("%s_b", chain_name), Form("%s_b", chain_name));
-    TTree *f_new_c = new TTree(Form("%s_c", chain_name), Form("%s_c", chain_name));
+    TTree *f_new_utr = new TTree(Form("%s_utr", chain_name), Form("%s_utr", chain_name));
+    TTree *f_new_btr = new TTree(Form("%s_btr", chain_name), Form("%s_btr", chain_name));
+    TTree *f_new_ctr = new TTree(Form("%s_ctr", chain_name), Form("%s_ctr", chain_name));
+    TTree *f_new_ute = new TTree(Form("%s_ute", chain_name), Form("%s_ute", chain_name));
+    TTree *f_new_bte = new TTree(Form("%s_bte", chain_name), Form("%s_bte", chain_name));
+    TTree *f_new_cte = new TTree(Form("%s_cte", chain_name), Form("%s_cte", chain_name));
 
-    Int_t m_eventnb_u;
+    Int_t m_eventnb;
+    Double_t m_mcwg;
+    Double_t m_Fcal;
+    //Int_t m_njets_u;
+    Double_t m_jet_pt = 0;        //MV2
+    Double_t m_jet_eta = 0;       //MV2
+    Int_t m_jet_LabDr_HadF = 0;   //label
+    Int_t m_jet_nConst = 0;       //cuts not used (nConst > 1)
+    Int_t m_jet_truthMatch = 0;   //cuts (truthMatch == 1)
+    Int_t m_jet_aliveAfterOR = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
+
+    // ** JetFitter Variables (8) ** //
+    Double_t m_jet_jf_m = 0;
+    Double_t m_jet_jf_efc = 0;
+    //Double_t m_jet_jf_deta_u = 0; // for jet_jf_dR
+    //Double_t m_jet_jf_dphi_u = 0; // for jet_jf_dR
+    Double_t m_jet_jf_dR = 0;
+    Double_t m_jet_jf_nvtx = 0;
+    Double_t m_jet_jf_sig3d = 0;
+    Int_t m_jet_jf_nvtx1t = 0;
+    Int_t m_jet_jf_n2t = 0;
+    Int_t m_jet_jf_ntrkAtVx = 0;
+
+    // ** SV1 Variable (8) ** //
+    Int_t m_jet_sv1_ntrkv = 0;
+    Int_t m_jet_sv1_n2t = 0;
+    Double_t m_jet_sv1_m = 0;
+    Double_t m_jet_sv1_efc = 0;
+    Double_t m_jet_sv1_sig3d = 0;
+    Double_t m_jet_sv1_Lxy = 0;
+    Double_t m_jet_sv1_deltaR = 0;
+    Double_t m_jet_sv1_L3d = 0;
+
+    //other MV2 variables ip_x,ip_x_c,ip_x_cu
+    Float_t m_jet_ip2d_pb = 0;
+    Float_t m_jet_ip2d_pc = 0;
+    Float_t m_jet_ip2d_pu = 0; //cuts & c_weight
+    Float_t m_jet_ip3d_pb = 0;
+    Float_t m_jet_ip3d_pc = 0;
+    Float_t m_jet_ip3d_pu = 0;
+    //old
+    /*Int_t m_eventnb_u;
     Double_t m_mcwg_u;
     Double_t m_Fcal_u;
     //Int_t m_njets_u;
@@ -290,9 +336,9 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     Float_t m_jet_ip2d_pu_c = 0; //cuts & c_weight
     Float_t m_jet_ip3d_pb_c = 0;
     Float_t m_jet_ip3d_pc_c = 0;
-    Float_t m_jet_ip3d_pu_c = 0;
+    Float_t m_jet_ip3d_pu_c = 0;*/
 
-    f_new_u->Branch("eventnb", &m_eventnb_u);
+    /*f_new_u->Branch("eventnb", &m_eventnb_u);
     f_new_u->Branch("mcwg", &m_mcwg_u);
     //f_new_u->Branch("njets", &m_njets_u);
     f_new_u->Branch("Fcal", &m_Fcal_u);
@@ -415,14 +461,142 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     f_new_c->Branch("ip2d_pu", &m_jet_ip2d_pu_c);
     f_new_c->Branch("ip3d_pb", &m_jet_ip3d_pb_c);
     f_new_c->Branch("ip3d_pc", &m_jet_ip3d_pc_c);
-    f_new_c->Branch("ip3d_pu", &m_jet_ip3d_pu_c);
+    f_new_c->Branch("ip3d_pu", &m_jet_ip3d_pu_c);*/
+
+    f_new_u->Branch("eventnb", &m_eventnb);
+    f_new_u->Branch("mcwg", &m_mcwg);
+    //f_new_u->Branch("njets", &m_njets_u);
+    f_new_u->Branch("Fcal", &m_Fcal);
+
+    f_new_u->Branch("pt", &m_jet_pt);
+    //cout << m_jet_pt << endl;
+    f_new_u->Branch("eta", &m_jet_eta);
+    f_new_u->Branch("label", &m_jet_LabDr_HadF);
+    f_new_u->Branch("aliveAfterOR", &m_jet_aliveAfterOR);
+    f_new_u->Branch("nConst", &m_jet_nConst);
+    f_new_u->Branch("truthMatch", &m_jet_truthMatch);
+    //f_new_u->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
+    f_new_u->Branch("sv1_ntrkv", &m_jet_sv1_ntrkv);
+    f_new_u->Branch("sv1_n2t", &m_jet_sv1_n2t);
+    f_new_u->Branch("sv1_m", &m_jet_sv1_m);
+    f_new_u->Branch("sv1_efc", &m_jet_sv1_efc);
+    //f_new_u->Branch("jet_sv1_normdist", &m_jet_sv1_normdist);
+    f_new_u->Branch("sv1_Lxy", &m_jet_sv1_Lxy);
+    f_new_u->Branch("sv1_L3d", &m_jet_sv1_L3d);
+    f_new_u->Branch("sv1_deltaR", &m_jet_sv1_deltaR);
+    f_new_u->Branch("sv1_sig3d", &m_jet_sv1_sig3d);
+
+    f_new_u->Branch("jf_mass", &m_jet_jf_m);
+    f_new_u->Branch("jf_efrc", &m_jet_jf_efc);
+    //f_new_u->Branch("jet_jf_deta", &m_jet_jf_deta_u);
+    //f_new_u->Branch("jet_jf_dphi", &m_jet_jf_dphi_u);
+    f_new_u->Branch("jf_dR", &m_jet_jf_dR);
+    f_new_u->Branch("jf_ntrkv", &m_jet_jf_ntrkAtVx);
+    f_new_u->Branch("jf_nvtx", &m_jet_jf_nvtx);
+    f_new_u->Branch("jf_sig", &m_jet_jf_sig3d);
+    f_new_u->Branch("jf_nvtx1t", &m_jet_jf_nvtx1t);
+    f_new_u->Branch("jf_n2tv", &m_jet_jf_n2t);
+
+    f_new_u->Branch("ip2d_pb", &m_jet_ip2d_pb);
+    f_new_u->Branch("ip2d_pc", &m_jet_ip2d_pc);
+    f_new_u->Branch("ip2d_pu", &m_jet_ip2d_pu);
+    f_new_u->Branch("ip3d_pb", &m_jet_ip3d_pb);
+    f_new_u->Branch("ip3d_pc", &m_jet_ip3d_pc);
+    f_new_u->Branch("ip3d_pu", &m_jet_ip3d_pu);
+
+    //b
+    f_new_b->Branch("eventnb", &m_eventnb);
+    f_new_b->Branch("mcwg", &m_mcwg);
+    //f_new_b->Branch("njets", &m_njets_b);
+    f_new_b->Branch("Fcal", &m_Fcal);
+
+    f_new_b->Branch("pt", &m_jet_pt);
+    //cout << m_jet_pt << endl;
+    f_new_b->Branch("eta", &m_jet_eta);
+    f_new_b->Branch("LabDr_HadF", &m_jet_LabDr_HadF);
+    f_new_b->Branch("aliveAfterOR", &m_jet_aliveAfterOR);
+    f_new_b->Branch("nConst", &m_jet_nConst);
+    f_new_b->Branch("truthMatch", &m_jet_truthMatch);
+    //f_new_b->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
+    f_new_b->Branch("sv1_ntrkv", &m_jet_sv1_ntrkv);
+    f_new_b->Branch("sv1_n2t", &m_jet_sv1_n2t);
+    f_new_b->Branch("sv1_m", &m_jet_sv1_m);
+    f_new_b->Branch("sv1_efc", &m_jet_sv1_efc);
+    //f_new_b->Branch("jet_sv1_normdist", &m_jet_sv1_normdist);
+    f_new_b->Branch("sv1_Lxy", &m_jet_sv1_Lxy);
+    f_new_b->Branch("sv1_L3d", &m_jet_sv1_L3d);
+    f_new_b->Branch("sv1_deltaR", &m_jet_sv1_deltaR);
+    f_new_b->Branch("sv1_sig3d", &m_jet_sv1_sig3d);
+
+    f_new_b->Branch("jf_m", &m_jet_jf_m);
+    f_new_b->Branch("jf_efc", &m_jet_jf_efc);
+    //f_new_b->Branch("jet_jf_deta", &m_jet_jf_deta_b);
+    //f_new_b->Branch("jet_jf_dphi", &m_jet_jf_dphi_b);
+    f_new_b->Branch("jf_dR", &m_jet_jf_dR);
+    f_new_b->Branch("jf_ntrkAtVx", &m_jet_jf_ntrkAtVx);
+    f_new_b->Branch("jf_nvtx", &m_jet_jf_nvtx);
+    f_new_b->Branch("jf_sig3d", &m_jet_jf_sig3d);
+    f_new_b->Branch("jf_nvtx1t", &m_jet_jf_nvtx1t);
+    f_new_b->Branch("jf_n2t", &m_jet_jf_n2t);
+
+    f_new_b->Branch("ip2d_pb", &m_jet_ip2d_pb);
+    f_new_b->Branch("ip2d_pc", &m_jet_ip2d_pc);
+    f_new_b->Branch("ip2d_pu", &m_jet_ip2d_pu);
+    f_new_b->Branch("ip3d_pb", &m_jet_ip3d_pb);
+    f_new_b->Branch("ip3d_pc", &m_jet_ip3d_pc);
+    f_new_b->Branch("ip3d_pu", &m_jet_ip3d_pu);
+
+    //c
+    f_new_c->Branch("eventnb", &m_eventnb);
+    f_new_c->Branch("mcwg", &m_mcwg);
+    //f_new_c->Branch("njets", &m_njets_c);
+    f_new_c->Branch("Fcal", &m_Fcal);
+
+    f_new_c->Branch("pt", &m_jet_pt);
+    //cout << m_jet_pt << endl;
+    f_new_c->Branch("eta", &m_jet_eta);
+    f_new_c->Branch("LabDr_HadF", &m_jet_LabDr_HadF);
+    f_new_c->Branch("aliveAfterOR", &m_jet_aliveAfterOR);
+    f_new_c->Branch("nConst", &m_jet_nConst);
+    f_new_c->Branch("truthMatch", &m_jet_truthMatch);
+    //f_new_c->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
+    f_new_c->Branch("sv1_ntrkv", &m_jet_sv1_ntrkv);
+    f_new_c->Branch("sv1_n2t", &m_jet_sv1_n2t);
+    f_new_c->Branch("sv1_m", &m_jet_sv1_m);
+    f_new_c->Branch("sv1_efc", &m_jet_sv1_efc);
+    //f_new_c->Branch("jet_sv1_normdist", &m_jet_sv1_normdist);
+    f_new_c->Branch("sv1_Lxy", &m_jet_sv1_Lxy);
+    f_new_c->Branch("sv1_L3d", &m_jet_sv1_L3d);
+    f_new_c->Branch("sv1_deltaR", &m_jet_sv1_deltaR);
+    f_new_c->Branch("sv1_sig3d", &m_jet_sv1_sig3d);
+
+    f_new_c->Branch("jf_m", &m_jet_jf_m);
+    f_new_c->Branch("jf_efc", &m_jet_jf_efc);
+    //f_new_c->Branch("jet_jf_deta", &m_jet_jf_deta_c);
+    //f_new_c->Branch("jet_jf_dphi", &m_jet_jf_dphi_c);
+    f_new_c->Branch("jf_dR", &m_jet_jf_dR);
+    f_new_c->Branch("jf_ntrkAtVx", &m_jet_jf_ntrkAtVx);
+    f_new_c->Branch("jf_nvtx", &m_jet_jf_nvtx);
+    f_new_c->Branch("jf_sig3d", &m_jet_jf_sig3d);
+    f_new_c->Branch("jf_nvtx1t", &m_jet_jf_nvtx1t);
+    f_new_c->Branch("jf_n2t", &m_jet_jf_n2t);
+
+    f_new_c->Branch("ip2d_pb", &m_jet_ip2d_pb);
+    f_new_c->Branch("ip2d_pc", &m_jet_ip2d_pc);
+    f_new_c->Branch("ip2d_pu", &m_jet_ip2d_pu);
+    f_new_c->Branch("ip3d_pb", &m_jet_ip3d_pb);
+    f_new_c->Branch("ip3d_pc", &m_jet_ip3d_pc);
+    f_new_c->Branch("ip3d_pu", &m_jet_ip3d_pu);
 
     if (stat_small == 0 && stat_small_b == 0 && cStat_small == 0)
     {
         cout << "[WARNING]: No jets pass in this file, pass file" << endl;
-        f_new_u->Write();
-        f_new_b->Write();
-        f_new_c->Write();
+        f_new_ute->Write();
+        f_new_bte->Write();
+        f_new_cte->Write();
+        f_new_utr->Write();
+        f_new_btr->Write();
+        f_new_ctr->Write();
         fout->Close();
         return;
     }
@@ -569,7 +743,6 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         int njets_b = 0;
         int njets_c = 0;
 
-
         for (int i = 0; i < jet_pt->size(); i++)
         {
             if (b >= stat_small_b && light >= stat_small && c >= cStat_small)
@@ -592,55 +765,58 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                     continue;
                 b++;
                 //njets_u++;
-                m_eventnb_b = eventnb;
-                m_Fcal_b = (double)Fcal;
+                m_eventnb = eventnb;
+                m_Fcal = (double)Fcal;
                 //cout << Fcal << endl;
-                m_mcwg_b = file_weight;
+                m_mcwg = file_weight;
                 if (!inclusive)
                 {
                     //b_mcwg->GetEntry(jentry);
                     //cout << mcwg << endl;
-                    m_mcwg_b = (double)mcwg*file_weight;
+                    m_mcwg = (double)mcwg * file_weight;
                 }
                 //njets_b++;
-                m_jet_pt_b = (double)(jet_pt->at(i));
-                m_jet_eta_b = (double)(jet_eta->at(i));
-                m_jet_LabDr_HadF_b = (int)(jet_LabDr_HadF->at(i));
-                m_jet_nConst_b = (int)(jet_nConst->at(i));
-                m_jet_truthMatch_b = (int)(jet_truthMatch->at(i));
-                m_jet_aliveAfterOR_b = (int)(jet_aliveAfterOR->at(i));
+                m_jet_pt = (double)(jet_pt->at(i));
+                m_jet_eta = (double)(jet_eta->at(i));
+                m_jet_LabDr_HadF = (int)(jet_LabDr_HadF->at(i));
+                m_jet_nConst = (int)(jet_nConst->at(i));
+                m_jet_truthMatch = (int)(jet_truthMatch->at(i));
+                m_jet_aliveAfterOR = (int)(jet_aliveAfterOR->at(i));
 
                 // ** JetFitter Variables (8) ** //
-                m_jet_jf_m_b = (double)(jet_jf_m->at(i));
-                m_jet_jf_efc_b = (double)(jet_jf_efc->at(i));
-                m_jet_jf_dR_b = m_jet_jf_m_b > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
+                m_jet_jf_m = (double)(jet_jf_m->at(i));
+                m_jet_jf_efc = (double)(jet_jf_efc->at(i));
+                m_jet_jf_dR = m_jet_jf_m_b > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
                 //m_jet_jf_deta_b = (double)(jet_jf_deta->at(i));
                 //m_jet_jf_dphi_b = (double)(jet_jf_dphi->at(i));
-                m_jet_jf_nvtx_b = (int)(jet_jf_nvtx->at(i));
-                m_jet_jf_sig3d_b = (double)(jet_jf_sig3d->at(i));
-                m_jet_jf_nvtx1t_b = (int)(jet_jf_nvtx1t->at(i));
-                m_jet_jf_n2t_b = (int)(jet_jf_n2t->at(i));
-                m_jet_jf_ntrkAtVx_b = (int)(jet_jf_ntrkAtVx->at(i));
+                m_jet_jf_nvtx = (int)(jet_jf_nvtx->at(i));
+                m_jet_jf_sig3d = (double)(jet_jf_sig3d->at(i));
+                m_jet_jf_nvtx1t = (int)(jet_jf_nvtx1t->at(i));
+                m_jet_jf_n2t = (int)(jet_jf_n2t->at(i));
+                m_jet_jf_ntrkAtVx = (int)(jet_jf_ntrkAtVx->at(i));
 
                 // ** SV1 Variable (8) ** //
-                m_jet_sv1_ntrkv_b = (int)(jet_sv1_ntrkv->at(i));
-                m_jet_sv1_n2t_b = (int)(jet_sv1_n2t->at(i));
-                m_jet_sv1_m_b = (double)(jet_sv1_m->at(i));
-                m_jet_sv1_efc_b = (double)(jet_sv1_efc->at(i));
-                m_jet_sv1_sig3d_b = (double)(jet_sv1_sig3d->at(i));
-                m_jet_sv1_Lxy_b = (double)(jet_sv1_Lxy->at(i));
-                m_jet_sv1_deltaR_b = (double)(jet_sv1_deltaR->at(i));
-                m_jet_sv1_L3d_b = (double)(jet_sv1_L3d->at(i));
+                m_jet_sv1_ntrkv = (int)(jet_sv1_ntrkv->at(i));
+                m_jet_sv1_n2t = (int)(jet_sv1_n2t->at(i));
+                m_jet_sv1_m = (double)(jet_sv1_m->at(i));
+                m_jet_sv1_efc = (double)(jet_sv1_efc->at(i));
+                m_jet_sv1_sig3d = (double)(jet_sv1_sig3d->at(i));
+                m_jet_sv1_Lxy = (double)(jet_sv1_Lxy->at(i));
+                m_jet_sv1_deltaR = (double)(jet_sv1_deltaR->at(i));
+                m_jet_sv1_L3d = (double)(jet_sv1_L3d->at(i));
 
                 //other MV2 variables ip_x,ip_x_c,ip_x_cu
-                m_jet_ip2d_pb_b = (jet_ip2d_pb->at(i));
-                m_jet_ip2d_pc_b = (jet_ip2d_pc->at(i));
-                m_jet_ip2d_pu_b = (jet_ip2d_pu->at(i));
-                m_jet_ip3d_pb_b = (jet_ip3d_pb->at(i));
-                m_jet_ip3d_pc_b = (jet_ip3d_pc->at(i));
-                m_jet_ip3d_pu_b = (jet_ip3d_pu->at(i));
+                m_jet_ip2d_pb = (jet_ip2d_pb->at(i));
+                m_jet_ip2d_pc = (jet_ip2d_pc->at(i));
+                m_jet_ip2d_pu = (jet_ip2d_pu->at(i));
+                m_jet_ip3d_pb = (jet_ip3d_pb->at(i));
+                m_jet_ip3d_pc = (jet_ip3d_pc->at(i));
+                m_jet_ip3d_pu = (jet_ip3d_pu->at(i));
 
-                f_new_b->Fill();
+                if (i % 2 == 0)
+                    f_new_btr->Fill();
+                else
+                    f_new_bte->Fill();
             }
             if (jet_LabDr_HadF->at(i) == 4)
             {
@@ -648,53 +824,56 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                     continue;
                 c++;
                 //njets_u++;
-                m_eventnb_c = eventnb;
-                m_Fcal_c = (double)Fcal;
+                m_eventnb = eventnb;
+                m_Fcal = (double)Fcal;
                 //cout << Fcal << endl;
-                m_mcwg_c = file_weight;
+                m_mcwg = file_weight;
                 if (!inclusive)
                 {
                     //b_mcwg->GetEntry(jentry);
                     //cout << mcwg << endl;
-                    m_mcwg_c = (double)mcwg*file_weight;
+                    m_mcwg = (double)mcwg * file_weight;
                 }
                 //njets_c++;
-                m_jet_pt_c = (double)(jet_pt->at(i));
-                m_jet_eta_c = (double)(jet_eta->at(i));
-                m_jet_LabDr_HadF_c = (int)(jet_LabDr_HadF->at(i));
-                m_jet_nConst_c = (int)(jet_nConst->at(i));
-                m_jet_truthMatch_c = (int)(jet_truthMatch->at(i));
-                m_jet_aliveAfterOR_c = (int)(jet_aliveAfterOR->at(i));
+                m_jet_pt = (double)(jet_pt->at(i));
+                m_jet_eta = (double)(jet_eta->at(i));
+                m_jet_LabDr_HadF = (int)(jet_LabDr_HadF->at(i));
+                m_jet_nConst = (int)(jet_nConst->at(i));
+                m_jet_truthMatch = (int)(jet_truthMatch->at(i));
+                m_jet_aliveAfterOR = (int)(jet_aliveAfterOR->at(i));
 
                 // ** JetFitter Variables (8) ** //
-                m_jet_jf_m_c = (double)(jet_jf_m->at(i));
-                m_jet_jf_efc_c = (double)(jet_jf_efc->at(i));
-                m_jet_jf_dR_c = m_jet_jf_m_c > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
-                m_jet_jf_nvtx_c = (int)(jet_jf_nvtx->at(i));
-                m_jet_jf_sig3d_c = (double)(jet_jf_sig3d->at(i));
-                m_jet_jf_nvtx1t_c = (int)(jet_jf_nvtx1t->at(i));
-                m_jet_jf_n2t_c = (int)(jet_jf_n2t->at(i));
-                m_jet_jf_ntrkAtVx_c = (int)(jet_jf_ntrkAtVx->at(i));
+                m_jet_jf_m = (double)(jet_jf_m->at(i));
+                m_jet_jf_efc = (double)(jet_jf_efc->at(i));
+                m_jet_jf_dR = m_jet_jf_m_c > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
+                m_jet_jf_nvtx = (int)(jet_jf_nvtx->at(i));
+                m_jet_jf_sig3d = (double)(jet_jf_sig3d->at(i));
+                m_jet_jf_nvtx1t = (int)(jet_jf_nvtx1t->at(i));
+                m_jet_jf_n2t = (int)(jet_jf_n2t->at(i));
+                m_jet_jf_ntrkAtVx = (int)(jet_jf_ntrkAtVx->at(i));
 
                 // ** SV1 Variable (8) ** //
-                m_jet_sv1_ntrkv_c = (int)(jet_sv1_ntrkv->at(i));
-                m_jet_sv1_n2t_c = (int)(jet_sv1_n2t->at(i));
-                m_jet_sv1_m_c = (double)(jet_sv1_m->at(i));
-                m_jet_sv1_efc_c = (double)(jet_sv1_efc->at(i));
-                m_jet_sv1_sig3d_c = (double)(jet_sv1_sig3d->at(i));
-                m_jet_sv1_Lxy_c = (double)(jet_sv1_Lxy->at(i));
-                m_jet_sv1_deltaR_c = (double)(jet_sv1_deltaR->at(i));
-                m_jet_sv1_L3d_c = (double)(jet_sv1_L3d->at(i));
+                m_jet_sv1_ntrkv = (int)(jet_sv1_ntrkv->at(i));
+                m_jet_sv1_n2t = (int)(jet_sv1_n2t->at(i));
+                m_jet_sv1_m = (double)(jet_sv1_m->at(i));
+                m_jet_sv1_efc = (double)(jet_sv1_efc->at(i));
+                m_jet_sv1_sig3d = (double)(jet_sv1_sig3d->at(i));
+                m_jet_sv1_Lxy = (double)(jet_sv1_Lxy->at(i));
+                m_jet_sv1_deltaR = (double)(jet_sv1_deltaR->at(i));
+                m_jet_sv1_L3d = (double)(jet_sv1_L3d->at(i));
 
                 //other MV2 variables ip_x,ip_x_c,ip_x_cu
-                m_jet_ip2d_pb_c = (jet_ip2d_pb->at(i));
-                m_jet_ip2d_pc_c = (jet_ip2d_pc->at(i));
-                m_jet_ip2d_pu_c = (jet_ip2d_pu->at(i));
-                m_jet_ip3d_pb_c = (jet_ip3d_pb->at(i));
-                m_jet_ip3d_pc_c = (jet_ip3d_pc->at(i));
-                m_jet_ip3d_pu_c = (jet_ip3d_pu->at(i));
+                m_jet_ip2d_pb = (jet_ip2d_pb->at(i));
+                m_jet_ip2d_pc = (jet_ip2d_pc->at(i));
+                m_jet_ip2d_pu = (jet_ip2d_pu->at(i));
+                m_jet_ip3d_pb = (jet_ip3d_pb->at(i));
+                m_jet_ip3d_pc = (jet_ip3d_pc->at(i));
+                m_jet_ip3d_pu = (jet_ip3d_pu->at(i));
 
-                f_new_c->Fill();
+                if (i % 2 == 0)
+                    f_new_ctr->Fill();
+                else
+                    f_new_cte->Fill();
             }
             if (jet_LabDr_HadF->at(i) == 0)
             {
@@ -702,58 +881,61 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                     continue;
                 light++;
                 //njets_u++;
-                m_eventnb_u = eventnb;
-                m_Fcal_u = (double)Fcal;
+                m_eventnb = eventnb;
+                m_Fcal = (double)Fcal;
                 //cout << Fcal << endl;
-                m_mcwg_u = file_weight;
+                m_mcwg = file_weight;
                 if (!inclusive)
                 {
                     //b_mcwg->GetEntry(jentry);
                     //cout << mcwg << endl;
-                    m_mcwg_u = (double)mcwg*file_weight;
+                    m_mcwg = (double)mcwg * file_weight;
                 }
-                m_jet_pt_u = (double)(jet_pt->at(i));
-                m_jet_eta_u = (double)(jet_eta->at(i));
-                m_jet_LabDr_HadF_u = (int)(jet_LabDr_HadF->at(i));
-                m_jet_nConst_u = (int)(jet_nConst->at(i));
-                m_jet_truthMatch_u = (int)(jet_truthMatch->at(i));
-                m_jet_aliveAfterOR_u = (int)(jet_aliveAfterOR->at(i));
+                m_jet_pt = (double)(jet_pt->at(i));
+                m_jet_eta = (double)(jet_eta->at(i));
+                m_jet_LabDr_HadF = (int)(jet_LabDr_HadF->at(i));
+                m_jet_nConst = (int)(jet_nConst->at(i));
+                m_jet_truthMatch = (int)(jet_truthMatch->at(i));
+                m_jet_aliveAfterOR = (int)(jet_aliveAfterOR->at(i));
 
                 // ** JetFitter Variables (8) ** //
-                m_jet_jf_m_u = (double)(jet_jf_m->at(i));
-                m_jet_jf_efc_u = (double)(jet_jf_efc->at(i));
-                m_jet_jf_dR_u = m_jet_jf_m_u > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
-                m_jet_jf_nvtx_u = (int)(jet_jf_nvtx->at(i));
-                m_jet_jf_sig3d_u = (double)(jet_jf_sig3d->at(i));
-                m_jet_jf_nvtx1t_u = (int)(jet_jf_nvtx1t->at(i));
-                m_jet_jf_n2t_u = (int)(jet_jf_n2t->at(i));
-                m_jet_jf_ntrkAtVx_u = (int)(jet_jf_ntrkAtVx->at(i));
+                m_jet_jf_m = (double)(jet_jf_m->at(i));
+                m_jet_jf_efc = (double)(jet_jf_efc->at(i));
+                m_jet_jf_dR = m_jet_jf_m_u > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
+                m_jet_jf_nvtx = (int)(jet_jf_nvtx->at(i));
+                m_jet_jf_sig3d = (double)(jet_jf_sig3d->at(i));
+                m_jet_jf_nvtx1t = (int)(jet_jf_nvtx1t->at(i));
+                m_jet_jf_n2t = (int)(jet_jf_n2t->at(i));
+                m_jet_jf_ntrkAtVx = (int)(jet_jf_ntrkAtVx->at(i));
 
                 // ** SV1 Variable (8) ** //
-                m_jet_sv1_ntrkv_u = (int)(jet_sv1_ntrkv->at(i));
-                m_jet_sv1_n2t_u = (int)(jet_sv1_n2t->at(i));
-                m_jet_sv1_m_u = (double)(jet_sv1_m->at(i));
-                m_jet_sv1_efc_u = (double)(jet_sv1_efc->at(i));
-                m_jet_sv1_sig3d_u = (double)(jet_sv1_sig3d->at(i));
-                m_jet_sv1_Lxy_u = (double)(jet_sv1_Lxy->at(i));
-                m_jet_sv1_deltaR_u = (double)(jet_sv1_deltaR->at(i));
-                m_jet_sv1_L3d_u = (double)(jet_sv1_L3d->at(i));
+                m_jet_sv1_ntrkv = (int)(jet_sv1_ntrkv->at(i));
+                m_jet_sv1_n2t = (int)(jet_sv1_n2t->at(i));
+                m_jet_sv1_m = (double)(jet_sv1_m->at(i));
+                m_jet_sv1_efc = (double)(jet_sv1_efc->at(i));
+                m_jet_sv1_sig3d = (double)(jet_sv1_sig3d->at(i));
+                m_jet_sv1_Lxy = (double)(jet_sv1_Lxy->at(i));
+                m_jet_sv1_deltaR = (double)(jet_sv1_deltaR->at(i));
+                m_jet_sv1_L3d = (double)(jet_sv1_L3d->at(i));
 
                 //other MV2 variables ip_x,ip_x_c,ip_x_cu
-                m_jet_ip2d_pb_u = (jet_ip2d_pb->at(i));
-                m_jet_ip2d_pc_u = (jet_ip2d_pc->at(i));
-                m_jet_ip2d_pu_u = (jet_ip2d_pu->at(i));
-                m_jet_ip3d_pb_u = (jet_ip3d_pb->at(i));
-                m_jet_ip3d_pc_u = (jet_ip3d_pc->at(i));
-                m_jet_ip3d_pu_u = (jet_ip3d_pu->at(i));
+                m_jet_ip2d_pb = (jet_ip2d_pb->at(i));
+                m_jet_ip2d_pc = (jet_ip2d_pc->at(i));
+                m_jet_ip2d_pu = (jet_ip2d_pu->at(i));
+                m_jet_ip3d_pb = (jet_ip3d_pb->at(i));
+                m_jet_ip3d_pc = (jet_ip3d_pc->at(i));
+                m_jet_ip3d_pu = (jet_ip3d_pu->at(i));
 
-                f_new_u->Fill();
+                if (i % 2 == 0)
+                    f_new_utr->Fill();
+                else
+                    f_new_ute->Fill();
             }
             //cout << jet_pt->at(i) << endl;
             cout << "b: " << b << "c: " << c << "u: " << light << endl;
             //cout << i << endl;
         }
-        
+
         /*m_jet_pt_u->clear();
         m_jet_eta_u->clear();
         m_jet_LabDr_HadF_u->clear();
@@ -863,8 +1045,11 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         m_jet_ip3d_pu_c->clear();*/
         //return;
     }
-    f_new_b->Write();
-    f_new_c->Write();
-    f_new_u->Write();
+    f_new_bte->Write();
+    f_new_cte->Write();
+    f_new_ute->Write();
+    f_new_btr->Write();
+    f_new_ctr->Write();
+    f_new_utr->Write();
     fout->Close();
 }
