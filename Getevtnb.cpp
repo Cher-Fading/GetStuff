@@ -294,11 +294,13 @@ float get_weight(int JZ, int tag, int NUM, bool inclusive, bool PbPb, bool pnfs,
 	std::string eline;
 	//int JZ_wt[gridsize];
 	int gridsize = inclusive ? grid_size : s50k_size;
+	double weight = inclusive? s50kWeight[JZ-1]:Weight[JZ]*Filter[JZ];
 	float JZ_wt[gridsize];
 	int JZ_shift = inclusive ? 0 : 1;
 	while (std::getline(fevtnb, eline))
 	{
 		JZ_wt[std::stoi(eline.substr(0, 1)) - JZ_shift] = std::stoi(eline.substr(3, eline.length() - 3));
+		cout << eline.substr(0, 1) << ": " << eline.substr(3, eline.length() - 3) << endl;
 	}
 
 	if (JZ_wt[JZ] <= 0)
