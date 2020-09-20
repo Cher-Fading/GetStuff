@@ -1,6 +1,6 @@
 #include "InfoHeaders.h"
 
-bool parse_count(const char* filename, std::vector<float> &jets_count)
+bool parse_count(const char *filename, std::vector<float> &jets_count)
 {
 	std::ifstream filec(filename);
 	if (!filec)
@@ -288,7 +288,7 @@ float get_weight(int JZ, int tag, int NUM, bool inclusive, bool PbPb, bool pnfs,
 	std::ifstream fevtnb(Form("../GetStuff/%s%s_evtnb%s.txt", dataType.c_str(), type_.c_str(), suffix[pnfs]));
 	if (!fevtnb)
 	{
-		cout << "[ERROR] wrong parsing or filename" << filename << " " << dataType << endl;
+		cout << "[ERROR] wrong parsing or wrong JZ " << JZ << " tag " << tag << " NUM " << NUM << " PbPb " << PbPb << " inclusiveness " << inclusive << " dataType " << dataType << endl;
 		return -1;
 	}
 	std::string eline;
@@ -329,7 +329,7 @@ bool parse_trainname(std::string trainname, float &stat, float &cStat, float &ou
 		if (Line.Contains("stat"))
 		{
 			TString stat_str = line.substr(4, line.length());
-			stat = stat_str.ReplaceAll("k", "000").Atof();	
+			stat = stat_str.ReplaceAll("k", "000").Atof();
 		}
 		if (Line.Contains("cstat"))
 		{
@@ -349,13 +349,14 @@ bool parse_trainname(std::string trainname, float &stat, float &cStat, float &ou
 			aeta = std::stof(line.substr(4, line.length())) / 10.;
 		}
 	}
-	
+
 	if (stat == 0)
-		{
-			cout << "[ERROR]: no stat limit given" << endl;
-			return false;
-		}	
-	if (cStat==0)cStat = stat * 0.5;
+	{
+		cout << "[ERROR]: no stat limit given" << endl;
+		return false;
+	}
+	if (cStat == 0)
+		cStat = stat * 0.5;
 	outStat = ratio * stat;
 	outcStat = ratio * cStat;
 	fstat.close();
