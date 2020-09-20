@@ -421,10 +421,10 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     Int_t njets;
     std::vector<float> *jet_pt = 0;         //MV2
     std::vector<float> *jet_eta = 0;        //MV2
-    wtd::vector<int> *jet_LabDr_HadF = 0;   //label
+    std::vector<int> *jet_LabDr_HadF = 0;   //label
     std::vector<float> *jet_nConst = 0;     //cuts not used (nConst > 1)
-    wtd::vector<int> *jet_truthMatch = 0;   //cuts (truthMatch == 1)
-    wtd::vector<int> *jet_aliveAfterOR = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
+    std::vector<int> *jet_truthMatch = 0;   //cuts (truthMatch == 1)
+    std::vector<int> *jet_aliveAfterOR = 0; //cuts (aliveAfterOR == 1) (no overlap with electron)
     //std::vector<float>   *jet_ip2d_pu; //cuts & c_weight & MV2
 
     // ** JetFitter Variables (8) ** //
@@ -578,7 +578,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 if (b >= stat_small_b)
                     continue;
                 b++;
-                njets_b++;
+                //njets_b++;
                 m_jet_pt_b = (double)(jet_pt->at(i));
                 m_jet_eta_b = (double)(jet_eta->at(i));
                 m_jet_LabDr_HadF_b = (int)(jet_LabDr_HadF->at(i));
@@ -694,10 +694,9 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 m_jet_nConst_u = (int)(jet_nConst->at(i));
                 m_jet_truthMatch_u = (int)(jet_truthMatch->at(i));
                 m_jet_aliveAfterOR_u = (int)(jet_aliveAfterOR->at(i));
-                (int)
 
-                    // ** JetFitter Variables (8) ** //
-                    m_jet_jf_m_u = (double)(jet_jf_m->at(i));
+                // ** JetFitter Variables (8) ** //
+                m_jet_jf_m_u = (double)(jet_jf_m->at(i));
                 m_jet_jf_efc_u = (double)(jet_jf_efc->at(i));
                 m_jet_jf_deta_u = (double)(jet_jf_deta->at(i));
                 m_jet_jf_dphi_u = (double)(jet_jf_dphi->at(i));
@@ -705,8 +704,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 m_jet_jf_sig3d_u = (double)(jet_jf_sig3d->at(i));
                 m_jet_jf_nvtx1t_u = (int)(jet_jf_nvtx1t->at(i));
                 m_jet_jf_n2t_u = (int)(jet_jf_n2t->at(i));
-                (double)
-                    m_jet_jf_ntrkAtVx_u = (int)(jet_jf_ntrkAtVx->at(i));
+                m_jet_jf_ntrkAtVx_u = (int)(jet_jf_ntrkAtVx->at(i));
 
                 // ** SV1 Variable (8) ** //
                 m_jet_sv1_ntrkv_u = (int)(jet_sv1_ntrkv->at(i));
