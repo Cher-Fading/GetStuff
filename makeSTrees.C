@@ -175,8 +175,9 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     // ** JetFitter Variables (8) ** //
     Double_t m_jet_jf_m_u = 0;
     Double_t m_jet_jf_efc_u = 0;
-    Double_t m_jet_jf_deta_u = 0; // for jet_jf_dR
-    Double_t m_jet_jf_dphi_u = 0; // for jet_jf_dR
+    //Double_t m_jet_jf_deta_u = 0; // for jet_jf_dR
+    //Double_t m_jet_jf_dphi_u = 0; // for jet_jf_dR
+    Double_t m_jet_jf_dR_u = 0;
     Double_t m_jet_jf_nvtx_u = 0;
     Double_t m_jet_jf_sig3d_u = 0;
     Int_t m_jet_jf_nvtx1t_u = 0;
@@ -216,8 +217,9 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     // ** JetFitter Variables (8) ** //
     Double_t m_jet_jf_m_b = 0;
     Double_t m_jet_jf_efc_b = 0;
-    Double_t m_jet_jf_deta_b = 0; // for jet_jf_dR
-    Double_t m_jet_jf_dphi_b = 0; // for jet_jf_dR
+    //Double_t m_jet_jf_deta_b = 0; // for jet_jf_dR
+    //Double_t m_jet_jf_dphi_b = 0; // for jet_jf_dR
+    Double_t m_jet_jf_dR_b = 0;
     Double_t m_jet_jf_nvtx_b = 0;
     Double_t m_jet_jf_sig3d_b = 0;
     Int_t m_jet_jf_nvtx1t_b = 0;
@@ -257,8 +259,9 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     // ** JetFitter Variables (8) ** //
     Double_t m_jet_jf_m_c = 0;
     Double_t m_jet_jf_efc_c = 0;
-    Double_t m_jet_jf_deta_c = 0; // for jet_jf_dR
-    Double_t m_jet_jf_dphi_c = 0; // for jet_jf_dR
+    //Double_t m_jet_jf_deta_c = 0; // for jet_jf_dR
+    //Double_t m_jet_jf_dphi_c = 0; // for jet_jf_dR
+    Double_t m_jet_jf_dR_c = 0;
     Double_t m_jet_jf_nvtx_c = 0;
     Double_t m_jet_jf_sig3d_c = 0;
     Int_t m_jet_jf_nvtx1t_c = 0;
@@ -288,13 +291,13 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     //f_new_u->Branch("njets", &m_njets_u);
     f_new_u->Branch("Fcal", &m_Fcal_u);
 
-    f_new_u->Branch("jet_pt", &m_jet_pt_u);
+    f_new_u->Branch("pt", &m_jet_pt_u);
     //cout << m_jet_pt << endl;
-    f_new_u->Branch("jet_eta", &m_jet_eta_u);
-    f_new_u->Branch("jet_LabDr_HadF", &m_jet_LabDr_HadF_u);
-    f_new_u->Branch("jet_aliveAfterOR", &m_jet_aliveAfterOR_u);
-    f_new_u->Branch("jet_nConst", &m_jet_nConst_u);
-    f_new_u->Branch("jet_truthMatch", &m_jet_truthMatch_u);
+    f_new_u->Branch("eta", &m_jet_eta_u);
+    f_new_u->Branch("label", &m_jet_LabDr_HadF_u);
+    f_new_u->Branch("aliveAfterOR", &m_jet_aliveAfterOR_u);
+    f_new_u->Branch("nConst", &m_jet_nConst_u);
+    f_new_u->Branch("truthMatch", &m_jet_truthMatch_u);
     //f_new_u->Branch("jet_ip2d_llr", &m_jet_ip2d_llr);
     f_new_u->Branch("jet_sv1_ntrkv", &m_jet_sv1_ntrkv_u);
     f_new_u->Branch("jet_sv1_n2t", &m_jet_sv1_n2t_u);
@@ -306,15 +309,16 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
     f_new_u->Branch("jet_sv1_deltaR", &m_jet_sv1_deltaR_u);
     f_new_u->Branch("jet_sv1_sig3d", &m_jet_sv1_sig3d_u);
 
-    f_new_u->Branch("jet_jf_m", &m_jet_jf_m_u);
-    f_new_u->Branch("jet_jf_efc", &m_jet_jf_efc_u);
-    f_new_u->Branch("jet_jf_deta", &m_jet_jf_deta_u);
-    f_new_u->Branch("jet_jf_dphi", &m_jet_jf_dphi_u);
-    f_new_u->Branch("jet_jf_ntrkAtVx", &m_jet_jf_ntrkAtVx_u);
-    f_new_u->Branch("jet_jf_nvtx", &m_jet_jf_nvtx_u);
-    f_new_u->Branch("jet_jf_sig3d", &m_jet_jf_sig3d_u);
-    f_new_u->Branch("jet_jf_nvtx1t", &m_jet_jf_nvtx1t_u);
-    f_new_u->Branch("jet_jf_n2t", &m_jet_jf_n2t_u);
+    f_new_u->Branch("jf_mass", &m_jet_jf_m_u);
+    f_new_u->Branch("jf_efrc", &m_jet_jf_efc_u);
+    //f_new_u->Branch("jet_jf_deta", &m_jet_jf_deta_u);
+    //f_new_u->Branch("jet_jf_dphi", &m_jet_jf_dphi_u);
+    f_new_u->Branch("jf_dR", &m_jet_jf_dR_u);
+    f_new_u->Branch("jf_ntrkv", &m_jet_jf_ntrkAtVx_u);
+    f_new_u->Branch("jf_nvtx", &m_jet_jf_nvtx_u);
+    f_new_u->Branch("jf_sig", &m_jet_jf_sig3d_u);
+    f_new_u->Branch("jf_nvtx1t", &m_jet_jf_nvtx1t_u);
+    f_new_u->Branch("jf_n2tv", &m_jet_jf_n2t_u);
 
     f_new_u->Branch("jet_ip2d_pb", &m_jet_ip2d_pb_u);
     f_new_u->Branch("jet_ip2d_pc", &m_jet_ip2d_pc_u);
@@ -349,8 +353,9 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
 
     f_new_b->Branch("jet_jf_m", &m_jet_jf_m_b);
     f_new_b->Branch("jet_jf_efc", &m_jet_jf_efc_b);
-    f_new_b->Branch("jet_jf_deta", &m_jet_jf_deta_b);
-    f_new_b->Branch("jet_jf_dphi", &m_jet_jf_dphi_b);
+    //f_new_b->Branch("jet_jf_deta", &m_jet_jf_deta_b);
+    //f_new_b->Branch("jet_jf_dphi", &m_jet_jf_dphi_b);
+    f_new_b->Branch("jf_dR", &m_jet_jf_dR_b);
     f_new_b->Branch("jet_jf_ntrkAtVx", &m_jet_jf_ntrkAtVx_b);
     f_new_b->Branch("jet_jf_nvtx", &m_jet_jf_nvtx_b);
     f_new_b->Branch("jet_jf_sig3d", &m_jet_jf_sig3d_b);
@@ -390,8 +395,9 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
 
     f_new_c->Branch("jet_jf_m", &m_jet_jf_m_c);
     f_new_c->Branch("jet_jf_efc", &m_jet_jf_efc_c);
-    f_new_c->Branch("jet_jf_deta", &m_jet_jf_deta_c);
-    f_new_c->Branch("jet_jf_dphi", &m_jet_jf_dphi_c);
+    //f_new_c->Branch("jet_jf_deta", &m_jet_jf_deta_c);
+    //f_new_c->Branch("jet_jf_dphi", &m_jet_jf_dphi_c);
+    f_new_c->Branch("jf_dR", &m_jet_jf_dR_c);
     f_new_c->Branch("jet_jf_ntrkAtVx", &m_jet_jf_ntrkAtVx_c);
     f_new_c->Branch("jet_jf_nvtx", &m_jet_jf_nvtx_c);
     f_new_c->Branch("jet_jf_sig3d", &m_jet_jf_sig3d_c);
@@ -589,8 +595,9 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 // ** JetFitter Variables (8) ** //
                 m_jet_jf_m_b = (double)(jet_jf_m->at(i));
                 m_jet_jf_efc_b = (double)(jet_jf_efc->at(i));
-                m_jet_jf_deta_b = (double)(jet_jf_deta->at(i));
-                m_jet_jf_dphi_b = (double)(jet_jf_dphi->at(i));
+                m_jet_jf_dR_b = m_jet_jf_m_b > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
+                //m_jet_jf_deta_b = (double)(jet_jf_deta->at(i));
+                //m_jet_jf_dphi_b = (double)(jet_jf_dphi->at(i));
                 m_jet_jf_nvtx_b = (int)(jet_jf_nvtx->at(i));
                 m_jet_jf_sig3d_b = (double)(jet_jf_sig3d->at(i));
                 m_jet_jf_nvtx1t_b = (int)(jet_jf_nvtx1t->at(i));
@@ -644,8 +651,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 // ** JetFitter Variables (8) ** //
                 m_jet_jf_m_c = (double)(jet_jf_m->at(i));
                 m_jet_jf_efc_c = (double)(jet_jf_efc->at(i));
-                m_jet_jf_deta_c = (double)(jet_jf_deta->at(i));
-                m_jet_jf_dphi_c = (double)(jet_jf_dphi->at(i));
+                m_jet_jf_dR_c = m_jet_jf_m_c > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
                 m_jet_jf_nvtx_c = (int)(jet_jf_nvtx->at(i));
                 m_jet_jf_sig3d_c = (double)(jet_jf_sig3d->at(i));
                 m_jet_jf_nvtx1t_c = (int)(jet_jf_nvtx1t->at(i));
@@ -698,8 +704,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 // ** JetFitter Variables (8) ** //
                 m_jet_jf_m_u = (double)(jet_jf_m->at(i));
                 m_jet_jf_efc_u = (double)(jet_jf_efc->at(i));
-                m_jet_jf_deta_u = (double)(jet_jf_deta->at(i));
-                m_jet_jf_dphi_u = (double)(jet_jf_dphi->at(i));
+                m_jet_jf_dR_u = m_jet_jf_m_u > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
                 m_jet_jf_nvtx_u = (int)(jet_jf_nvtx->at(i));
                 m_jet_jf_sig3d_u = (double)(jet_jf_sig3d->at(i));
                 m_jet_jf_nvtx1t_u = (int)(jet_jf_nvtx1t->at(i));
