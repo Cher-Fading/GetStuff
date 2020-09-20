@@ -24,7 +24,8 @@ while IFS= read -r line; do
 			xrdcp 'root://dcgftp.usatlas.bnl.gov:1096/'$line '/usatlas/scratch/cher97/tempin'$linenumber
 			filename=/usatlas/scratch/cher97/tempin$linenumber/$(ls /usatlas/scratch/cher97/tempin$linenumber)
 		fi
-		root -b -q -l 'makeSTree.C("'$5'","'$filename'","'/usatlas/scratch/cher97/$2$3_smalls$SUFFIX'")'
+echo $filename
+		root -b -q -l 'makeSTrees.C("'$5'","'$filename'","'/usatlas/scratch/cher97/$2$3_smalls$SUFFIX'")'
 		sleep 2
 		if [ "$6" == "true" ]; then
 			rm -rf '/usatlas/scratch/cher97/tempin'$linenumber

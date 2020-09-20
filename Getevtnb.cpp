@@ -476,8 +476,8 @@ void Getevtnb(const char *dataType = "", bool PbPb = true, bool pnfs = true, boo
 
 	for (int jz = 0; jz < gridsize; jz++)
 	{
-		cout << "JZ" << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
-		fileo << jz + JZ_shift << ": " << JZ_wt[jz] << endl;
+		cout << "JZ" << jz + JZ_shift << ": " << std::setprecision(15) << JZ_wt[jz] << endl;
+		fileo << jz + JZ_shift << ": " << std::setprecision(15) << JZ_wt[jz] << endl;
 		for (int jj = 0; jj < sizeof(JZ_FN[jz]) / sizeof(int); jj++)
 		{
 			fileo3 << jz + JZ_shift << "_" << jj << ": " << std::setprecision(15) << JZ_FN[jz][jj] << endl;

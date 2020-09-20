@@ -131,7 +131,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
         inclusive = (filename.find("Working") != std::string::npos);
     }
     Centrality = PbPb ? "_" + std::to_string(central) : "";
-    double file_weight = get_weight(JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
+    double file_weight = 1./get_weight(JZ, tag, NUM, inclusive, PbPb, pnfs, dataType);
     if (file_weight == -1)
     {
         cout << "[ERROR]: file weight is -1" << endl;
@@ -913,7 +913,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 // ** JetFitter Variables (8) ** //
                 m_jet_jf_m = (double)(jet_jf_m->at(i));
                 m_jet_jf_efc = (double)(jet_jf_efc->at(i));
-                m_jet_jf_dR = m_jet_jf_m_b > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
+                m_jet_jf_dR = jet_jf_m->at(i) > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
                 //m_jet_jf_deta_b = (double)(jet_jf_deta->at(i));
                 //m_jet_jf_dphi_b = (double)(jet_jf_dphi->at(i));
                 m_jet_jf_nvtx = (int)(jet_jf_nvtx->at(i));
@@ -940,7 +940,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 m_jet_ip3d_pc = (jet_ip3d_pc->at(i));
                 m_jet_ip3d_pu = (jet_ip3d_pu->at(i));
 
-                if (i % 2 == 0)
+                if (b % 2 == 0)
                     f_new_btr->Fill();
                 else
                     f_new_bte->Fill();
@@ -972,7 +972,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 // ** JetFitter Variables (8) ** //
                 m_jet_jf_m = (double)(jet_jf_m->at(i));
                 m_jet_jf_efc = (double)(jet_jf_efc->at(i));
-                m_jet_jf_dR = m_jet_jf_m_c > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
+                m_jet_jf_dR = jet_jf_m->at(i) > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
                 m_jet_jf_nvtx = (int)(jet_jf_nvtx->at(i));
                 m_jet_jf_sig3d = (double)(jet_jf_sig3d->at(i));
                 m_jet_jf_nvtx1t = (int)(jet_jf_nvtx1t->at(i));
@@ -997,7 +997,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 m_jet_ip3d_pc = (jet_ip3d_pc->at(i));
                 m_jet_ip3d_pu = (jet_ip3d_pu->at(i));
 
-                if (i % 2 == 0)
+                if (c % 2 == 0)
                     f_new_ctr->Fill();
                 else
                     f_new_cte->Fill();
@@ -1028,7 +1028,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 // ** JetFitter Variables (8) ** //
                 m_jet_jf_m = (double)(jet_jf_m->at(i));
                 m_jet_jf_efc = (double)(jet_jf_efc->at(i));
-                m_jet_jf_dR = m_jet_jf_m_u > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
+                m_jet_jf_dR = jet_jf_m->at(i) > 0 ? hypot(jet_jf_deta->at(i), jet_jf_dphi->at(i)) : -10;
                 m_jet_jf_nvtx = (int)(jet_jf_nvtx->at(i));
                 m_jet_jf_sig3d = (double)(jet_jf_sig3d->at(i));
                 m_jet_jf_nvtx1t = (int)(jet_jf_nvtx1t->at(i));
@@ -1053,7 +1053,7 @@ void makeSTrees(std::string trainname, std::string filename, const char *outputF
                 m_jet_ip3d_pc = (jet_ip3d_pc->at(i));
                 m_jet_ip3d_pu = (jet_ip3d_pu->at(i));
 
-                if (i % 2 == 0)
+                if (light % 2 == 0)
                     f_new_utr->Fill();
                 else
                     f_new_ute->Fill();

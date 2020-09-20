@@ -7,7 +7,7 @@ Notification    = Never
 
 # The executable we want to run.
 #Executable   = /usatlas/u/cher97/FTFAX/FTFAXCondor.sh
-Executable   = /usatlas/u/cher97/GetStuff/makeSTree_Condor.sh
+Executable   = /usatlas/u/cher97/GetStuff/makeSTrees_Condor.sh
 
 # The argument to pass to the executable.
 ## first argument  - process number
@@ -17,7 +17,7 @@ Executable   = /usatlas/u/cher97/GetStuff/makeSTree_Condor.sh
 ## fitth argument - PbPb or not
 ## sixth argument - PbPb string
 ## seventh argument - pnfs or not
-Arguments       = $(Process) WorkingDefaultpp pp false 100k
+Arguments       = $(Process) WorkingDefaultpp pp false 100k true
 
 # The requirement line specifies which machines we want to
 # run this job on.  Any arbitrary classad expression can
@@ -84,6 +84,6 @@ accounting_group = group_atlas.uillu
 # macro to make your input/output and log files unique.
 #Queue 9102
 #Queue 1632 for WorkingDefaultPbPb
-#Queue 16127 WorkingDefaultpp pnfs/localdisk/cher97
-#Queue 16213 WorkingDefaultpp pnfs/cher97
-Queue 2117
+#Queue 16127 WorkingDefaultpp pnfs/cher97
+#Queue 16213 WorkingDefaultpp pnfs/localdisk/cher97
+Queue 16127
